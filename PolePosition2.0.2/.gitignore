@@ -25,8 +25,9 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
 
-# Idea Folder
+# Rider cache directory
 .idea/
 
 # Gradle cache directory
@@ -57,6 +58,7 @@ ExportedObj/
 
 # Unity3D generated file on crash reports
 sysinfo.txt
+debug.log
 
 # Builds
 *.apk
@@ -72,3 +74,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+*.bin
+
+# Package related files that can be ignored or are better kept user-specific
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
+ProjectSettings/Packages/com.unity.polybrush/Settings.json
+/ProjectSettings/Packages/com.unity.progrids/Settings.json
+/ProjectSettings/Packages/com.unity.learn.iet-framework/Settings.json
+Assets/Polybrush Data*
+Assets/PolybrushData*
