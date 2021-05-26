@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Mirror;
 using UnityEngine;
+using System.Linq;
 
 public class PolePositionManager : NetworkBehaviour
 {
@@ -66,11 +67,24 @@ public class PolePositionManager : NetworkBehaviour
         {
             arcLengths[i] = ComputeCarArcLength(i);
         }
-        
-        _players.Sort(new PlayerInfoComparer(arcLengths));
+
+        // Debug arcLenghts
+        string final = "";
+        for (int i = 0; i < arcLengths.Length; i++)
+        {
+            final += arcLengths[i] + "|";
+        }
+        Debug.Log(final);
+
+        //_players.Sort(new PlayerInfoComparer(arcLengths));
+
+        // Copying the list every frame might be explensive but its good enough for now
+        List<PlayerInfo> playerLeaderboard = _players.ToList<PlayerInfo>();
+
+        playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
 
         string myRaceOrder = "";
-        foreach (var player in _players)
+        foreach (var player in playerLeaderboard)
         {
             myRaceOrder += player.Name + " ";
         }
