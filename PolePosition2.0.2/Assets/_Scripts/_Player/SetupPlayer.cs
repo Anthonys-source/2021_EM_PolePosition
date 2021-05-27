@@ -31,9 +31,15 @@ public class SetupPlayer : NetworkBehaviour
     /// </summary>
     public override void OnStartServer()
     {
+        //Setup the Player information in the server
         base.OnStartServer();
         _id = NetworkServer.connections.Count - 1;
         _currentLap = 0;
+        _playerInfo.ID = _id;
+        _playerInfo.CurrentLap = _currentLap;
+        _polePositionManager.AddPlayer(_playerInfo);
+
+        _playerController.enabled = true;
     }
 
     /// <summary>
@@ -42,13 +48,14 @@ public class SetupPlayer : NetworkBehaviour
     /// </summary>
     public override void OnStartClient()
     {
+        //When the client connects whe only send commands to update his name and car color
         base.OnStartClient();
-        CmdSetPlayerName(_uiManager.EnteredPlayerName);
-        CmdSetCarColor(_uiManager.EnteredCarColorID);
-        _playerInfo.ID = _id;
-        _playerInfo.CurrentLap = _currentLap;
 
-        _polePositionManager.AddPlayer(_playerInfo);
+        if (isLocalPlayer)
+        {
+            CmdSetPlayerName(_uiManager.EnteredPlayerName);
+            CmdSetCarColor(_uiManager.EnteredCarColorID);
+        }
     }
 
     /// <summary>
@@ -57,6 +64,7 @@ public class SetupPlayer : NetworkBehaviour
     /// </summary>
     public override void OnStartLocalPlayer()
     {
+        //In each client this only executes in its own player car (Local Player)
         _playerController.enabled = true;
         _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;
         ConfigureCamera();

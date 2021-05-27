@@ -60,14 +60,60 @@ public class PlayerController : NetworkBehaviour
 
     public void Update()
     {
-        inputAcceleration = m_CarInput.AccelerateValue;
-        inputSteering = m_CarInput.SteerValue;
-        inputBrake = m_CarInput.HandbrakeValue;
-        Speed = m_Rigidbody.velocity.magnitude;
+        if (isClient && isLocalPlayer)
+        {
+            CmdAccelerate(m_CarInput.AccelerateValue);
+            CmdSteer(m_CarInput.SteerValue);
+            CmdHandbrake(m_CarInput.HandbrakeValue);
+            Speed = m_Rigidbody.velocity.magnitude;
+        }
     }
+
+    #region Commands and Server Methods
+
+    [Server]
+    public void SetAccelerationInput(float value)
+    {
+        inputAcceleration = value;
+    }
+
+    [Command]
+    public void CmdAccelerate(float value)
+    {
+        SetAccelerationInput(value);
+    }
+
+    [Server]
+    public void SetSteerInput(float value)
+    {
+        inputSteering = value;
+    }
+
+    [Command]
+    public void CmdSteer(float value)
+    {
+        SetSteerInput(value);
+    }
+
+    [Server]
+    public void SetHandbrakeInput(float value)
+    {
+        inputBrake = value;
+    }
+
+    [Command]
+    public void CmdHandbrake(float value)
+    {
+        SetHandbrakeInput(value);
+    }
+
+    #endregion
 
     public void FixedUpdate()
     {
+        //Only calculate the physics in the server
+        if (!isServer) return;
+
         inputSteering = Mathf.Clamp(inputSteering, -1, 1);
         inputAcceleration = Mathf.Clamp(inputAcceleration, -1, 1);
         inputBrake = Mathf.Clamp(inputBrake, 0, 1);
