@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/_Scripts/_Player/GameMainControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/_Scripts/Input/GameMainControls.inputactions'
 
 using System;
 using System.Collections;
@@ -31,7 +31,7 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""5a3e2315-0874-4649-9db2-f69bfd8724df"",
                     ""expectedControlType"": ""Axis"",
-                    ""processors"": ""Clamp(max=1)"",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
@@ -124,7 +124,7 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""c4a5c8c6-4a44-49ad-94c8-949a121cf2d8"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse & Keyboard"",
