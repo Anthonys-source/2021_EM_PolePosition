@@ -11,7 +11,7 @@ using Random = System.Random;
 public class SetupPlayer : NetworkBehaviour
 {
     [SyncVar] private int _id;
-    [SyncVar] private string _name;
+    [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
 
     private UIManager _uiManager;
     private MyNetworkManager _networkManager;
@@ -39,8 +39,8 @@ public class SetupPlayer : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
+        CmdSetPlayerName(_uiManager.EnteredPlayerName);
         _playerInfo.ID = _id;
-        _playerInfo.Name = "Player" + _id;
         _playerInfo.CurrentLap = 0;
         _polePositionManager.AddPlayer(_playerInfo);
     }
@@ -56,6 +56,26 @@ public class SetupPlayer : NetworkBehaviour
         ConfigureCamera();
     }
 
+    #endregion
+
+    #region Set Name Methods
+    [Server]
+    public void SetName(string name)
+    {
+        _name = name;
+        _playerInfo.Name = _name;
+    }
+
+    private void HandleNameUpdate(string oldName, string newName)
+    {
+        _playerInfo.Name = newName;
+    }
+
+    [Command]
+    public void CmdSetPlayerName(string name)
+    {
+        SetName(name);
+    }
     #endregion
 
     private void Awake()

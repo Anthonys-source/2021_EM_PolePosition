@@ -26,6 +26,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text textLaps;
     [SerializeField] private Text textPosition;
 
+    //Used to setup player name
+    //Not the cleanest aproach
+    public string EnteredPlayerName { get => inputFieldPlayerName.text; }
+
     private void Awake()
     {
         m_NetworkManager = FindObjectOfType<MyNetworkManager>();
