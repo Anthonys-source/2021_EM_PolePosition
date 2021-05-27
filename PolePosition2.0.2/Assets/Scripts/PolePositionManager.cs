@@ -10,6 +10,7 @@ public class PolePositionManager : NetworkBehaviour
 {
     public int numPlayers;
     private MyNetworkManager _networkManager;
+    private UIManager _uiManager;
 
     private readonly List<PlayerInfo> _players = new List<PlayerInfo>(4);
     private CircuitController _circuitController;
@@ -17,8 +18,10 @@ public class PolePositionManager : NetworkBehaviour
 
     private void Awake()
     {
+        //Doing this limits us to only having one component of each type per scene
         if (_networkManager == null) _networkManager = FindObjectOfType<MyNetworkManager>();
         if (_circuitController == null) _circuitController = FindObjectOfType<CircuitController>();
+        if (_uiManager == null) _uiManager = FindObjectOfType<UIManager>();
 
         _debuggingSpheres = new GameObject[_networkManager.maxConnections];
         for (int i = 0; i < _networkManager.maxConnections; ++i)
@@ -82,6 +85,8 @@ public class PolePositionManager : NetworkBehaviour
         List<PlayerInfo> playerLeaderboard = _players.ToList<PlayerInfo>();
 
         playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
+
+        _uiManager.UpdatePositions(playerLeaderboard);
 
         string myRaceOrder = "";
         foreach (var player in playerLeaderboard)
