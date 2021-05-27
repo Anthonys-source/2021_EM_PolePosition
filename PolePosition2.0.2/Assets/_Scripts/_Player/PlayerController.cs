@@ -10,7 +10,7 @@ using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
-    #region Variables
+    #region Controller Variables and Events
 
     [Header("Movement")] public List<AxleInfo> axleInfos;
     public float forwardMotorTorque = 100000;
@@ -22,18 +22,12 @@ public class PlayerController : NetworkBehaviour
     public float downForce = 100f;
     public float slipLimit = 0.2f;
 
-    private float CurrentRotation { get; set; }
-    private float InputAcceleration { get; set; }
-    private float InputSteering { get; set; }
-    private float InputBrake { get; set; }
+    private float currentRotation = 0.0f;
+    private float inputAcceleration = 0.0f;
+    private float inputSteering = 0.0f;
+    private float inputBrake = 0.0f;
 
-    private PlayerInfo m_PlayerInfo;
-    private ICarInputProvider m_CarInput;
-
-    private Rigidbody m_Rigidbody;
     private float m_SteerHelper = 0.8f;
-
-
     private float m_CurrentSpeed = 0;
 
     private float Speed
@@ -47,12 +41,13 @@ public class PlayerController : NetworkBehaviour
                 OnSpeedChangeEvent(m_CurrentSpeed);
         }
     }
+    public event Action<float> OnSpeedChangeEvent;
 
-    public delegate void OnSpeedChangeDelegate(float newVal);
+    #endregion
 
-    public event OnSpeedChangeDelegate OnSpeedChangeEvent;
-
-    #endregion Variables
+    private PlayerInfo m_PlayerInfo;
+    private ICarInputProvider m_CarInput;
+    private Rigidbody m_Rigidbody;
 
     #region Unity Callbacks
 
@@ -65,23 +60,19 @@ public class PlayerController : NetworkBehaviour
 
     public void Update()
     {
-        InputAcceleration = m_CarInput.AccelerateValue;
-        if(InputAcceleration < 0)
-        {
-            Debug.Log("t");
-        }
-        InputSteering = m_CarInput.SteerValue;
-        InputBrake = m_CarInput.HandbrakeValue;
+        inputAcceleration = m_CarInput.AccelerateValue;
+        inputSteering = m_CarInput.SteerValue;
+        inputBrake = m_CarInput.HandbrakeValue;
         Speed = m_Rigidbody.velocity.magnitude;
     }
 
     public void FixedUpdate()
     {
-        InputSteering = Mathf.Clamp(InputSteering, -1, 1);
-        InputAcceleration = Mathf.Clamp(InputAcceleration, -1, 1);
-        InputBrake = Mathf.Clamp(InputBrake, 0, 1);
+        inputSteering = Mathf.Clamp(inputSteering, -1, 1);
+        inputAcceleration = Mathf.Clamp(inputAcceleration, -1, 1);
+        inputBrake = Mathf.Clamp(inputBrake, 0, 1);
 
-        float steering = maxSteeringAngle * InputSteering;
+        float steering = maxSteeringAngle * inputSteering;
 
         foreach (AxleInfo axleInfo in axleInfos)
         {
@@ -93,7 +84,7 @@ public class PlayerController : NetworkBehaviour
 
             if (axleInfo.motor)
             {
-                if (InputAcceleration > float.Epsilon)
+                if (inputAcceleration > float.Epsilon)
                 {
                     axleInfo.leftWheel.motorTorque = forwardMotorTorque;
                     axleInfo.leftWheel.brakeTorque = 0;
@@ -101,7 +92,7 @@ public class PlayerController : NetworkBehaviour
                     axleInfo.rightWheel.brakeTorque = 0;
                 }
 
-                if (InputAcceleration < -float.Epsilon)
+                if (inputAcceleration < -float.Epsilon)
                 {
                     axleInfo.leftWheel.motorTorque = -backwardMotorTorque;
                     axleInfo.leftWheel.brakeTorque = 0;
@@ -109,7 +100,7 @@ public class PlayerController : NetworkBehaviour
                     axleInfo.rightWheel.brakeTorque = 0;
                 }
 
-                if (Math.Abs(InputAcceleration) < float.Epsilon)
+                if (Math.Abs(inputAcceleration) < float.Epsilon)
                 {
                     axleInfo.leftWheel.motorTorque = 0;
                     axleInfo.leftWheel.brakeTorque = engineBrake;
@@ -117,7 +108,7 @@ public class PlayerController : NetworkBehaviour
                     axleInfo.rightWheel.brakeTorque = engineBrake;
                 }
 
-                if (InputBrake > 0)
+                if (inputBrake > 0)
                 {
                     axleInfo.leftWheel.brakeTorque = footBrake;
                     axleInfo.rightWheel.brakeTorque = footBrake;
@@ -212,14 +203,14 @@ public class PlayerController : NetworkBehaviour
         }
 
         // this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
-        if (Mathf.Abs(CurrentRotation - transform.eulerAngles.y) < 10f)
+        if (Mathf.Abs(currentRotation - transform.eulerAngles.y) < 10f)
         {
-            var turnAdjust = (transform.eulerAngles.y - CurrentRotation) * m_SteerHelper;
+            var turnAdjust = (transform.eulerAngles.y - currentRotation) * m_SteerHelper;
             Quaternion velRotation = Quaternion.AngleAxis(turnAdjust, Vector3.up);
             m_Rigidbody.velocity = velRotation * m_Rigidbody.velocity;
         }
 
-        CurrentRotation = transform.eulerAngles.y;
+        currentRotation = transform.eulerAngles.y;
     }
 
     #endregion
