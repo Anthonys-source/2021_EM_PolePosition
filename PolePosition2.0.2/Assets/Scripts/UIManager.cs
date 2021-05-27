@@ -18,7 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InputField inputFieldIP;
     [SerializeField] private InputField inputFieldPlayerName;
 
-    [Header("In-Game HUD")] [SerializeField]
+    [Header("In-Game HUD")]
+    [SerializeField]
     private GameObject inGameHUD;
 
     [SerializeField] private Text textSpeed;
@@ -54,7 +55,7 @@ public class UIManager : MonoBehaviour
         {
             textPosition.text += playerInfo.Name + "\n";
         }
-        
+
         //Remove the last \n character
         textPosition.text = textPosition.text.Remove(textPosition.text.Length - 1);
     }

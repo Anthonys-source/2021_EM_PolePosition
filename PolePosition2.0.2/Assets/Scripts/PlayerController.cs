@@ -156,7 +156,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-// this is used to add more grip in relation to speed
+    // this is used to add more grip in relation to speed
     private void AddDownForce()
     {
         foreach (var axleInfo in axleInfos)
@@ -173,8 +173,8 @@ public class PlayerController : NetworkBehaviour
             m_Rigidbody.velocity = topSpeed * m_Rigidbody.velocity.normalized;
     }
 
-// finds the corresponding visual wheel
-// correctly applies the transform
+    // finds the corresponding visual wheel
+    // correctly applies the transform
     public void ApplyLocalPositionToVisuals(WheelCollider col)
     {
         if (col.transform.childCount == 0)
@@ -205,7 +205,7 @@ public class PlayerController : NetworkBehaviour
             }
         }
 
-// this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
+        // this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
         if (Mathf.Abs(CurrentRotation - transform.eulerAngles.y) < 10f)
         {
             var turnAdjust = (transform.eulerAngles.y - CurrentRotation) * m_SteerHelper;

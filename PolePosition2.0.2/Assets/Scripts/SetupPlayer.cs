@@ -74,7 +74,7 @@ public class SetupPlayer : NetworkBehaviour
 
     void OnSpeedChangeEventHandler(float speed)
     {
-        _uiManager.UpdateSpeed((int) speed * 5); // 5 for visualization purpose (km/h)
+        _uiManager.UpdateSpeed((int)speed * 5); // 5 for visualization purpose (km/h)
     }
 
     void ConfigureCamera()
