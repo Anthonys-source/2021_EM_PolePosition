@@ -10,11 +10,11 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
 
     public event Action<float> SteerEvent = delegate { };
     public event Action<float> AccelerateEvent = delegate { };
-    public event Action<float> BrakeEvent = delegate { };
+    public event Action<float> HandbrakeEvent = delegate { };
 
     public float SteerValue { get; private set; } = 0.0f;
     public float AccelerateValue { get; private set; } = 0.0f;
-    public float BrakeValue { get; private set; } = 0.0f;
+    public float HandbrakeValue { get; private set; } = 0.0f;
 
     private void OnEnable()
     {
@@ -60,17 +60,17 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
         }
     }
 
-    public void OnBrake(InputAction.CallbackContext context)
+    public void OnHandbrake(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            BrakeValue = context.ReadValue<float>();
-            BrakeEvent.Invoke(BrakeValue);
+            HandbrakeValue = context.ReadValue<float>();
+            HandbrakeEvent.Invoke(HandbrakeValue);
         }
         else
         {
-            BrakeValue = 0.0f;
-            BrakeEvent.Invoke(BrakeValue);
+            HandbrakeValue = 0.0f;
+            HandbrakeEvent.Invoke(HandbrakeValue);
         }
     }
 }

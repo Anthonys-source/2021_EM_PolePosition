@@ -35,10 +35,10 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Brake"",
-                    ""type"": ""Value"",
+                    ""name"": ""Handbrake"",
+                    ""type"": ""Button"",
                     ""id"": ""bd1815fb-d1e6-4cac-8614-6bf423d5634a"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": ""Clamp(max=1)"",
                     ""interactions"": """"
                 }
@@ -51,7 +51,7 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Brake"",
+                    ""action"": ""Handbrake"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -62,18 +62,18 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse & Keyboard"",
-                    ""action"": ""Brake"",
+                    ""action"": ""Handbrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""positive"",
                     ""id"": ""79919e1c-8b58-483c-9503-f5c6f870a99a"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse & Keyboard"",
-                    ""action"": ""Brake"",
+                    ""action"": ""Handbrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -169,7 +169,7 @@ public class @GameMainControls : IInputActionCollection, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Steer = m_Gameplay.FindAction("Steer", throwIfNotFound: true);
         m_Gameplay_Accelerate = m_Gameplay.FindAction("Accelerate", throwIfNotFound: true);
-        m_Gameplay_Brake = m_Gameplay.FindAction("Brake", throwIfNotFound: true);
+        m_Gameplay_Handbrake = m_Gameplay.FindAction("Handbrake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -221,14 +221,14 @@ public class @GameMainControls : IInputActionCollection, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Steer;
     private readonly InputAction m_Gameplay_Accelerate;
-    private readonly InputAction m_Gameplay_Brake;
+    private readonly InputAction m_Gameplay_Handbrake;
     public struct GameplayActions
     {
         private @GameMainControls m_Wrapper;
         public GameplayActions(@GameMainControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Steer => m_Wrapper.m_Gameplay_Steer;
         public InputAction @Accelerate => m_Wrapper.m_Gameplay_Accelerate;
-        public InputAction @Brake => m_Wrapper.m_Gameplay_Brake;
+        public InputAction @Handbrake => m_Wrapper.m_Gameplay_Handbrake;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -244,9 +244,9 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                 @Accelerate.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAccelerate;
                 @Accelerate.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAccelerate;
                 @Accelerate.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAccelerate;
-                @Brake.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
-                @Brake.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
-                @Brake.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
+                @Handbrake.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHandbrake;
+                @Handbrake.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHandbrake;
+                @Handbrake.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHandbrake;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -257,9 +257,9 @@ public class @GameMainControls : IInputActionCollection, IDisposable
                 @Accelerate.started += instance.OnAccelerate;
                 @Accelerate.performed += instance.OnAccelerate;
                 @Accelerate.canceled += instance.OnAccelerate;
-                @Brake.started += instance.OnBrake;
-                @Brake.performed += instance.OnBrake;
-                @Brake.canceled += instance.OnBrake;
+                @Handbrake.started += instance.OnHandbrake;
+                @Handbrake.performed += instance.OnHandbrake;
+                @Handbrake.canceled += instance.OnHandbrake;
             }
         }
     }
@@ -277,6 +277,6 @@ public class @GameMainControls : IInputActionCollection, IDisposable
     {
         void OnSteer(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
-        void OnBrake(InputAction.CallbackContext context);
+        void OnHandbrake(InputAction.CallbackContext context);
     }
 }

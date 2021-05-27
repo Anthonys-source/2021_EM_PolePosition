@@ -22,10 +22,10 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Brake",
-                    "type": "Value",
+                    "name": "Handbrake",
+                    "type": "Button",
                     "id": "bd1815fb-d1e6-4cac-8614-6bf423d5634a",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Button",
                     "processors": "Clamp(max=1)",
                     "interactions": ""
                 }
@@ -38,7 +38,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Brake",
+                    "action": "Handbrake",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -49,18 +49,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
-                    "action": "Brake",
+                    "action": "Handbrake",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
                     "id": "79919e1c-8b58-483c-9503-f5c6f870a99a",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse & Keyboard",
-                    "action": "Brake",
+                    "action": "Handbrake",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

@@ -7,9 +7,9 @@ public interface ICarInputProvider
 {
     event Action<float> SteerEvent;
     event Action<float> AccelerateEvent;
-    event Action<float> BrakeEvent;
+    event Action<float> HandbrakeEvent;
 
     float SteerValue { get; }
     float AccelerateValue { get; }
-    float BrakeValue { get; }
+    float HandbrakeValue { get; }
 }

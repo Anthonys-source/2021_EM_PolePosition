@@ -66,8 +66,12 @@ public class PlayerController : NetworkBehaviour
     public void Update()
     {
         InputAcceleration = m_CarInput.AccelerateValue;
+        if(InputAcceleration < 0)
+        {
+            Debug.Log("t");
+        }
         InputSteering = m_CarInput.SteerValue;
-        InputBrake = m_CarInput.BrakeValue;
+        InputBrake = m_CarInput.HandbrakeValue;
         Speed = m_Rigidbody.velocity.magnitude;
     }
 
