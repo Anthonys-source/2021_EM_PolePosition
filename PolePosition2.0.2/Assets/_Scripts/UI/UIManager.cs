@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button buttonServer;
     [SerializeField] private InputField inputFieldIP;
     [SerializeField] private InputField inputFieldPlayerName;
+    [SerializeField] private Dropdown dropdownCarColorID;
 
     [Header("In-Game HUD")]
     [SerializeField]
@@ -26,9 +27,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text textLaps;
     [SerializeField] private Text textPosition;
 
-    //Used to setup player name
+    //Used to setup player
     //Not the cleanest aproach
     public string EnteredPlayerName { get => inputFieldPlayerName.text; }
+    public int EnteredCarColorID { get => dropdownCarColorID.value; }
 
     private void Awake()
     {
