@@ -12,6 +12,7 @@ using Random = System.Random;
 public class SetupPlayer : NetworkBehaviour
 {
     [SyncVar] private int _id;
+    [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
     [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
 
@@ -32,6 +33,7 @@ public class SetupPlayer : NetworkBehaviour
     {
         base.OnStartServer();
         _id = NetworkServer.connections.Count - 1;
+        _currentLap = 0;
     }
 
     /// <summary>
@@ -44,7 +46,8 @@ public class SetupPlayer : NetworkBehaviour
         CmdSetPlayerName(_uiManager.EnteredPlayerName);
         CmdSetCarColor(_uiManager.EnteredCarColorID);
         _playerInfo.ID = _id;
-        _playerInfo.CurrentLap = 0;
+        _playerInfo.CurrentLap = _currentLap;
+
         _polePositionManager.AddPlayer(_playerInfo);
     }
 

@@ -36,7 +36,8 @@ public class PolePositionManager : NetworkBehaviour
         if (_players.Count == 0)
             return;
 
-        UpdateRaceProgress();
+        if (isServer)
+            UpdateRaceProgress();
     }
 
     public void AddPlayer(PlayerInfo player)
@@ -61,6 +62,9 @@ public class PolePositionManager : NetworkBehaviour
         }
     }
 
+    #region Update Leaderboard
+
+    [Server]
     public void UpdateRaceProgress()
     {
         // Update car arc-lengths
@@ -71,32 +75,27 @@ public class PolePositionManager : NetworkBehaviour
             arcLengths[i] = ComputeCarArcLength(i);
         }
 
-        // Debug arcLenghts
-        string final = "";
-        for (int i = 0; i < arcLengths.Length; i++)
-        {
-            final += arcLengths[i] + "|";
-        }
-        Debug.Log(final);
-
-        //_players.Sort(new PlayerInfoComparer(arcLengths));
-
         // Copying the list every frame might be explensive but its good enough for now
         List<PlayerInfo> playerLeaderboard = _players.ToList<PlayerInfo>();
 
         playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
 
-        _uiManager.UpdatePositions(playerLeaderboard);
-
-        string myRaceOrder = "";
-        foreach (var player in playerLeaderboard)
+        string[] newLeaderboardNames = new string[playerLeaderboard.Count];
+        for (int i = 0; i < playerLeaderboard.Count; i++)
         {
-            myRaceOrder += player.Name + " ";
+            newLeaderboardNames[i] = playerLeaderboard[i].Name;
         }
 
-        Debug.Log("El orden de carrera es: " + myRaceOrder);
+        RpcUpdateUILeaderboard(newLeaderboardNames);
     }
 
+    [ClientRpc]
+    public void RpcUpdateUILeaderboard(string[] newLeaderboardNames)
+    {
+        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
+    }
+
+    [Server]
     float ComputeCarArcLength(int id)
     {
         // Compute the projection of the car position to the closest circuit 
@@ -125,4 +124,6 @@ public class PolePositionManager : NetworkBehaviour
 
         return minArcL;
     }
+
+    #endregion
 }

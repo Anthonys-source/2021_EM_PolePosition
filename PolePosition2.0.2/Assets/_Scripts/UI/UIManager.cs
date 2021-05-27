@@ -54,12 +54,13 @@ public class UIManager : MonoBehaviour
     /// Updates the Positions Text int the UI
     /// </summary>
     /// <param name="playerLeaderboard">Ordered list of players positions</param>
-    public void UpdatePositions(List<PlayerInfo> playerLeaderboard)
+    [Client]
+    public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
         textPosition.text = "";
-        foreach (PlayerInfo playerInfo in playerLeaderboard)
+        foreach (string playerInfo in playerLeaderboard)
         {
-            textPosition.text += playerInfo.Name + "\n";
+            textPosition.text += playerInfo + "\n";
         }
 
         //Remove the last \n character
