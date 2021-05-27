@@ -68,12 +68,10 @@ public class SetupPlayer : NetworkBehaviour
         if (name.Length >= 2 && name.Length <= 9 && Regex.IsMatch(name, @"^[A-Za-z0-9]+$"))
         {
             _name = name;
-            _playerInfo.Name = _name;
         }
         else
         {
             _name = "Driver " + _playerInfo.ID;
-            _playerInfo.Name = _name;
         }
     }
 
