@@ -124,11 +124,6 @@ public class SetupPlayer : NetworkBehaviour
         _uiManager = FindObjectOfType<UIManager>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     void OnSpeedChangeEventHandler(float speed)
     {
         _uiManager.UpdateSpeed((int)speed * 5); // 5 for visualization purpose (km/h)
