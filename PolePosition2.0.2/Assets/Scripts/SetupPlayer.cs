@@ -51,6 +51,9 @@ public class SetupPlayer : NetworkBehaviour
     /// </summary>
     public override void OnStartLocalPlayer()
     {
+        _playerController.enabled = true;
+        _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;
+        ConfigureCamera();
     }
 
     #endregion
@@ -67,12 +70,6 @@ public class SetupPlayer : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (isLocalPlayer)
-        {
-            _playerController.enabled = true;
-            _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;
-            ConfigureCamera();
-        }
     }
 
     void OnSpeedChangeEventHandler(float speed)
