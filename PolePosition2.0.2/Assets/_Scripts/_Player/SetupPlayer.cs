@@ -13,6 +13,7 @@ public class SetupPlayer : NetworkBehaviour
 {
     [SyncVar] private int _id;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
+    [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
 
     private UIManager _uiManager;
     private MyNetworkManager _networkManager;
@@ -41,6 +42,7 @@ public class SetupPlayer : NetworkBehaviour
     {
         base.OnStartClient();
         CmdSetPlayerName(_uiManager.EnteredPlayerName);
+        CmdSetCarColor(_uiManager.EnteredCarColorID);
         _playerInfo.ID = _id;
         _playerInfo.CurrentLap = 0;
         _polePositionManager.AddPlayer(_playerInfo);
@@ -84,6 +86,34 @@ public class SetupPlayer : NetworkBehaviour
     public void CmdSetPlayerName(string name)
     {
         SetName(name);
+    }
+    #endregion
+
+    #region Set Car Color Methods
+    [Server]
+    public void SetCarColor(int colorID)
+    {
+        if (colorID >= 0 && colorID <= 3)
+        {
+            _carColorID = colorID;
+            _playerInfo.CarColorID = _carColorID;
+        }
+        else
+        {
+            _carColorID = 0;
+            _playerInfo.CarColorID = _carColorID;
+        }
+    }
+
+    private void HandleCarColorUpdate(int oldID, int newID)
+    {
+        _playerInfo.CarColorID = newID;
+    }
+
+    [Command]
+    public void CmdSetCarColor(int carColorID)
+    {
+        SetCarColor(carColorID);
     }
     #endregion
 
