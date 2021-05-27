@@ -42,6 +42,22 @@ public class UIManager : MonoBehaviour
         textSpeed.text = "Speed " + speed + " Km/h";
     }
 
+    /// <summary>
+    /// Updates the Positions Text int the UI
+    /// </summary>
+    /// <param name="playerLeaderboard">Ordered list of players positions</param>
+    public void UpdatePositions(List<PlayerInfo> playerLeaderboard)
+    {
+        textPosition.text = "";
+        foreach (PlayerInfo playerInfo in playerLeaderboard)
+        {
+            textPosition.text += playerInfo.Name + "\n";
+        }
+        
+        //Remove the last \n character
+        textPosition.text = textPosition.text.Remove(textPosition.text.Length - 1);
+    }
+
     private void ActivateMainMenu()
     {
         mainMenu.SetActive(true);
