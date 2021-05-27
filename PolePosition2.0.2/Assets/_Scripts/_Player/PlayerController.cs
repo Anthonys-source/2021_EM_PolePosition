@@ -28,6 +28,7 @@ public class PlayerController : NetworkBehaviour
     private float InputBrake { get; set; }
 
     private PlayerInfo m_PlayerInfo;
+    private ICarInputProvider m_CarInput;
 
     private Rigidbody m_Rigidbody;
     private float m_SteerHelper = 0.8f;
@@ -59,13 +60,14 @@ public class PlayerController : NetworkBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_PlayerInfo = GetComponent<PlayerInfo>();
+        m_CarInput = GetComponent<ICarInputProvider>();
     }
 
     public void Update()
     {
-        InputAcceleration = Input.GetAxis("Vertical");
-        InputSteering = Input.GetAxis(("Horizontal"));
-        InputBrake = Input.GetAxis("Jump");
+        InputAcceleration = m_CarInput.AccelerateValue;
+        InputSteering = m_CarInput.SteerValue;
+        InputBrake = m_CarInput.BrakeValue;
         Speed = m_Rigidbody.velocity.magnitude;
     }
 
