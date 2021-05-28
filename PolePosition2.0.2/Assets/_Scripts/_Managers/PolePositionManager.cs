@@ -86,6 +86,10 @@ public class PolePositionManager : NetworkBehaviour
             newLeaderboardNames[i] = playerLeaderboard[i].Name;
         }
 
+        //This is called just to update the leaderboard names in the server
+        //It's just to see the leaderboard in the server game view
+        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
+
         RpcUpdateUILeaderboard(newLeaderboardNames);
     }
 

@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
     /// Updates the Positions Text int the UI
     /// </summary>
     /// <param name="playerLeaderboard">Ordered list of players positions</param>
-    [Client]
     public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
         textPosition.text = "";
