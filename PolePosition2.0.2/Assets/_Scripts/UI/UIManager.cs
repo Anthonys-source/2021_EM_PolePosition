@@ -7,93 +7,84 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public bool showGUI = true;
+    [HideInInspector] public MyNetworkManager m_NetworkManager;
+    public MainMenuUI _mainMenuUI;
+    public PreGameUI _preGameUI;
+    public InGameUI _inGameUI;
+    public ServerUI _serverUI;
 
-    private MyNetworkManager m_NetworkManager;
-
-    [Header("Main Menu")] [SerializeField] private GameObject mainMenu;
-    [SerializeField] private Button buttonHost;
-    [SerializeField] private Button buttonClient;
-    [SerializeField] private Button buttonServer;
-    [SerializeField] private InputField inputFieldIP;
-    [SerializeField] private InputField inputFieldPlayerName;
-    [SerializeField] private Dropdown dropdownCarColorID;
-
-    [Header("In-Game HUD")]
-    [SerializeField]
-    private GameObject inGameHUD;
-
-    [SerializeField] private Text textSpeed;
-    [SerializeField] private Text textLaps;
-    [SerializeField] private Text textPosition;
+    [HideInInspector] public GameTypes _selectedGameType = GameTypes.Host;
 
     //Used to setup player
     //Not the cleanest aproach
-    public string EnteredPlayerName { get => inputFieldPlayerName.text; }
-    public int EnteredCarColorID { get => dropdownCarColorID.value; }
+    public string EnteredPlayerName { get => _preGameUI.SelectedName; }
+    public int EnteredCarColorID { get => _preGameUI.SelectedCarColorID; }
 
     private void Awake()
     {
         m_NetworkManager = FindObjectOfType<MyNetworkManager>();
+
+        _mainMenuUI.SetUIManager(this);
+        _preGameUI.SetUIManager(this);
     }
 
     private void Start()
     {
-        buttonHost.onClick.AddListener(() => StartHost());
-        buttonClient.onClick.AddListener(() => StartClient());
-        buttonServer.onClick.AddListener(() => StartServer());
         ActivateMainMenu();
     }
 
+    #region InGame UI
+
     public void UpdateSpeed(int speed)
     {
-        textSpeed.text = "Speed " + speed + " Km/h";
+        _inGameUI.UpdateSpeed(speed);
     }
 
-    /// <summary>
-    /// Updates the Positions Text int the UI
-    /// </summary>
-    /// <param name="playerLeaderboard">Ordered list of players positions</param>
+    public void UpdateLaps(int newLap)
+    {
+        _inGameUI.UpdateLaps(newLap);
+    }
+
     public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
-        textPosition.text = "";
-        foreach (string playerInfo in playerLeaderboard)
-        {
-            textPosition.text += playerInfo + "\n";
-        }
-
-        //Remove the last \n character
-        textPosition.text = textPosition.text.Remove(textPosition.text.Length - 1);
+        _inGameUI.UpdateLeaderboardNames(playerLeaderboard);
     }
 
-    private void ActivateMainMenu()
+    #endregion
+
+    public void ActivateMainMenu()
     {
-        mainMenu.SetActive(true);
-        inGameHUD.SetActive(false);
+        _mainMenuUI.Show();
+        _preGameUI.Hide();
+        _inGameUI.Hide();
     }
 
-    private void ActivateInGameHUD()
+    public void ActivatePreGameUI()
     {
-        mainMenu.SetActive(false);
-        inGameHUD.SetActive(true);
+        _mainMenuUI.Hide();
+        _preGameUI.Show();
+        _inGameUI.Hide();
     }
 
-    private void StartHost()
+    public void ActivateInGameHUD()
     {
-        m_NetworkManager.StartHost();
-        ActivateInGameHUD();
+        _mainMenuUI.Hide();
+        _preGameUI.Hide();
+        _inGameUI.Show();
     }
 
-    private void StartClient()
+    public void ActivateServerUI()
     {
-        m_NetworkManager.StartClient();
-        m_NetworkManager.networkAddress = inputFieldIP.text;
-        ActivateInGameHUD();
+        _mainMenuUI.Hide();
+        _preGameUI.Hide();
+        _inGameUI.Hide();
+        _serverUI.Show();
     }
+}
 
-    private void StartServer()
-    {
-        m_NetworkManager.StartServer();
-        ActivateInGameHUD();
-    }
+public enum GameTypes
+{
+    Client,
+    Host,
+    Server
 }
