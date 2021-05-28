@@ -22,6 +22,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
     private PlayerInfo _playerInfo;
     private PolePositionManager _polePositionManager;
 
+    private CarColorComponent _carColorComponent;
+
     #region Start & Stop Callbacks
 
     /// <summary>
@@ -119,6 +121,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
     private void HandleCarColorUpdate(int oldID, int newID)
     {
         _playerInfo.CarColorID = newID;
+        _carColorComponent.SetCarColor(_playerInfo.CarColorID);
     }
 
     [Command]
@@ -135,6 +138,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
         _networkManager = FindObjectOfType<MyNetworkManager>();
         _polePositionManager = FindObjectOfType<PolePositionManager>();
         _uiManager = FindObjectOfType<UIManager>();
+
+        _carColorComponent = GetComponent<CarColorComponent>();
     }
 
     void OnSpeedChangeEventHandler(float speed)

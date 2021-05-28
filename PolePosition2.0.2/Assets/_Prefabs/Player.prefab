@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 528894820688187042}
   - component: {fileID: 9124325200002634512}
   - component: {fileID: 449604030476931776}
+  - component: {fileID: 6866645773051481040}
   - component: {fileID: 3466774584401487325}
   - component: {fileID: 8557345407659960335}
   - component: {fileID: 1137246169109603126}
@@ -184,6 +185,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &6866645773051481040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508097745644926054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36356ff463d670344b6d20b4a242b7a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 3124799276312422027}
+  _carMaterials:
+  - {fileID: 2100002, guid: b5aa39dc1509c3c48b76a6c3a335f594, type: 3}
+  - {fileID: 2100004, guid: d58615398b1feae4d8576758de2eb2a2, type: 3}
+  - {fileID: 2100002, guid: e4587f282ff69924fa90cd3bb5db9db7, type: 3}
+  - {fileID: 2100002, guid: 4780d011e93d1f443b906083fc07a7e4, type: 3}
 --- !u!114 &3466774584401487325
 MonoBehaviour:
   m_ObjectHideFlags: 0
