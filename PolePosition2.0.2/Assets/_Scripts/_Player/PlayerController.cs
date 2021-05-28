@@ -176,6 +176,7 @@ public class PlayerController : NetworkBehaviour
     #region Methods
 
     // crude traction control that reduces the power to wheel if the car is wheel spinning too much
+    [Server]
     private void TractionControl()
     {
         foreach (var axleInfo in axleInfos)
@@ -200,6 +201,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     // this is used to add more grip in relation to speed
+    [Server]
     private void AddDownForce()
     {
         foreach (var axleInfo in axleInfos)
@@ -209,6 +211,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    [Server]
     private void SpeedLimiter()
     {
         float speed = m_Rigidbody.velocity.magnitude;
@@ -218,6 +221,7 @@ public class PlayerController : NetworkBehaviour
 
     // finds the corresponding visual wheel
     // correctly applies the transform
+    [Server]
     public void ApplyLocalPositionToVisuals(WheelCollider col)
     {
         if (col.transform.childCount == 0)
@@ -234,6 +238,7 @@ public class PlayerController : NetworkBehaviour
         myTransform.rotation = rotation;
     }
 
+    [Server]
     private void SteerHelper()
     {
         foreach (var axleInfo in axleInfos)
