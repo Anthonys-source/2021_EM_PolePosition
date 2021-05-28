@@ -42,6 +42,12 @@ public class SetupPlayer : NetworkBehaviour
         _playerController.enabled = true;
     }
 
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+        _polePositionManager.RemovePlayer(_playerInfo);
+    }
+
     /// <summary>
     /// Called on every NetworkBehaviour when it is activated on a client.
     /// <para>Objects on the host have this function called, as there is a local client on the host. The values of SyncVars on object are guaranteed to be initialized correctly with the latest state from the server when this function is called on the client.</para>
