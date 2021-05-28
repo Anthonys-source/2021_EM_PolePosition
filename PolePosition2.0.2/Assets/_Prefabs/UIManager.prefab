@@ -2456,7 +2456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5804d363870f70f47be114bdeab11a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NetworkManager: {fileID: 0}
+  gameSetupManager: {fileID: 0}
   _mainMenuUI: {fileID: 8671339276065254192}
   _preGameUI: {fileID: 4133104810384207927}
   _inGameUI: {fileID: 3176847626799822696}

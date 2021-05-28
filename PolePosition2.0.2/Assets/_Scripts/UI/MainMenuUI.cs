@@ -50,8 +50,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void SelectServer()
     {
-        _uiManager._selectedGameType = GameTypes.Server;
-        _uiManager.m_NetworkManager.StartServer();
+        _uiManager.gameSetupManager.StartServer();
         _uiManager.ActivateServerUI();
     }
 }

@@ -41,13 +41,12 @@ public class PreGameUI : MonoBehaviour
         {
             case GameTypes.Client:
 
-                _uiManager.m_NetworkManager.StartClient();
-                _uiManager.m_NetworkManager.networkAddress = _uiManager._mainMenuUI.SelectedIP;
+                _uiManager.gameSetupManager.StartClient(_uiManager._mainMenuUI.SelectedIP);
 
                 break;
             case GameTypes.Host:
 
-                _uiManager.m_NetworkManager.StartHost();
+                _uiManager.gameSetupManager.StartHost();
 
                 break;
             default:

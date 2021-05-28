@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [HideInInspector] public MyNetworkManager m_NetworkManager;
+    public GameSetupManager gameSetupManager;
     public MainMenuUI _mainMenuUI;
     public PreGameUI _preGameUI;
     public InGameUI _inGameUI;
@@ -22,7 +22,10 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        m_NetworkManager = FindObjectOfType<MyNetworkManager>();
+        if (gameSetupManager == null)
+        {
+            Debug.LogError("Null reference");
+        }
 
         _mainMenuUI.SetUIManager(this);
         _preGameUI.SetUIManager(this);
