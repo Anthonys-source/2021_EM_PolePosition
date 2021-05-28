@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36356ff463d670344b6d20b4a242b7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meshRenderer: {fileID: 3124799276312422027}
+  _carBodyMeshRenderer: {fileID: 3124799276312422027}
   _carMaterials:
   - {fileID: 2100002, guid: b5aa39dc1509c3c48b76a6c3a335f594, type: 3}
   - {fileID: 2100004, guid: d58615398b1feae4d8576758de2eb2a2, type: 3}
