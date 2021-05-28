@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Mirror;
 using UnityEngine;
 using System.Linq;
@@ -14,6 +15,8 @@ public class PolePositionManager : NetworkBehaviour
     private CircuitController _circuitController;
 
     private readonly List<PlayerInfo> _players = new List<PlayerInfo>(4);
+    private object _playersLock = new object();
+    private float timeSinceLastLeaderboardUpdate = 0.0f;
 
     private GameObject[] _debuggingSpheres;
 
@@ -40,18 +43,26 @@ public class PolePositionManager : NetworkBehaviour
 
         if (isServer)
             UpdateRaceProgress();
+
+        timeSinceLastLeaderboardUpdate += Time.deltaTime;
     }
 
     [Server]
     public void AddPlayer(PlayerInfo player)
     {
-        _players.Add(player);
+        lock (_playersLock)
+        {
+            _players.Add(player);
+        }
     }
 
     [Server]
     public void RemovePlayer(PlayerInfo player)
     {
-        _players.Remove(player);
+        lock (_playersLock)
+        {
+            _players.Remove(player);
+        }
     }
 
     #region Update Leaderboard
@@ -59,16 +70,22 @@ public class PolePositionManager : NetworkBehaviour
     [Server]
     public void UpdateRaceProgress()
     {
-        // Update car arc-lengths
-        float[] arcLengths = new float[_players.Count];
+        List<PlayerInfo> playerLeaderboard;
+        float[] arcLengths;
 
-        for (int i = 0; i < _players.Count; ++i)
+        lock (_playersLock)
         {
-            arcLengths[i] = ComputeCarArcLength(i);
-        }
+            // Update car arc-lengths
+            arcLengths = new float[_players.Count];
 
-        // Copying the list every frame might be explensive but its good enough for now
-        List<PlayerInfo> playerLeaderboard = _players.ToList<PlayerInfo>();
+            for (int i = 0; i < _players.Count; ++i)
+            {
+                arcLengths[i] = ComputeCarArcLength(i);
+            }
+
+            // Copying the list every frame might be explensive but its good enough for now
+            playerLeaderboard = _players.ToList<PlayerInfo>();
+        }
 
         playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
 
@@ -82,7 +99,11 @@ public class PolePositionManager : NetworkBehaviour
         //It's just to see the leaderboard in the server game view
         _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
 
-        RpcUpdateUILeaderboard(newLeaderboardNames);
+        if (timeSinceLastLeaderboardUpdate > 0.1f)
+        {
+            RpcUpdateUILeaderboard(newLeaderboardNames);
+            timeSinceLastLeaderboardUpdate = 0.0f;
+        }
     }
 
     [Server]

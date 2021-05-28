@@ -16,6 +16,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
     [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
     [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
+    public object _nameLock = new object();
 
     private void Awake()
     {
@@ -83,15 +84,20 @@ public class PlayerNetworkComponent : NetworkBehaviour
     [Server]
     public void SetName(string name)
     {
-        if (name.Length >= 2 && name.Length <= 9 && Regex.IsMatch(name, @"^[A-Za-z0-9]+$"))
+        //Lock the name in case the client sends multiple SetName methods
+        //The client shouldnt be able to do this normally but its a security meassure
+        lock (_nameLock)
         {
-            _name = name;
+            if (name.Length >= 2 && name.Length <= 9 && Regex.IsMatch(name, @"^[A-Za-z0-9]+$"))
+            {
+                _name = name;
+            }
+            else
+            {
+                _name = "Driver " + _playerInfo.ID;
+            }
+            _playerInfo.PlayerName = _name;
         }
-        else
-        {
-            _name = "Driver " + _playerInfo.ID;
-        }
-        _playerInfo.PlayerName = _name;
     }
 
     private void HandleNameUpdate(string oldName, string newName)
