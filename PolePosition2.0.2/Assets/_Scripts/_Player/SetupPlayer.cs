@@ -48,14 +48,7 @@ public class SetupPlayer : NetworkBehaviour
     /// </summary>
     public override void OnStartClient()
     {
-        //When the client connects whe only send commands to update his name and car color
         base.OnStartClient();
-
-        if (isLocalPlayer)
-        {
-            CmdSetPlayerName(_uiManager.EnteredPlayerName);
-            CmdSetCarColor(_uiManager.EnteredCarColorID);
-        }
     }
 
     /// <summary>
@@ -65,6 +58,9 @@ public class SetupPlayer : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         //In each client this only executes in its own player car (Local Player)
+        CmdSetPlayerName(_uiManager.EnteredPlayerName);
+        CmdSetCarColor(_uiManager.EnteredCarColorID);
+
         _playerController.enabled = true;
         _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;
         ConfigureCamera();
