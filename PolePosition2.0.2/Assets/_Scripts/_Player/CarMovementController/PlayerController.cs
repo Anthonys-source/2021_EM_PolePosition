@@ -23,20 +23,10 @@ public class PlayerController : NetworkBehaviour
     private float inputBrake = 0.0f;
 
     private float m_SteerHelper = 0.8f;
-    private float m_CurrentSpeed = 0;
 
-    private float Speed
-    {
-        get { return m_CurrentSpeed; }
-        set
-        {
-            if (Math.Abs(m_CurrentSpeed - value) < float.Epsilon) return;
-            m_CurrentSpeed = value;
-            if (OnSpeedChangeEvent != null)
-                OnSpeedChangeEvent(m_CurrentSpeed);
-        }
-    }
-    public event Action<float> OnSpeedChangeEvent;
+    //Se guarda como int ya que solo se va a usar para actualizar la interfaz
+    [SyncVar(hook = nameof(HandleSpeedUpdate))] private int m_CurrentSpeed = 0;
+    public event Action<int> OnSpeedChangeEvent = delegate { };
 
     #endregion
 
@@ -60,11 +50,24 @@ public class PlayerController : NetworkBehaviour
             CmdAccelerate(m_CarInput.AccelerateValue);
             CmdSteer(m_CarInput.SteerValue);
             CmdHandbrake(m_CarInput.HandbrakeValue);
-            Speed = m_Rigidbody.velocity.magnitude;
+        }
+
+        if (isServer)
+        {
+            if (Math.Abs(m_CurrentSpeed - m_Rigidbody.velocity.magnitude) > float.Epsilon)
+            {
+                m_CurrentSpeed = (int)m_Rigidbody.velocity.magnitude;
+            }
         }
     }
 
-    #region Commands and Server Methods
+    private void HandleSpeedUpdate(int oldValue, int newValue)
+    {
+        if (OnSpeedChangeEvent != null)
+            OnSpeedChangeEvent(newValue);
+    }
+
+    #region Input Commands and Server Methods
 
     [Server]
     public void SetAccelerationInput(float value)

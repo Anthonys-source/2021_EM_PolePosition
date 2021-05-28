@@ -141,9 +141,9 @@ public class PlayerNetworkComponent : NetworkBehaviour
     #endregion
 
     [Client]
-    void OnSpeedChangeEventHandler(float speed)
+    void OnSpeedChangeEventHandler(int speed)
     {
-        _uiManager.UpdateSpeed((int)speed * 5); // 5 for visualization purpose (km/h)
+        _uiManager.UpdateSpeed(speed * 5); // 5 for visualization purpose (km/h)
     }
 
     [Client]
