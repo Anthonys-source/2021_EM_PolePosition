@@ -9,7 +9,7 @@ using Random = System.Random;
 	API Reference: https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html
 */
 
-public class SetupPlayer : NetworkBehaviour
+public class PlayerNetworkComponent : NetworkBehaviour
 {
     [SyncVar] private int _id;
     [SyncVar] private int _currentLap;
