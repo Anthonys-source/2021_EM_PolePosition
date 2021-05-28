@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-/*
-	Documentation: https://mirror-networking.com/docs/Guides/NetworkBehaviour.html
-	API Reference: https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html
-*/
-
 public class PlayerController : NetworkBehaviour
 {
     #region Controller Variables and Events
@@ -60,7 +55,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Update()
     {
-        if (isClient && isLocalPlayer)
+        if (isClient && isLocalPlayer && connectionToServer.isReady)
         {
             CmdAccelerate(m_CarInput.AccelerateValue);
             CmdSteer(m_CarInput.SteerValue);
