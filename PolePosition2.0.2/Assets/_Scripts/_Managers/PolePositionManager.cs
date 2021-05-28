@@ -11,9 +11,10 @@ public class PolePositionManager : NetworkBehaviour
     public int numPlayers;
     private MyNetworkManager _networkManager;
     private UIManager _uiManager;
+    private CircuitController _circuitController;
 
     private readonly List<PlayerInfo> _players = new List<PlayerInfo>(4);
-    private CircuitController _circuitController;
+
     private GameObject[] _debuggingSpheres;
 
     private void Awake()
@@ -23,6 +24,7 @@ public class PolePositionManager : NetworkBehaviour
         if (_circuitController == null) _circuitController = FindObjectOfType<CircuitController>();
         if (_uiManager == null) _uiManager = FindObjectOfType<UIManager>();
 
+        //Debugging positions in race
         _debuggingSpheres = new GameObject[_networkManager.maxConnections];
         for (int i = 0; i < _networkManager.maxConnections; ++i)
         {
@@ -40,26 +42,16 @@ public class PolePositionManager : NetworkBehaviour
             UpdateRaceProgress();
     }
 
+    [Server]
     public void AddPlayer(PlayerInfo player)
     {
         _players.Add(player);
     }
 
-    private class PlayerInfoComparer : Comparer<PlayerInfo>
+    [Server]
+    public void RemovePlayer(PlayerInfo player)
     {
-        float[] _arcLengths;
-
-        public PlayerInfoComparer(float[] arcLengths)
-        {
-            _arcLengths = arcLengths;
-        }
-
-        public override int Compare(PlayerInfo x, PlayerInfo y)
-        {
-            if (_arcLengths[x.ID] < _arcLengths[y.ID])
-                return 1;
-            else return -1;
-        }
+        _players.Remove(player);
     }
 
     #region Update Leaderboard
@@ -93,14 +85,8 @@ public class PolePositionManager : NetworkBehaviour
         RpcUpdateUILeaderboard(newLeaderboardNames);
     }
 
-    [ClientRpc]
-    public void RpcUpdateUILeaderboard(string[] newLeaderboardNames)
-    {
-        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
-    }
-
     [Server]
-    float ComputeCarArcLength(int id)
+    private float ComputeCarArcLength(int id)
     {
         // Compute the projection of the car position to the closest circuit 
         // path segment and accumulate the arc-length along of the car along
@@ -127,6 +113,29 @@ public class PolePositionManager : NetworkBehaviour
         }
 
         return minArcL;
+    }
+
+    [ClientRpc]
+    public void RpcUpdateUILeaderboard(string[] newLeaderboardNames)
+    {
+        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
+    }
+
+    private class PlayerInfoComparer : Comparer<PlayerInfo>
+    {
+        float[] _arcLengths;
+
+        public PlayerInfoComparer(float[] arcLengths)
+        {
+            _arcLengths = arcLengths;
+        }
+
+        public override int Compare(PlayerInfo x, PlayerInfo y)
+        {
+            if (_arcLengths[x.ID] < _arcLengths[y.ID])
+                return 1;
+            else return -1;
+        }
     }
 
     #endregion
