@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServerUI : MonoBehaviour
+namespace Game.UI
 {
-    [SerializeField] private GameObject serverUIContainer;
-
-    public void Show()
+    public class ServerUI : UIObject
     {
-        serverUIContainer.SetActive(true);
-    }
-
-    public void Hide()
-    {
-        serverUIContainer.SetActive(false);
     }
 }

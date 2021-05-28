@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.UI;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;

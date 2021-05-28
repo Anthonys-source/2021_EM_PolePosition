@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21d912129cf41a429acaa2f2240c053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inGameUIContainer: {fileID: 6415909394322138283}
+  UIContainer: {fileID: 6415909394322138283}
   textSpeed: {fileID: 6415909394430996843}
   textLaps: {fileID: 6415909393398217422}
   textPosition: {fileID: 6415909392756466390}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd3bc4bc0b7d5043b48911438e847d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuUIContainer: {fileID: 6415909394707280194}
+  UIContainer: {fileID: 6415909394707280194}
   buttonHost: {fileID: 6415909394048335350}
   buttonClient: {fileID: 6415909393004719078}
   buttonServer: {fileID: 6415909393370013629}
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427e6ad15ecb10d4986f59165195650e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverUIContainer: {fileID: 4864384160483609130}
+  UIContainer: {fileID: 4864384160483609130}
 --- !u!1 &3486881056046649314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1811390824242616852}
   m_Layer: 5
-  m_Name: ServerUI
+  m_Name: ServerUIContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1433,7 +1433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9aed8caca00c9645ac21c67f9e1dec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preGameUIContainer: {fileID: 5730569890821533549}
+  UIContainer: {fileID: 5730569890821533549}
   inputFieldPlayerName: {fileID: 4567561078644292020}
   dropdownCarColorID: {fileID: 5389614640482271965}
   buttonGo: {fileID: 5931107869295517530}
@@ -1448,7 +1448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7116244126766934728}
   m_Layer: 5
-  m_Name: PreGameUI
+  m_Name: PreGameUIContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2807,7 +2807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6415909394322138282}
   m_Layer: 5
-  m_Name: In-GameHUD
+  m_Name: InGameUIContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3252,7 +3252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6415909394707280197}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: MainMenuUIContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

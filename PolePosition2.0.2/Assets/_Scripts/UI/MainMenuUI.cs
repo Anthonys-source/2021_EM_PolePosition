@@ -3,54 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour
+namespace Game.UI
 {
-    [Header("Main Menu")] [SerializeField] private GameObject mainMenuUIContainer;
-    [SerializeField] public Button buttonHost;
-    [SerializeField] public Button buttonClient;
-    [SerializeField] public Button buttonServer;
-    [SerializeField] private InputField inputFieldIP;
-    public string SelectedIP { get => inputFieldIP.text; }
-
-    [HideInInspector] public UIManager _uiManager;
-
-    private void Start()
+    public class MainMenuUI : UIObject
     {
-        buttonHost.onClick.AddListener(SelectHost);
-        buttonClient.onClick.AddListener(SelectClient);
-        buttonServer.onClick.AddListener(SelectServer);
-    }
+        [Header("Main Menu")]
+        [SerializeField] public Button buttonHost;
+        [SerializeField] public Button buttonClient;
+        [SerializeField] public Button buttonServer;
+        [SerializeField] private InputField inputFieldIP;
+        public string SelectedIP { get => inputFieldIP.text; }
 
-    public void SetUIManager(UIManager uiManager)
-    {
-        _uiManager = uiManager;
-    }
+        [HideInInspector] public UIManager _uiManager;
 
-    public void Show()
-    {
-        mainMenuUIContainer.SetActive(true);
-    }
+        private void Start()
+        {
+            buttonHost.onClick.AddListener(SelectHost);
+            buttonClient.onClick.AddListener(SelectClient);
+            buttonServer.onClick.AddListener(SelectServer);
+        }
 
-    public void Hide()
-    {
-        mainMenuUIContainer.SetActive(false);
-    }
+        public void SetUIManager(UIManager uiManager)
+        {
+            _uiManager = uiManager;
+        }
 
-    private void SelectHost()
-    {
-        _uiManager._selectedGameType = GameTypes.Host;
-        _uiManager.ActivatePreGameUI();
-    }
+        private void SelectHost()
+        {
+            _uiManager._selectedGameType = GameTypes.Host;
+            _uiManager.ActivatePreGameUI();
+        }
 
-    private void SelectClient()
-    {
-        _uiManager._selectedGameType = GameTypes.Client;
-        _uiManager.ActivatePreGameUI();
-    }
+        private void SelectClient()
+        {
+            _uiManager._selectedGameType = GameTypes.Client;
+            _uiManager.ActivatePreGameUI();
+        }
 
-    private void SelectServer()
-    {
-        _uiManager.gameSetupManager.StartServer();
-        _uiManager.ActivateServerUI();
+        private void SelectServer()
+        {
+            _uiManager.gameSetupManager.StartServer();
+            _uiManager.ActivateServerUI();
+        }
     }
 }
