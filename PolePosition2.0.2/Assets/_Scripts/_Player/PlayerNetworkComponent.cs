@@ -2,29 +2,32 @@
 using System.Text.RegularExpressions;
 using Mirror;
 using UnityEngine;
-using Random = System.Random;
-
-/*
-	Documentation: https://mirror-networking.com/docs/Guides/NetworkBehaviour.html
-	API Reference: https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html
-*/
 
 public class PlayerNetworkComponent : NetworkBehaviour
 {
+    private PlayerInfo _playerInfo;
+    private CarColorComponent _carColorComponent;
+    private PlayerController _playerController;
+
+    private PolePositionManager _polePositionManager;
+    private UIManager _uiManager;
+
     [SyncVar] private int _id;
     [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
     [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
 
-    private UIManager _uiManager;
-    private MyNetworkManager _networkManager;
-    private PlayerController _playerController;
-    private PlayerInfo _playerInfo;
-    private PolePositionManager _polePositionManager;
+    private void Awake()
+    {
+        _playerInfo = GetComponent<PlayerInfo>();
+        _carColorComponent = GetComponent<CarColorComponent>();
+        _playerController = GetComponent<PlayerController>();
 
-    private CarColorComponent _carColorComponent;
+        _polePositionManager = FindObjectOfType<PolePositionManager>();
+        _uiManager = FindObjectOfType<UIManager>();
+    }
 
-    #region Start & Stop Callbacks
+    #region Start & Stop Mirror Callbacks
 
     /// <summary>
     /// This is invoked for NetworkBehaviour objects when they become active on the server.
@@ -131,22 +134,13 @@ public class PlayerNetworkComponent : NetworkBehaviour
     }
     #endregion
 
-    private void Awake()
-    {
-        _playerInfo = GetComponent<PlayerInfo>();
-        _playerController = GetComponent<PlayerController>();
-        _networkManager = FindObjectOfType<MyNetworkManager>();
-        _polePositionManager = FindObjectOfType<PolePositionManager>();
-        _uiManager = FindObjectOfType<UIManager>();
-
-        _carColorComponent = GetComponent<CarColorComponent>();
-    }
-
+    [Client]
     void OnSpeedChangeEventHandler(float speed)
     {
         _uiManager.UpdateSpeed((int)speed * 5); // 5 for visualization purpose (km/h)
     }
 
+    [Client]
     void ConfigureCamera()
     {
         if (Camera.main != null) Camera.main.gameObject.GetComponent<CameraController>().m_Focus = this.gameObject;
