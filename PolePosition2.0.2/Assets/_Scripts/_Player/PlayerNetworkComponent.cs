@@ -91,12 +91,12 @@ public class PlayerNetworkComponent : NetworkBehaviour
         {
             _name = "Driver " + _playerInfo.ID;
         }
-        _playerInfo.Name = _name;
+        _playerInfo.PlayerName = _name;
     }
 
     private void HandleNameUpdate(string oldName, string newName)
     {
-        _playerInfo.Name = newName;
+        _playerInfo.PlayerName = newName;
     }
 
     [Command]

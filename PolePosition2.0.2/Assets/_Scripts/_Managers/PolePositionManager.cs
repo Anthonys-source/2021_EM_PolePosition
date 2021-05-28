@@ -75,7 +75,7 @@ public class PolePositionManager : NetworkBehaviour
         string[] newLeaderboardNames = new string[playerLeaderboard.Count];
         for (int i = 0; i < playerLeaderboard.Count; i++)
         {
-            newLeaderboardNames[i] = playerLeaderboard[i].Name;
+            newLeaderboardNames[i] = playerLeaderboard[i].PlayerName;
         }
 
         //This is called just to update the leaderboard names in the server
