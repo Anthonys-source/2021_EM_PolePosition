@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Circuit: {fileID: 9126478172555348644}
   m_Distance: 10
   m_Elevation: 8
-  m_Following: 0.5
+  m_Following: 1
 --- !u!1 &1839589612
 GameObject:
   m_ObjectHideFlags: 0
