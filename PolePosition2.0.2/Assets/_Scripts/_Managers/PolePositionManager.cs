@@ -16,6 +16,8 @@ public class PolePositionManager : NetworkBehaviour
 
     private readonly List<PlayerInfo> _players = new List<PlayerInfo>(4);
     private object _playersLock = new object();
+
+    [SerializeField] private float leaderboardUpdateTime = 100;
     private float timeSinceLastLeaderboardUpdate = 0.0f;
 
     private GameObject[] _debuggingSpheres;
@@ -26,6 +28,8 @@ public class PolePositionManager : NetworkBehaviour
         if (_networkManager == null) _networkManager = FindObjectOfType<MyNetworkManager>();
         if (_circuitController == null) _circuitController = FindObjectOfType<CircuitController>();
         if (_uiManager == null) _uiManager = FindObjectOfType<UIManager>();
+
+        timeSinceLastLeaderboardUpdate = leaderboardUpdateTime;
 
         //Debugging positions in race
         _debuggingSpheres = new GameObject[_networkManager.maxConnections];
@@ -42,9 +46,10 @@ public class PolePositionManager : NetworkBehaviour
             return;
 
         if (isServer)
+        {
             UpdateRaceProgress();
-
-        timeSinceLastLeaderboardUpdate += Time.deltaTime;
+            timeSinceLastLeaderboardUpdate += Time.deltaTime;
+        }
     }
 
     [Server]
@@ -95,11 +100,8 @@ public class PolePositionManager : NetworkBehaviour
             newLeaderboardNames[i] = playerLeaderboard[i].PlayerName;
         }
 
-        //This is called just to update the leaderboard names in the server
-        //It's just to see the leaderboard in the server game view
-        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
-
-        if (timeSinceLastLeaderboardUpdate > 0.1f)
+        //Solo actualizar el leaderboard cada X ms
+        if (timeSinceLastLeaderboardUpdate >= leaderboardUpdateTime)
         {
             RpcUpdateUILeaderboard(newLeaderboardNames);
             timeSinceLastLeaderboardUpdate = 0.0f;
