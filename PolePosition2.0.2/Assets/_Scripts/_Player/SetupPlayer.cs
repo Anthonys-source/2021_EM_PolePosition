@@ -80,6 +80,7 @@ public class SetupPlayer : NetworkBehaviour
         {
             _name = "Driver " + _playerInfo.ID;
         }
+        _playerInfo.Name = _name;
     }
 
     private void HandleNameUpdate(string oldName, string newName)
@@ -101,13 +102,12 @@ public class SetupPlayer : NetworkBehaviour
         if (colorID >= 0 && colorID <= 3)
         {
             _carColorID = colorID;
-            _playerInfo.CarColorID = _carColorID;
         }
         else
         {
             _carColorID = 0;
-            _playerInfo.CarColorID = _carColorID;
         }
+        _playerInfo.CarColorID = _carColorID;
     }
 
     private void HandleCarColorUpdate(int oldID, int newID)
