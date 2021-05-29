@@ -14,10 +14,10 @@ public class PolePositionManager : NetworkBehaviour
     private UIManager _uiManager;
     private CircuitController _circuitController;
 
-    private readonly List<PlayerInfo> _players = new List<PlayerInfo>(4);
+    [SerializeField] private List<PlayerInfo> _players = new List<PlayerInfo>(4);
     private object _playersLock = new object();
 
-    [SerializeField] private float leaderboardUpdateTime = 100;
+    [SerializeField] private float leaderboardUpdateTime = 0.1f;
     private float timeSinceLastLeaderboardUpdate = 0.0f;
 
     private GameObject[] _debuggingSpheres;

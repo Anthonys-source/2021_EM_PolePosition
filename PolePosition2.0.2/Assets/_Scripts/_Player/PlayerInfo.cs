@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PlayerInfo : MonoBehaviour
 {
-    public string PlayerName { get; set; }
-    public int ID { get; set; }
-    public int CarColorID { get; set; }
-    public int CurrentPosition { get; set; }
-    public int CurrentLap { get; set; }
+    public string PlayerName;
+    public int ID;
+    public int CarColorID;
+    public int CurrentPosition;
+    public int CurrentLap;
 }
