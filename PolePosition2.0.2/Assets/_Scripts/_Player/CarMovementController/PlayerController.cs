@@ -45,7 +45,7 @@ public class PlayerController : NetworkBehaviour
 
     public void Update()
     {
-        if (isClient && isLocalPlayer && connectionToServer.isReady)
+        if (isLocalPlayer)
         {
             CmdAccelerate(m_CarInput.AccelerateValue);
             CmdSteer(m_CarInput.SteerValue);
