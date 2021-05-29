@@ -29,9 +29,10 @@ namespace Game.UI
         public void UpdateLeaderboardNames(string[] playerLeaderboard)
         {
             textPosition.text = "";
-            foreach (string playerInfo in playerLeaderboard)
+
+            for (int i = 0; i < playerLeaderboard.Length; i++)
             {
-                textPosition.text += playerInfo + "\n";
+                textPosition.text += $"{i + 1}º - {playerLeaderboard[i]}\n";
             }
 
             //Remove the last \n character
