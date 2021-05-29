@@ -8,13 +8,37 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
 {
     private GameMainControls _gameMainControls;
 
+    public float SteerValue
+    {
+        get { return SteerValue; }
+        private set
+        {
+            SteerValue = value;
+            SteerEvent.Invoke(SteerValue);
+        }
+    }
+    public float AccelerateValue
+    {
+        get { return AccelerateValue; }
+        private set
+        {
+            AccelerateValue = value;
+            AccelerateEvent.Invoke(AccelerateValue);
+        }
+    }
+    public float HandbrakeValue
+    {
+        get { return HandbrakeValue; }
+        private set
+        {
+            HandbrakeValue = value;
+            HandbrakeEvent.Invoke(HandbrakeValue);
+        }
+    }
+
     public event Action<float> SteerEvent = delegate { };
     public event Action<float> AccelerateEvent = delegate { };
     public event Action<float> HandbrakeEvent = delegate { };
-
-    public float SteerValue { get; private set; } = 0.0f;
-    public float AccelerateValue { get; private set; } = 0.0f;
-    public float HandbrakeValue { get; private set; } = 0.0f;
 
     private void OnEnable()
     {
@@ -34,43 +58,51 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
 
     public void OnSteer(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             SteerValue = context.ReadValue<float>();
-            SteerEvent.Invoke(SteerValue);
         }
-        else
+        else if (context.phase == InputActionPhase.Canceled)
         {
             SteerValue = 0.0f;
-            SteerEvent.Invoke(SteerValue);
         }
     }
 
     public void OnAccelerate(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             AccelerateValue = context.ReadValue<float>();
-            AccelerateEvent.Invoke(AccelerateValue);
         }
-        else
+        else if (context.phase == InputActionPhase.Canceled)
         {
             AccelerateValue = 0.0f;
-            AccelerateEvent.Invoke(AccelerateValue);
         }
     }
 
     public void OnHandbrake(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             HandbrakeValue = context.ReadValue<float>();
-            HandbrakeEvent.Invoke(HandbrakeValue);
         }
-        else
+        else if (context.phase == InputActionPhase.Canceled)
         {
             HandbrakeValue = 0.0f;
-            HandbrakeEvent.Invoke(HandbrakeValue);
         }
     }
+
+    //private void GenericFloatActionLogic(ref float value, Action<float> onChangeEvent, InputAction.CallbackContext context)
+    //{
+    //    if (context.phase == InputActionPhase.Performed)
+    //    {
+    //        value = context.ReadValue<float>();
+    //        onChangeEvent.Invoke(value);
+    //    }
+    //    else if (context.phase == InputActionPhase.Canceled)
+    //    {
+    //        value = 0.0f;
+    //        onChangeEvent.Invoke(value);
+    //    }
+    //}
 }

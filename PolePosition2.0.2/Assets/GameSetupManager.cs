@@ -20,6 +20,8 @@ public class GameSetupManager : MonoBehaviour
     public void StartServer()
     {
         m_NetworkManager.StartServer();
+
+        //Server optimizations
         Camera.main.gameObject.SetActive(false);
     }
 }
