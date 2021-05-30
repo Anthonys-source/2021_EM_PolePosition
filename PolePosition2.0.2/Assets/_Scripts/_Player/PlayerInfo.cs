@@ -10,4 +10,6 @@ public class PlayerInfo : MonoBehaviour
     public int CarColorID;
     public int CurrentPosition;
     public int CurrentLap;
+    public int CurrentLapTime;
+    public int CurrentRaceTime;
 }
