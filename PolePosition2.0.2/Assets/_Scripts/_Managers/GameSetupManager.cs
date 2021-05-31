@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class GameSetupManager : MonoBehaviour
 {
-    [SerializeField] private MyNetworkManager m_NetworkManager;
+    [SerializeField] private MyNetworkManager networkManager;
 
     public void StartHost()
     {
-        m_NetworkManager.StartHost();
+        networkManager.StartHost();
     }
 
     public void StartClient(string serverIP)
     {
-        m_NetworkManager.StartClient();
-        m_NetworkManager.networkAddress = serverIP;
+        networkManager.StartClient();
+        networkManager.networkAddress = serverIP;
     }
 
     public void StopClient()
     {
-        m_NetworkManager.StopClient();
+        networkManager.StopClient();
     }
 
     public void StartServer()
     {
-        m_NetworkManager.StartServer();
+        networkManager.StartServer();
 
         //Server optimizations
         Camera camera = Camera.main;

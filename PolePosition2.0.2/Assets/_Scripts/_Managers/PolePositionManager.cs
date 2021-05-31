@@ -10,41 +10,41 @@ using System.Linq;
 public class PolePositionManager : NetworkBehaviour
 {
     private int numPlayers;
-    [SerializeField] private List<PlayerInfo> _players = new List<PlayerInfo>(4);
-    private object _playersLock = new object();
+    [SerializeField] private List<PlayerInfo> playersList = new List<PlayerInfo>(4);
+    private object playersListLock = new object();
 
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
     private float timeSinceLeaderboardUpdate = 0.0f;
 
-    private MyNetworkManager _networkManager;
-    private UIManager _uiManager;
-    private CircuitController _circuitController;
+    private MyNetworkManager networkManager;
+    private UIManager uiManager;
+    private CircuitController circuitController;
 
-    private GameObject[] _debuggingSpheres;
+    private GameObject[] debuggingSpheres;
 
     private void Awake()
     {
         //Doing this limits us to only having one component of each type per scene
-        if (_networkManager == null) _networkManager = FindObjectOfType<MyNetworkManager>();
-        if (_circuitController == null) _circuitController = FindObjectOfType<CircuitController>();
-        if (_uiManager == null) _uiManager = FindObjectOfType<UIManager>();
+        if (networkManager == null) networkManager = FindObjectOfType<MyNetworkManager>();
+        if (circuitController == null) circuitController = FindObjectOfType<CircuitController>();
+        if (uiManager == null) uiManager = FindObjectOfType<UIManager>();
 
         //Initialize time since update to the update time
         //so the first update in the client happens immediatly
         timeSinceLeaderboardUpdate = leaderboardUpdateTime;
 
         //Debugging positions in race
-        _debuggingSpheres = new GameObject[_networkManager.maxConnections];
-        for (int i = 0; i < _networkManager.maxConnections; ++i)
+        debuggingSpheres = new GameObject[networkManager.maxConnections];
+        for (int i = 0; i < networkManager.maxConnections; ++i)
         {
-            _debuggingSpheres[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            _debuggingSpheres[i].GetComponent<SphereCollider>().enabled = false;
+            debuggingSpheres[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            debuggingSpheres[i].GetComponent<SphereCollider>().enabled = false;
         }
     }
 
     private void Update()
     {
-        if (_players.Count == 0)
+        if (playersList.Count == 0)
             return;
 
         if (isServer)
@@ -57,18 +57,18 @@ public class PolePositionManager : NetworkBehaviour
     [Server]
     public void AddPlayer(PlayerInfo player)
     {
-        lock (_playersLock)
+        lock (playersListLock)
         {
-            _players.Add(player);
+            playersList.Add(player);
         }
     }
 
     [Server]
     public void RemovePlayer(PlayerInfo player)
     {
-        lock (_playersLock)
+        lock (playersListLock)
         {
-            _players.Remove(player);
+            playersList.Remove(player);
         }
     }
 
@@ -80,18 +80,18 @@ public class PolePositionManager : NetworkBehaviour
         List<PlayerInfo> playerLeaderboard;
         float[] arcLengths;
 
-        lock (_playersLock)
+        lock (playersListLock)
         {
             // Update car arc-lengths
-            arcLengths = new float[_players.Count];
+            arcLengths = new float[playersList.Count];
 
-            for (int i = 0; i < _players.Count; ++i)
+            for (int i = 0; i < playersList.Count; ++i)
             {
                 arcLengths[i] = ComputeCarArcLength(i);
             }
 
             // Copying the list every frame might be explensive but its good enough for now
-            playerLeaderboard = _players.ToList<PlayerInfo>();
+            playerLeaderboard = playersList.ToList<PlayerInfo>();
         }
 
         playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
@@ -116,25 +116,25 @@ public class PolePositionManager : NetworkBehaviour
         // Compute the projection of the car position to the closest circuit 
         // path segment and accumulate the arc-length along of the car along
         // the circuit.
-        Vector3 carPos = this._players[id].transform.position;
+        Vector3 carPos = this.playersList[id].transform.position;
 
         int segIdx;
         float carDist;
         Vector3 carProj;
 
         float minArcL =
-            this._circuitController.ComputeClosestPointArcLength(carPos, out segIdx, out carProj, out carDist);
+            this.circuitController.ComputeClosestPointArcLength(carPos, out segIdx, out carProj, out carDist);
 
-        this._debuggingSpheres[id].transform.position = carProj;
+        this.debuggingSpheres[id].transform.position = carProj;
 
-        if (this._players[id].CurrentLap == 0)
+        if (this.playersList[id].CurrentLap == 0)
         {
-            minArcL -= _circuitController.CircuitLength;
+            minArcL -= circuitController.CircuitLength;
         }
         else
         {
-            minArcL += _circuitController.CircuitLength *
-                       (_players[id].CurrentLap - 1);
+            minArcL += circuitController.CircuitLength *
+                       (playersList[id].CurrentLap - 1);
         }
 
         return minArcL;
@@ -143,7 +143,7 @@ public class PolePositionManager : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdateUILeaderboard(string[] newLeaderboardNames)
     {
-        _uiManager.UpdateLeaderboardNames(newLeaderboardNames);
+        uiManager.UpdateLeaderboardNames(newLeaderboardNames);
     }
 
     private class PlayerInfoComparer : Comparer<PlayerInfo>

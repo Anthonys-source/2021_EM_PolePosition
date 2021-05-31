@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Game.UI
 {
+    /// <summary>
+    /// Base class for all UI Objects part of the UIManager
+    /// </summary>
     public class UIObject : MonoBehaviour
     {
         [SerializeField] protected GameObject UIContainer;

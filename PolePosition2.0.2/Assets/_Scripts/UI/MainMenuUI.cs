@@ -14,7 +14,7 @@ namespace Game.UI
         [SerializeField] private InputField inputFieldIP;
         public string SelectedIP { get => inputFieldIP.text; }
 
-        [HideInInspector] public UIManager _uiManager;
+        [HideInInspector] public UIManager uiManager;
 
         private void Start()
         {
@@ -25,25 +25,25 @@ namespace Game.UI
 
         public void SetUIManager(UIManager uiManager)
         {
-            _uiManager = uiManager;
+            this.uiManager = uiManager;
         }
 
         private void SelectHost()
         {
-            _uiManager._selectedGameType = GameTypes.Host;
-            _uiManager.ActivatePreGameUI();
+            uiManager.selectedGameType = GameTypes.Host;
+            uiManager.ActivatePreGameUI();
         }
 
         private void SelectClient()
         {
-            _uiManager._selectedGameType = GameTypes.Client;
-            _uiManager.ActivatePreGameUI();
+            uiManager.selectedGameType = GameTypes.Client;
+            uiManager.ActivatePreGameUI();
         }
 
         private void SelectServer()
         {
-            _uiManager.gameSetupManager.StartServer();
-            _uiManager.ActivateServerUI();
+            uiManager.gameSetupManager.StartServer();
+            uiManager.ActivateServerUI();
         }
     }
 }

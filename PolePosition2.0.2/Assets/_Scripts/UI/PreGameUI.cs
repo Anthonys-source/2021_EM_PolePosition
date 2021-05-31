@@ -10,9 +10,8 @@ namespace Game.UI
         [Header("Pre Game")]
         [SerializeField] private InputField inputFieldPlayerName;
         [SerializeField] private Dropdown dropdownCarColorID;
-        [SerializeField] public Button buttonGo;
-
-        [HideInInspector] public UIManager _uiManager;
+        [SerializeField] private Button buttonGo;
+        private UIManager uiManager;
 
         public string SelectedName { get => inputFieldPlayerName.text; }
         public int SelectedCarColorID { get => dropdownCarColorID.value; }
@@ -24,28 +23,28 @@ namespace Game.UI
 
         public void SetUIManager(UIManager uiManager)
         {
-            _uiManager = uiManager;
+            this.uiManager = uiManager;
         }
 
         public void StartGame()
         {
-            switch (_uiManager._selectedGameType)
+            switch (uiManager.selectedGameType)
             {
                 case GameTypes.Client:
 
-                    _uiManager.gameSetupManager.StartClient(_uiManager._mainMenuUI.SelectedIP);
+                    uiManager.gameSetupManager.StartClient(uiManager.mainMenuUI.SelectedIP);
 
                     break;
                 case GameTypes.Host:
 
-                    _uiManager.gameSetupManager.StartHost();
+                    uiManager.gameSetupManager.StartHost();
 
                     break;
                 default:
                     break;
             }
 
-            _uiManager.ActivateInGameHUD();
+            uiManager.ActivateInGameHUD();
         }
     }
 }

@@ -9,27 +9,24 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public GameSetupManager gameSetupManager;
-    public MainMenuUI _mainMenuUI;
-    public PreGameUI _preGameUI;
-    public InGameUI _inGameUI;
-    public ServerUI _serverUI;
+    public MainMenuUI mainMenuUI;
+    public PreGameUI preGameUI;
+    public InGameUI inGameUI;
+    public ServerUI serverUI;
 
-    [HideInInspector] public GameTypes _selectedGameType = GameTypes.Host;
+    // Current selected game "Type" (Host,Client,Server) that the game
+    // instance will try to start
+    [HideInInspector] public GameTypes selectedGameType = GameTypes.Host;
 
-    //Used to setup player
-    //Not the cleanest aproach
-    public string EnteredPlayerName { get => _preGameUI.SelectedName; }
-    public int EnteredCarColorID { get => _preGameUI.SelectedCarColorID; }
+    // The UI has the configuration of the player that will be passed
+    // on connection with the server, This is horrible
+    public string EnteredPlayerName { get => preGameUI.SelectedName; }
+    public int EnteredCarColorID { get => preGameUI.SelectedCarColorID; }
 
     private void Awake()
     {
-        if (gameSetupManager == null)
-        {
-            Debug.LogError("Null reference");
-        }
-
-        _mainMenuUI.SetUIManager(this);
-        _preGameUI.SetUIManager(this);
+        mainMenuUI.SetUIManager(this);
+        preGameUI.SetUIManager(this);
     }
 
     private void Start()
@@ -41,49 +38,53 @@ public class UIManager : MonoBehaviour
 
     public void UpdateSpeed(int speed)
     {
-        _inGameUI.UpdateSpeed(speed);
+        inGameUI.UpdateSpeed(speed);
     }
 
     public void UpdateLaps(int newLap)
     {
-        _inGameUI.UpdateLaps(newLap);
+        inGameUI.UpdateLaps(newLap);
     }
 
     public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
-        _inGameUI.UpdateLeaderboardNames(playerLeaderboard);
+        inGameUI.UpdateLeaderboardNames(playerLeaderboard);
     }
 
     #endregion
 
+    #region Activate menu sections methods
+
     public void ActivateMainMenu()
     {
-        _mainMenuUI.Show();
-        _preGameUI.Hide();
-        _inGameUI.Hide();
+        mainMenuUI.Show();
+        preGameUI.Hide();
+        inGameUI.Hide();
     }
 
     public void ActivatePreGameUI()
     {
-        _mainMenuUI.Hide();
-        _preGameUI.Show();
-        _inGameUI.Hide();
+        mainMenuUI.Hide();
+        preGameUI.Show();
+        inGameUI.Hide();
     }
 
     public void ActivateInGameHUD()
     {
-        _mainMenuUI.Hide();
-        _preGameUI.Hide();
-        _inGameUI.Show();
+        mainMenuUI.Hide();
+        preGameUI.Hide();
+        inGameUI.Show();
     }
 
     public void ActivateServerUI()
     {
-        _mainMenuUI.Hide();
-        _preGameUI.Hide();
-        _inGameUI.Hide();
-        _serverUI.Show();
+        mainMenuUI.Hide();
+        preGameUI.Hide();
+        inGameUI.Hide();
+        serverUI.Show();
     }
+
+    #endregion
 }
 
 public enum GameTypes
