@@ -17,6 +17,11 @@ public class GameSetupManager : MonoBehaviour
         m_NetworkManager.networkAddress = serverIP;
     }
 
+    public void StopClient()
+    {
+        m_NetworkManager.StopClient();
+    }
+
     public void StartServer()
     {
         m_NetworkManager.StartServer();
