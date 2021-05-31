@@ -9,16 +9,16 @@ using System.Linq;
 
 public class PolePositionManager : NetworkBehaviour
 {
-    public int numPlayers;
-    private MyNetworkManager _networkManager;
-    private UIManager _uiManager;
-    private CircuitController _circuitController;
-
+    private int numPlayers;
     [SerializeField] private List<PlayerInfo> _players = new List<PlayerInfo>(4);
     private object _playersLock = new object();
 
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
-    private float timeSinceLastLeaderboardUpdate = 0.0f;
+    private float timeSinceLeaderboardUpdate = 0.0f;
+
+    private MyNetworkManager _networkManager;
+    private UIManager _uiManager;
+    private CircuitController _circuitController;
 
     private GameObject[] _debuggingSpheres;
 
@@ -29,7 +29,9 @@ public class PolePositionManager : NetworkBehaviour
         if (_circuitController == null) _circuitController = FindObjectOfType<CircuitController>();
         if (_uiManager == null) _uiManager = FindObjectOfType<UIManager>();
 
-        timeSinceLastLeaderboardUpdate = leaderboardUpdateTime;
+        //Initialize time since update to the update time
+        //so the first update in the client happens immediatly
+        timeSinceLeaderboardUpdate = leaderboardUpdateTime;
 
         //Debugging positions in race
         _debuggingSpheres = new GameObject[_networkManager.maxConnections];
@@ -48,7 +50,7 @@ public class PolePositionManager : NetworkBehaviour
         if (isServer)
         {
             UpdateRaceProgress();
-            timeSinceLastLeaderboardUpdate += Time.deltaTime;
+            timeSinceLeaderboardUpdate += Time.deltaTime;
         }
     }
 
@@ -100,11 +102,11 @@ public class PolePositionManager : NetworkBehaviour
             newLeaderboardNames[i] = playerLeaderboard[i].PlayerName;
         }
 
-        //Solo actualizar el leaderboard cada X ms
-        if (timeSinceLastLeaderboardUpdate >= leaderboardUpdateTime)
+        //Check if the leaderboard should be updated in the client
+        if (timeSinceLeaderboardUpdate >= leaderboardUpdateTime)
         {
             RpcUpdateUILeaderboard(newLeaderboardNames);
-            timeSinceLastLeaderboardUpdate = 0.0f;
+            timeSinceLeaderboardUpdate = 0.0f;
         }
     }
 
