@@ -22,6 +22,8 @@ public class GameSetupManager : MonoBehaviour
         m_NetworkManager.StartServer();
 
         //Server optimizations
-        Camera.main.gameObject.SetActive(false);
+        Camera camera = Camera.main;
+        camera.gameObject.SetActive(false);
+        camera.transform.position = new Vector3(9999.0f, 9999.0f, 9999.0f);
     }
 }
