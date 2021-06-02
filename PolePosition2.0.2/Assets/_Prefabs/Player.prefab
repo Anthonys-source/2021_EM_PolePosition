@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 1137246169109603126}
   - component: {fileID: 6346869062069434778}
   - component: {fileID: 2697569808015383802}
+  - component: {fileID: 8334445842563561539}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -215,6 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 370ebdb6a034beb4dad079ecb19fb3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerName: 
+  ID: 0
+  CarColorID: 0
+  CurrentPosition: 0
+  CurrentLap: 0
+  CurrentLapTime: 0
+  CurrentRaceTime: 0
 --- !u!114 &8557345407659960335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +310,20 @@ MonoBehaviour:
   interpolateScale: 1
   syncScale: 1
   target: {fileID: 1170538449349667297}
+--- !u!114 &8334445842563561539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508097745644926054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189898ac761ec3740a0728e278ff25f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  spawn: {fileID: 0}
 --- !u!1 &3266956378083433421
 GameObject:
   m_ObjectHideFlags: 0

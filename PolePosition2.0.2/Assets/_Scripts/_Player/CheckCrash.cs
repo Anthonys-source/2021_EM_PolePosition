@@ -1,35 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class CheckCrash : MonoBehaviour
+public class CheckCrash : NetworkBehaviour
 {
-    public GameObject manager;
-    private PolePositionManager component;
-    private List<PlayerInfo> players;
+    public Vector3 spawnPos;
+    public Quaternion spawnRot;
+    private float maxTime = 2;
+    float actTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        component = manager.GetComponent<PolePositionManager>();
-        players = component.playersList;
+        spawnPos = this.transform.position;
+        spawnRot = this.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkUp();
+        if (!isServer)
+            return;
+        if (checkUp())
+        {
+            actTime += Time.deltaTime;
+        }
+        if(actTime > maxTime)
+        {
+            Respawn();
+            actTime = 0;
+        }
     }
 
-    private void checkUp()
+    [Server]
+    private bool checkUp()
     {
-        foreach(PlayerInfo jugador in players)
+        Vector3 dir = this.transform.up;
+        if(Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 85)
         {
-            Vector3 dir = jugador.gameObject.transform.up;
-            if(Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 90)
-            {
-                Debug.Log($"Has volcado {dir}");
-            }
+            Debug.Log($"Has volcado {dir}");
+            return true;
         }
+        return false;
+    }
+
+    [Server]
+    public void Respawn()
+    {
+        this.transform.position = spawnPos;
+        this.transform.rotation = spawnRot;
     }
 }
