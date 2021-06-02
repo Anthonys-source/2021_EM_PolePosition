@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public PreGameUI preGameUI;
     public InGameUI inGameUI;
     public ServerUI serverUI;
+    public LobbyUI lobbyUI;
 
     // Current selected game "Type" (Host,Client,Server) that the game
     // instance will try to start
@@ -27,6 +28,7 @@ public class UIManager : MonoBehaviour
     {
         mainMenuUI.SetUIManager(this);
         preGameUI.SetUIManager(this);
+        lobbyUI.SetUIManager(this);
     }
 
     private void Start()
@@ -59,6 +61,7 @@ public class UIManager : MonoBehaviour
     {
         mainMenuUI.Show();
         preGameUI.Hide();
+        lobbyUI.Hide();
         inGameUI.Hide();
     }
 
@@ -66,6 +69,15 @@ public class UIManager : MonoBehaviour
     {
         mainMenuUI.Hide();
         preGameUI.Show();
+        lobbyUI.Hide();
+        inGameUI.Hide();
+    }
+
+    public void ActivateLobbyUI()
+    {
+        mainMenuUI.Hide();
+        preGameUI.Hide();
+        lobbyUI.Show();
         inGameUI.Hide();
     }
 
@@ -73,6 +85,7 @@ public class UIManager : MonoBehaviour
     {
         mainMenuUI.Hide();
         preGameUI.Hide();
+        lobbyUI.Hide();
         inGameUI.Show();
     }
 
@@ -80,6 +93,7 @@ public class UIManager : MonoBehaviour
     {
         mainMenuUI.Hide();
         preGameUI.Hide();
+        lobbyUI.Hide();
         inGameUI.Hide();
         serverUI.Show();
     }
