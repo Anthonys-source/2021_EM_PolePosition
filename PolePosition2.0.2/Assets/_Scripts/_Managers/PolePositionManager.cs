@@ -10,7 +10,7 @@ using System.Linq;
 public class PolePositionManager : NetworkBehaviour
 {
     private int numPlayers;
-    [SerializeField] private List<PlayerInfo> playersList = new List<PlayerInfo>(4);
+    [SerializeField] public List<PlayerInfo> playersList = new List<PlayerInfo>(4);
     private object playersListLock = new object();
 
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
@@ -21,7 +21,7 @@ public class PolePositionManager : NetworkBehaviour
     private CircuitController circuitController;
 
     private GameObject[] debuggingSpheres;
-
+    
     private void Awake()
     {
         //Doing this limits us to only having one component of each type per scene
