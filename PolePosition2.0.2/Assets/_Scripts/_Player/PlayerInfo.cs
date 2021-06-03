@@ -12,4 +12,5 @@ public class PlayerInfo : MonoBehaviour
     public int CurrentLap;
     public int CurrentLapTime;
     public int CurrentRaceTime;
+    public int LastCheckpoint;
 }
