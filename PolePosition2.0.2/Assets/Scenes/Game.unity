@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 262362652}
   - component: {fileID: 262362653}
   - component: {fileID: 262362654}
+  - component: {fileID: 262362655}
   m_Layer: 0
   m_Name: Checkpoint1
   m_TagString: Untagged
@@ -227,6 +228,23 @@ MonoBehaviour:
   syncInterval: 0.1
   id: 0
   lastIndex: 0
+--- !u!114 &262362655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262362651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2100274940
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!224 &353117483 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6415909394493063714, guid: 5c339809502a33749b546f6663bcfb75,
@@ -244,6 +262,7 @@ GameObject:
   - component: {fileID: 362954049}
   - component: {fileID: 362954050}
   - component: {fileID: 362954051}
+  - component: {fileID: 362954052}
   m_Layer: 0
   m_Name: Checkpoint2
   m_TagString: Untagged
@@ -294,6 +313,23 @@ MonoBehaviour:
   syncInterval: 0.1
   id: 0
   lastIndex: 0
+--- !u!114 &362954052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362954048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3656740199
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &372009857
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +443,7 @@ GameObject:
   - component: {fileID: 402660873}
   - component: {fileID: 402660874}
   - component: {fileID: 402660875}
+  - component: {fileID: 402660876}
   m_Layer: 0
   m_Name: Checkpoint4
   m_TagString: Untagged
@@ -457,6 +494,23 @@ MonoBehaviour:
   syncInterval: 0.1
   id: 0
   lastIndex: 0
+--- !u!114 &402660876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402660872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1482794352
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &656657758
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +552,7 @@ GameObject:
   - component: {fileID: 834616562}
   - component: {fileID: 834616563}
   - component: {fileID: 834616564}
+  - component: {fileID: 834616565}
   m_Layer: 0
   m_Name: Checkpoint3
   m_TagString: Untagged
@@ -548,6 +603,23 @@ MonoBehaviour:
   syncInterval: 0.1
   id: 0
   lastIndex: 0
+--- !u!114 &834616565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834616561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1769115989
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!114 &962411791 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8671339276065254192, guid: 5c339809502a33749b546f6663bcfb75,
@@ -1356,6 +1428,7 @@ GameObject:
   - component: {fileID: 2054080700}
   - component: {fileID: 2054080701}
   - component: {fileID: 2054080702}
+  - component: {fileID: 2054080703}
   m_Layer: 0
   m_Name: Checkpoint0
   m_TagString: Untagged
@@ -1406,6 +1479,23 @@ MonoBehaviour:
   syncInterval: 0.1
   id: 0
   lastIndex: 0
+--- !u!114 &2054080703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054080699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1901376902
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &2140735089
 GameObject:
   m_ObjectHideFlags: 0

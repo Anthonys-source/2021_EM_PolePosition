@@ -27,8 +27,8 @@ public class CheckpointCheck : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (!isServer)
-            return;*/
+        if (!isServer)
+            return;
         if (respawn)
         {
             actTime += Time.deltaTime;
