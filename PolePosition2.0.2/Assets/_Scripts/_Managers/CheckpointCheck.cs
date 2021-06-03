@@ -63,11 +63,18 @@ public class CheckpointCheck : NetworkBehaviour
         else if (id == 0 && (player.LastCheckpoint == scriptManager.checkpointList[lastIndex].GetComponent<CheckpointCheck>().id))
         {
             Debug.Log("VUELTA COMPLETADA");
+            player.CurrentLap++;
             player.LastCheckpoint = id;
+            Debug.Log("Vuelta " + player.CurrentLap);
         }
         else if(id < player.LastCheckpoint /*|| id == player.LastCheckpoint*/)
         {
             Debug.Log("Estás yendo al revés");
+            respawn = true;
+        }
+        else
+        {
+            Debug.Log("Te has saltado un checkpoint");
             respawn = true;
         }
     }
