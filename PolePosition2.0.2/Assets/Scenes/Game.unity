@@ -1048,6 +1048,7 @@ MonoBehaviour:
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
+  maxLaps: 3
   leaderboardUpdateTime: 0.125
 --- !u!4 &1839589614
 Transform:
@@ -1431,7 +1432,7 @@ GameObject:
   - component: {fileID: 2054080703}
   m_Layer: 0
   m_Name: Checkpoint0
-  m_TagString: Untagged
+  m_TagString: FinishLine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

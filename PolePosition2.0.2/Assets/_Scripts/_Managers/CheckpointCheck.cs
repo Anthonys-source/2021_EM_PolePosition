@@ -44,7 +44,7 @@ public class CheckpointCheck : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("CHECKPOINT!");
+        //Debug.Log("CHECKPOINT!");
         int idCar = other.gameObject.GetComponent<PlayerInfo>().ID;
         Check(idCar);
     }
@@ -72,7 +72,7 @@ public class CheckpointCheck : NetworkBehaviour
             Debug.Log("Estás yendo al revés");
             respawn = true;
         }
-        else
+        else if(id != player.LastCheckpoint)
         {
             Debug.Log("Te has saltado un checkpoint");
             respawn = true;

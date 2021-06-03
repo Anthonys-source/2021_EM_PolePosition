@@ -14,6 +14,10 @@ public class PolePositionManager : NetworkBehaviour
     private object playersListLock = new object();
     public GameObject checkpointManager;
     public List<GameObject> checkpointList = new List<GameObject>();
+
+    public int maxLaps;
+    public List<float[]> playerTimes = new List<float[]>(4);
+
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
     private float timeSinceLeaderboardUpdate = 0.0f;
 
@@ -31,6 +35,11 @@ public class PolePositionManager : NetworkBehaviour
             checkpointList[i].GetComponent<CheckpointCheck>().id = i;
         }
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
+
+        for(int i = 0; i<4; i++)
+        {
+            playerTimes.Add(new float[maxLaps+1]);
+        }
 
         //Doing this limits us to only having one component of each type per scene
         if (networkManager == null) networkManager = FindObjectOfType<MyNetworkManager>();
