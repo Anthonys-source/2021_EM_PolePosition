@@ -8,6 +8,7 @@ public class CheckpointCheck : NetworkBehaviour
 
     public int id;
     private GameObject manager;
+    private PolePositionManager scriptManager;
     public int lastIndex; //El indice del ultimo checkpoint en la lista de checkpoints
     private PlayerInfo player;
     private bool respawn;
@@ -19,6 +20,7 @@ public class CheckpointCheck : NetworkBehaviour
     void Awake()
     {
         manager = GameObject.FindGameObjectWithTag("MainManager");
+        scriptManager = manager.GetComponent<PolePositionManager>();
         respawn = false;
     }
 
@@ -34,8 +36,8 @@ public class CheckpointCheck : NetworkBehaviour
         if(actTime > maxTime)
         {
             actTime = 0;
-            player.gameObject.transform.position = manager.GetComponent<PolePositionManager>().checkpointList[player.LastCheckpoint].transform.position;
-            player.gameObject.transform.rotation = manager.GetComponent<PolePositionManager>().checkpointList[player.LastCheckpoint].transform.rotation;
+            player.gameObject.transform.position = player.spawnPos;
+            player.gameObject.transform.rotation = player.spawnRot;
             respawn = false;
         }
     }
@@ -50,13 +52,15 @@ public class CheckpointCheck : NetworkBehaviour
     [Server]
     private void Check(int idCar)
     {
-        player = manager.GetComponent<PolePositionManager>().playersList[idCar];
+        player = scriptManager.playersList[idCar];
         if (id == player.LastCheckpoint+1)
         {
             Debug.Log("Vas bien");
             player.LastCheckpoint = id;
+            player.spawnPos = scriptManager.checkpointList[player.LastCheckpoint].transform.position;
+            player.spawnRot = scriptManager.checkpointList[player.LastCheckpoint].transform.rotation;
         }
-        else if (id == 0 && (player.LastCheckpoint == manager.GetComponent<PolePositionManager>().checkpointList[lastIndex].GetComponent<CheckpointCheck>().id))
+        else if (id == 0 && (player.LastCheckpoint == scriptManager.checkpointList[lastIndex].GetComponent<CheckpointCheck>().id))
         {
             Debug.Log("VUELTA COMPLETADA");
             player.LastCheckpoint = id;

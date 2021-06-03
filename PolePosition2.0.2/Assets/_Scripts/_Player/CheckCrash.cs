@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class CheckCrash : NetworkBehaviour
 {
-    public Vector3 spawnPos;
-    public Quaternion spawnRot;
+    /*public Vector3 spawnPos;
+    public Quaternion spawnRot;*/
+    private GameObject manager;
+    private PolePositionManager scriptManager;
     private float maxTime = 2;
     float actTime = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnPos = this.transform.position;
-        spawnRot = this.transform.rotation;
+        /*spawnPos = this.transform.position;
+        spawnRot = this.transform.rotation;*/
+        manager = GameObject.FindGameObjectWithTag("MainManager");
+        scriptManager = manager.GetComponent<PolePositionManager>();
     }
 
     // Update is called once per frame
@@ -37,7 +41,7 @@ public class CheckCrash : NetworkBehaviour
     private bool checkUp()
     {
         Vector3 dir = this.transform.up;
-        if(Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 85)
+        if(Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 40)
         {
             Debug.Log($"Has volcado {dir}");
             return true;
@@ -48,7 +52,9 @@ public class CheckCrash : NetworkBehaviour
     [Server]
     public void Respawn()
     {
-        this.transform.position = spawnPos;
-        this.transform.rotation = spawnRot;
+        /*this.transform.position = spawnPos;
+        this.transform.rotation = spawnRot;*/
+        this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+        this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
     }
 }

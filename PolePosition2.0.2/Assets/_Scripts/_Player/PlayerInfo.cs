@@ -13,4 +13,6 @@ public class PlayerInfo : MonoBehaviour
     public int CurrentLapTime;
     public int CurrentRaceTime;
     public int LastCheckpoint;
+    public Vector3 spawnPos;
+    public Quaternion spawnRot;
 }
