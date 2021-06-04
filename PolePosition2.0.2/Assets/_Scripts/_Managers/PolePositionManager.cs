@@ -9,47 +9,64 @@ using System.Linq;
 
 public class PolePositionManager : NetworkBehaviour
 {
-    private int numPlayers;
+    public static PolePositionManager instance;
+    public bool raceStarted = false;
+    public int minPlayersReady = 1;
+
+    // Player List
     [SerializeField] public List<PlayerInfo> playersList = new List<PlayerInfo>(4);
-    private object playersListLock = new object();
+    public object playersListLock = new object();
+
+    // Checkpoints
     public GameObject checkpointManager;
     public List<GameObject> checkpointList = new List<GameObject>();
 
+    // Laps and LapTime
     public int maxLaps;
     public List<float[]> playerTimes = new List<float[]>(4);
 
+    // Leaderboard Update
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
     private float timeSinceLeaderboardUpdate = 0.0f;
 
+    // Dependencies
     private MyNetworkManager networkManager;
     private UIManager uiManager;
     private CircuitController circuitController;
 
+    // Debug
     private GameObject[] debuggingSpheres;
-    public GameObject camera;
+
+    // Original Camera
     public Vector3 originalCameraPos;
     public Quaternion originalCameraRot;
-    
+
     private void Awake()
     {
+        // Singleton Declaration
+        if (instance == null)
+            instance = this;
+        else
+            Debug.LogWarning("There is more than one " + nameof(PolePositionManager));
+
         //Guardar todos los chekcpoints de la carrera
-        for(int i = 0; i<checkpointManager.transform.childCount; i++)
+        for (int i = 0; i < checkpointManager.transform.childCount; i++)
         {
             checkpointList.Add(checkpointManager.transform.GetChild(i).gameObject);
             checkpointList[i].GetComponent<CheckpointCheck>().id = i;
         }
-        
+
         //Para saber cual es el ultimo checkpoint y usarlo cuando se cuenten las vueltas
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
-        
+
         //Instanciar los arrays para los tiempos por vuelta de cada jugador
-        for(int i = 0; i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            playerTimes.Add(new float[maxLaps+1]);
+            playerTimes.Add(new float[maxLaps + 1]);
         }
 
         //Guardar los valores de la camara en el menu del inicio
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        Camera camera = Camera.main;
         originalCameraPos = camera.transform.position;
         originalCameraRot = camera.transform.rotation;
 
@@ -84,6 +101,27 @@ public class PolePositionManager : NetworkBehaviour
     }
 
     [Server]
+    public void CheckPlayersReady()
+    {
+        int playersReady = 0;
+
+        lock (playersListLock)
+        {
+            foreach (PlayerInfo player in playersList)
+            {
+                if (player.playerReady)
+                    playersReady++;
+            }
+        }
+
+        if (playersReady >= minPlayersReady)
+        {
+            raceStarted = true;
+            RpcActivateInGameUI();
+        }
+    }
+
+    [Server]
     public void AddPlayer(PlayerInfo player)
     {
         lock (playersListLock)
@@ -99,6 +137,12 @@ public class PolePositionManager : NetworkBehaviour
         {
             playersList.Remove(player);
         }
+    }
+
+    [ClientRpc]
+    public void RpcActivateInGameUI()
+    {
+        UIManager.instance.ActivateInGameHUD();
     }
 
     #region Update Leaderboard

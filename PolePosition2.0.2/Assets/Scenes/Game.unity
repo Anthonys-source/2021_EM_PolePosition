@@ -728,6 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: 
   carColorID: 0
+  carReady: 0
 --- !u!114 &962411791 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8671339276065254192, guid: 5c339809502a33749b546f6663bcfb75,
@@ -1209,12 +1210,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  raceStarted: 0
+  minPlayersReady: 2
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
   maxLaps: 3
   leaderboardUpdateTime: 0.125
-  camera: {fileID: 0}
   originalCameraPos: {x: 0, y: 0, z: 0}
   originalCameraRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1839589614

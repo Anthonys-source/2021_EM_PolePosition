@@ -109,9 +109,12 @@ public class PlayerController : NetworkBehaviour
 
     public void FixedUpdate()
     {
-        //Only calculate the physics in the server
+        // If you are not the Server or the race hasn't started yet dont calculate
+        // the movement physics
         if (!isServer) return;
+        if (!PolePositionManager.instance.raceStarted) return;
 
+        // Clamp input values, this might be redundant
         inputSteering = Mathf.Clamp(inputSteering, -1, 1);
         inputAcceleration = Mathf.Clamp(inputAcceleration, -1, 1);
         inputBrake = Mathf.Clamp(inputBrake, 0, 1);

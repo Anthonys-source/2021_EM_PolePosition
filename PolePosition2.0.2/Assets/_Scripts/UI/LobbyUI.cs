@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace Game.UI
 {
@@ -9,17 +10,17 @@ namespace Game.UI
     {
         [Header("Lobby")]
         [SerializeField] private Button buttonGo;
-        private PolePositionManager ppm;
+        public event Action<bool> onReadyStateChange = delegate { };
 
         //public string SelectedName { get => inputFieldPlayerName.text; }
         //public int SelectedCarColorID { get => dropdownCarColorID.value; }
 
         private void Awake()
         {
-            buttonGo.onClick.AddListener(StartGame);
+            buttonGo.onClick.AddListener(ReadyUp);
         }
 
-        public void StartGame()
+        public void ReadyUp()
         {
             //switch (uiManager.selectedGameType)
             //{
@@ -36,7 +37,7 @@ namespace Game.UI
             //    default:
             //        break;
             //}
-
+            onReadyStateChange.Invoke(true);
             //uiManager.ActivateInGameHUD();
         }
     }

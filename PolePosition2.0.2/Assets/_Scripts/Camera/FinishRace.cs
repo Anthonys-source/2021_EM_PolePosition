@@ -6,22 +6,22 @@ using Mirror;
 
 public class FinishRace : NetworkBehaviour
 {
-    private GameObject camera;
-    private GameObject uiMan;
+    private Camera cam;
+    private UIManager uiMan;
 
     private void Start()
     {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
-        uiMan = GameObject.FindGameObjectWithTag("UIManager");
+        cam = Camera.main;
+        uiMan = UIManager.instance;
     }
 
     //Cuando termina la carrera un jugador, vuelve al menu de inicio
     [ClientRpc]
     public void BackToMenu(PolePositionManager scriptManager)
     {
-        camera.transform.position = scriptManager.originalCameraPos;
-        camera.transform.rotation = scriptManager.originalCameraRot;
-        camera.GetComponent<CameraController>().m_Focus = null;
+        cam.transform.position = scriptManager.originalCameraPos;
+        cam.transform.rotation = scriptManager.originalCameraRot;
+        cam.GetComponent<CameraController>().m_Focus = null;
         uiMan.GetComponent<UIManager>().ActivateMainMenu();
         NetworkManager.singleton.StopClient();
         /*for (int i = 0; i < scriptManager.playersList.Count; i++)
@@ -29,7 +29,6 @@ public class FinishRace : NetworkBehaviour
             Destroy(scriptManager.playersList[i].gameObject);
             //scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
         }*/
-
     }
 
     [Server]

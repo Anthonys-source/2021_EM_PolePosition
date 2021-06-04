@@ -77,6 +77,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
         //In each client this only executes in its own player car (Local Player)
         CmdSetPlayerName(clientData.playerName);
         CmdSetCarColor(clientData.carColorID);
+        UIManager.instance.lobbyUI.onReadyStateChange += CmdSetPlayerReady;
 
         _playerController.enabled = true;
         _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;
@@ -116,6 +117,20 @@ public class PlayerNetworkComponent : NetworkBehaviour
         SetName(name);
     }
     #endregion
+
+    [Server]
+    public void SetPlayerReady(bool ready)
+    {
+        _carReady = ready;
+        _playerInfo.playerReady = ready;
+        PolePositionManager.instance.CheckPlayersReady();
+    }
+
+    [Command]
+    public void CmdSetPlayerReady(bool ready)
+    {
+        SetPlayerReady(ready);
+    }
 
     #region Set Car Color Methods
     [Server]
