@@ -26,20 +26,32 @@ public class PolePositionManager : NetworkBehaviour
     private CircuitController circuitController;
 
     private GameObject[] debuggingSpheres;
+    public GameObject camera;
+    public Vector3 originalCameraPos;
+    public Quaternion originalCameraRot;
     
     private void Awake()
     {
+        //Guardar todos los chekcpoints de la carrera
         for(int i = 0; i<checkpointManager.transform.childCount; i++)
         {
             checkpointList.Add(checkpointManager.transform.GetChild(i).gameObject);
             checkpointList[i].GetComponent<CheckpointCheck>().id = i;
         }
+        
+        //Para saber cual es el ultimo checkpoint y usarlo cuando se cuenten las vueltas
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
-
+        
+        //Instanciar los arrays para los tiempos por vuelta de cada jugador
         for(int i = 0; i<4; i++)
         {
             playerTimes.Add(new float[maxLaps+1]);
         }
+
+        //Guardar los valores de la camara en el menu del inicio
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        originalCameraPos = camera.transform.position;
+        originalCameraRot = camera.transform.rotation;
 
         //Doing this limits us to only having one component of each type per scene
         if (networkManager == null) networkManager = FindObjectOfType<MyNetworkManager>();

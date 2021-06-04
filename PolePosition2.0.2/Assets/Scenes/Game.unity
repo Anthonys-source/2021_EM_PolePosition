@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 372009859}
   - component: {fileID: 372009858}
   - component: {fileID: 372009861}
+  - component: {fileID: 372009862}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -432,6 +433,20 @@ MonoBehaviour:
   m_Distance: 10
   m_Elevation: 8
   m_Following: 1
+--- !u!114 &372009862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372009857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da32b42c484a0e4bb5b934ba4cb6c1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &402660872
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,8 +1063,11 @@ MonoBehaviour:
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
-  maxLaps: 3
+  maxLaps: 2
   leaderboardUpdateTime: 0.125
+  camera: {fileID: 0}
+  originalCameraPos: {x: 0, y: 0, z: 0}
+  originalCameraRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1839589614
 Transform:
   m_ObjectHideFlags: 0

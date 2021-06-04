@@ -22,6 +22,7 @@ public class LapTimer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Cuando inicia la vuelta, se inicia el temporizador
         if (start)
         {
             playerData.CurrentLapTime += Time.deltaTime;
@@ -36,23 +37,28 @@ public class LapTimer : NetworkBehaviour
         }
     }
 
+    //Para guardar los tiempos por vuelta y finalizar la carrera
     [Server]
     private void saveCurrentTime()
     {
+        //Si ya ha dado la ultima vuelta
         if (scriptManager.maxLaps + 1 == playerData.CurrentLap)
         {
             Debug.Log("CARRERA TERMINADA");
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+            scriptManager.camera.GetComponent<FinishRace>().BackToMenu(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;
             return;
         }
+        //Si todavía está en la pole al inicio de la carrera
         if (playerData.CurrentLap == 0)
         {
             start = true;
             playerData.CurrentLap++;
             return;
         }
+        //Al finalizar una vuelta intermedia
         else
         {
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
