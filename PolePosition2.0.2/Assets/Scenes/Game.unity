@@ -1212,7 +1212,7 @@ MonoBehaviour:
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
-  maxLaps: 1
+  maxLaps: 3
   leaderboardUpdateTime: 0.125
   camera: {fileID: 0}
   originalCameraPos: {x: 0, y: 0, z: 0}
@@ -2718,6 +2718,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1002233196190300575, guid: 5c339809502a33749b546f6663bcfb75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4133104810384207927, guid: 5c339809502a33749b546f6663bcfb75,
         type: 3}
       propertyPath: clientData

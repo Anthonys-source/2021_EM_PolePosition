@@ -13,6 +13,10 @@ public class GameSetupManager : MonoBehaviour
 
     public void StartClient(string serverIP)
     {
+        if (serverIP.Equals(null) || serverIP == "")
+        {
+            serverIP = "localhost";
+        }
         networkManager.StartClient();
         networkManager.networkAddress = serverIP;
 

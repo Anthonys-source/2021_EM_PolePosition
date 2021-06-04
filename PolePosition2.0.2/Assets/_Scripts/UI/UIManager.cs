@@ -59,9 +59,9 @@ public class UIManager : MonoBehaviour
         inGameUI.UpdateSpeed(speed);
     }
 
-    public void UpdateLaps(int newLap)
+    public void UpdateLaps(int newLap, int maxLaps)
     {
-        inGameUI.UpdateLaps(newLap);
+        inGameUI.UpdateLaps(newLap, maxLaps);
     }
 
     public void UpdateLeaderboardNames(string[] playerLeaderboard)

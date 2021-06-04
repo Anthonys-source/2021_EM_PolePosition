@@ -17,11 +17,14 @@ public class CheckpointCheck : NetworkBehaviour
     
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        manager = GameObject.FindGameObjectWithTag("MainManager");
-        scriptManager = manager.GetComponent<PolePositionManager>();
-        respawn = false;
+        if (isServer)
+        {
+            manager = GameObject.FindGameObjectWithTag("MainManager");
+            scriptManager = manager.GetComponent<PolePositionManager>();
+            respawn = false;
+        }
     }
 
     // Update is called once per frame
@@ -42,8 +45,11 @@ public class CheckpointCheck : NetworkBehaviour
         }
     }
 
+    
     private void OnTriggerEnter(Collider other)
     {
+        if (!isServer)
+            return;
         //Debug.Log("CHECKPOINT!");
         int idCar = other.gameObject.GetComponent<PlayerInfo>().ID;
         Check(idCar);

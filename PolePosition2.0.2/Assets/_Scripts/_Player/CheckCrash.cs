@@ -15,10 +15,13 @@ public class CheckCrash : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*spawnPos = this.transform.position;
-        spawnRot = this.transform.rotation;*/
-        manager = GameObject.FindGameObjectWithTag("MainManager");
-        scriptManager = manager.GetComponent<PolePositionManager>();
+        if (isServer)
+        {
+            /*spawnPos = this.transform.position;
+            spawnRot = this.transform.rotation;*/
+            manager = GameObject.FindGameObjectWithTag("MainManager");
+            scriptManager = manager.GetComponent<PolePositionManager>();
+        }
     }
 
     // Update is called once per frame

@@ -17,9 +17,9 @@ namespace Game.UI
             textSpeed.text = "Speed " + speed + " Km/h";
         }
 
-        public void UpdateLaps(int currentLap)
+        public void UpdateLaps(int currentLap, int maxLaps)
         {
-
+            textLaps.text = "Laps: " + currentLap.ToString() + "/" + maxLaps;
         }
 
         /// <summary>

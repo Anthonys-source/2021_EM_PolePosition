@@ -23,6 +23,7 @@ public class FinishRace : NetworkBehaviour
         camera.transform.rotation = scriptManager.originalCameraRot;
         camera.GetComponent<CameraController>().m_Focus = null;
         uiMan.GetComponent<UIManager>().ActivateMainMenu();
+        NetworkManager.singleton.StopClient();
         /*for (int i = 0; i < scriptManager.playersList.Count; i++)
         {
             Destroy(scriptManager.playersList[i].gameObject);

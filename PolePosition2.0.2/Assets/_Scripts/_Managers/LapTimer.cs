@@ -11,14 +11,19 @@ public class LapTimer : NetworkBehaviour
     private bool start;
     private float counter;
     private GameObject aux;
+    //private GameObject uiMan;
     // Start is called before the first frame update
     void Start()
     {
-        manager = GameObject.FindGameObjectWithTag("MainManager");
-        scriptManager = manager.GetComponent<PolePositionManager>();
-        aux = GameObject.FindGameObjectWithTag("FinishRace");
-        playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
-        start = false;
+        if (isServer)
+        {
+            manager = GameObject.FindGameObjectWithTag("MainManager");
+            scriptManager = manager.GetComponent<PolePositionManager>();
+            aux = GameObject.FindGameObjectWithTag("FinishRace");
+            playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
+            //uiMan = GameObject.FindGameObjectWithTag("UIManager");
+            start = false;
+        }
     }
 
     // Update is called once per frame
@@ -33,6 +38,8 @@ public class LapTimer : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!isServer)
+            return;
         if(other.gameObject.tag == "FinishLine")
         {
             saveCurrentTime();
@@ -60,6 +67,7 @@ public class LapTimer : NetworkBehaviour
         {
             start = true;
             playerData.CurrentLap++;
+            UpdateGUI(playerData.CurrentLap, scriptManager.maxLaps);
             return;
         }
         //Al finalizar una vuelta intermedia
@@ -67,8 +75,15 @@ public class LapTimer : NetworkBehaviour
         {
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
             Debug.Log("Tiempo de vuelta " + (playerData.CurrentLap - 1) + " : " + playerData.CurrentLapTime);
+            UpdateGUI(playerData.CurrentLap, scriptManager.maxLaps);
             playerData.CurrentLapTime = 0;
             start = true;
         }
+    }
+
+    [ClientRpc]
+    private void UpdateGUI(int currentLap, int maxLaps)
+    {
+        UIManager.instance.UpdateLaps(currentLap, maxLaps);
     }
 }
