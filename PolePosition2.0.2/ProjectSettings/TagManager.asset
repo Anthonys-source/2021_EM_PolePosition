@@ -8,6 +8,8 @@ TagManager:
   - Puppet
   - MainManager
   - FinishLine
+  - FinishRace
+  - UIManager
   layers:
   - Default
   - TransparentFX

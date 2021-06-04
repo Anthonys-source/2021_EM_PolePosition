@@ -10,11 +10,13 @@ public class LapTimer : NetworkBehaviour
     private PlayerInfo playerData;
     private bool start;
     private float counter;
+    private GameObject aux;
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("MainManager");
         scriptManager = manager.GetComponent<PolePositionManager>();
+        aux = GameObject.FindGameObjectWithTag("FinishRace");
         playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
         start = false;
     }
@@ -46,8 +48,9 @@ public class LapTimer : NetworkBehaviour
         {
             Debug.Log("CARRERA TERMINADA");
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
-            scriptManager.camera.GetComponent<FinishRace>().BackToMenuServer(scriptManager);
-            scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
+            aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
+            aux.GetComponent<FinishRace>().ErasePlayers(scriptManager);
+            //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;
             return;

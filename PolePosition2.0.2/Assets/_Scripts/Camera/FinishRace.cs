@@ -1,30 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class FinishRace : NetworkBehaviour
 {
-    //Cuando termina la carrera un jugador, vuelve al menu de inicio
-    [Server]
-    public void BackToMenuServer(PolePositionManager scriptManager)
+    private GameObject camera;
+    private GameObject uiMan;
+
+    private void Start()
     {
-        this.transform.position = scriptManager.originalCameraPos;
-        this.transform.rotation = scriptManager.originalCameraRot;
-        this.GetComponent<CameraController>().m_Focus = null;
-        
-            for (int i = 0; i < scriptManager.playersList.Count; i++)
-            {
-                Destroy(scriptManager.playersList[i].gameObject);
-                scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
-            }
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        uiMan = GameObject.FindGameObjectWithTag("UIManager");
     }
 
-    [Client]
-    public void BackToMenuClient(PolePositionManager scriptManager)
+    //Cuando termina la carrera un jugador, vuelve al menu de inicio
+    [ClientRpc]
+    public void BackToMenu(PolePositionManager scriptManager)
     {
-        this.transform.position = scriptManager.originalCameraPos;
-        this.GetComponent<CameraController>().m_Focus = null;
-        this.transform.rotation = scriptManager.originalCameraRot;
+        camera.transform.position = scriptManager.originalCameraPos;
+        camera.transform.rotation = scriptManager.originalCameraRot;
+        camera.GetComponent<CameraController>().m_Focus = null;
+        uiMan.GetComponent<UIManager>().ActivateMainMenu();
+        /*for (int i = 0; i < scriptManager.playersList.Count; i++)
+        {
+            Destroy(scriptManager.playersList[i].gameObject);
+            //scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
+        }*/
+
+    }
+
+    [Server]
+    public void ErasePlayers(PolePositionManager scriptManager)
+    {
+        for (int i = 0; i < scriptManager.playersList.Count; i++)
+        {
+            Destroy(scriptManager.playersList[i].gameObject);
+            //scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
+        }
+        scriptManager.playersList.Clear();
     }
 }
