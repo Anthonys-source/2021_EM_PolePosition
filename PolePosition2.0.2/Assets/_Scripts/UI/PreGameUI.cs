@@ -11,19 +11,34 @@ namespace Game.UI
         [SerializeField] private InputField inputFieldPlayerName;
         [SerializeField] private Dropdown dropdownCarColorID;
         [SerializeField] private Button buttonGo;
-        private UIManager uiManager;
 
-        public string SelectedName { get => inputFieldPlayerName.text; }
-        public int SelectedCarColorID { get => dropdownCarColorID.value; }
+        [SerializeField] private ClientData clientData;
 
         private void Awake()
         {
             buttonGo.onClick.AddListener(StartGame);
         }
 
-        public void SetUIManager(UIManager uiManager)
+        private void OnEnable()
         {
-            this.uiManager = uiManager;
+            inputFieldPlayerName.onValueChanged.AddListener(SetClientName);
+            dropdownCarColorID.onValueChanged.AddListener(SetClientCarColorID);
+        }
+
+        private void OnDisable()
+        {
+            inputFieldPlayerName.onValueChanged.RemoveListener(SetClientName);
+            dropdownCarColorID.onValueChanged.RemoveListener(SetClientCarColorID);
+        }
+
+        private void SetClientName(string call)
+        {
+            clientData.playerName = call;
+        }
+
+        private void SetClientCarColorID(int call)
+        {
+            clientData.carColorID = call;
         }
 
         public void StartGame()
@@ -31,14 +46,14 @@ namespace Game.UI
             //switch (uiManager.selectedGameType)
             //{
             //    case GameTypes.Client:
-//
+            //
             //        uiManager.gameSetupManager.StartClient(uiManager.mainMenuUI.SelectedIP);
-//
+            //
             //        break;
             //    case GameTypes.Host:
-//
+            //
             //        uiManager.gameSetupManager.StartHost();
-//
+            //
             //        break;
             //    default:
             //        break;

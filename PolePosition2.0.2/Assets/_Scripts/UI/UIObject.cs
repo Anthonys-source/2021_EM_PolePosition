@@ -10,6 +10,7 @@ namespace Game.UI
     public class UIObject : MonoBehaviour
     {
         [SerializeField] protected GameObject UIContainer;
+        [HideInInspector] protected UIManager uiManager;
 
         public void Show()
         {
@@ -20,5 +21,11 @@ namespace Game.UI
         {
             UIContainer.SetActive(false);
         }
+
+        public void SetUIManager(UIManager uiManager)
+        {
+            this.uiManager = uiManager;
+        }
+
     }
 }
