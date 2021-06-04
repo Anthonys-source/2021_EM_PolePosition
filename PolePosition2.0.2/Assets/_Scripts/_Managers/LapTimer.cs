@@ -46,7 +46,8 @@ public class LapTimer : NetworkBehaviour
         {
             Debug.Log("CARRERA TERMINADA");
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
-            scriptManager.camera.GetComponent<FinishRace>().BackToMenu(scriptManager);
+            scriptManager.camera.GetComponent<FinishRace>().BackToMenuServer(scriptManager);
+            scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;
             return;
