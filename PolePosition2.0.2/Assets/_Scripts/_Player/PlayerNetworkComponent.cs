@@ -11,6 +11,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
 
     private PolePositionManager _polePositionManager;
     private UIManager _uiManager;
+    private ClientData clientData;
 
     [SyncVar] private int _id;
     [SyncVar] private int _currentLap;
@@ -26,6 +27,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
 
         _polePositionManager = FindObjectOfType<PolePositionManager>();
         _uiManager = FindObjectOfType<UIManager>();
+        clientData = FindObjectOfType<ClientData>();
     }
 
     #region Start & Stop Mirror Callbacks
@@ -72,8 +74,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         //In each client this only executes in its own player car (Local Player)
-        CmdSetPlayerName(_uiManager.EnteredPlayerName);
-        CmdSetCarColor(_uiManager.EnteredCarColorID);
+        CmdSetPlayerName(clientData.playerName);
+        CmdSetCarColor(clientData.carColorID);
 
         _playerController.enabled = true;
         _playerController.OnSpeedChangeEvent += OnSpeedChangeEventHandler;

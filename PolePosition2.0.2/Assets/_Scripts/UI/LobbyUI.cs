@@ -9,7 +9,6 @@ namespace Game.UI
     {
         [Header("Lobby")]
         [SerializeField] private Button buttonGo;
-        private UIManager uiManager;
 
         //public string SelectedName { get => inputFieldPlayerName.text; }
         //public int SelectedCarColorID { get => dropdownCarColorID.value; }
@@ -17,11 +16,6 @@ namespace Game.UI
         private void Awake()
         {
             buttonGo.onClick.AddListener(StartGame);
-        }
-
-        public void SetUIManager(UIManager uiManager)
-        {
-            this.uiManager = uiManager;
         }
 
         public void StartGame()
@@ -42,7 +36,7 @@ namespace Game.UI
                     break;
             }
 
-            uiManager.ActivateInGameHUD();
+            //uiManager.ActivateInGameHUD();
         }
     }
 }

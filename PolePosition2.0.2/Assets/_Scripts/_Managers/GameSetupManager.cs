@@ -15,6 +15,9 @@ public class GameSetupManager : MonoBehaviour
     {
         networkManager.StartClient();
         networkManager.networkAddress = serverIP;
+
+        // This will be replaced by the LobbyUI when the client has succesfuly connected
+        UIManager.instance.ActivateConnectingToServerUI();
     }
 
     public void StopClient()

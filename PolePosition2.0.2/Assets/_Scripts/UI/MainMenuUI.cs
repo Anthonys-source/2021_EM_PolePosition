@@ -14,18 +14,11 @@ namespace Game.UI
         [SerializeField] private InputField inputFieldIP;
         public string SelectedIP { get => inputFieldIP.text; }
 
-        [HideInInspector] public UIManager uiManager;
-
         private void Start()
         {
             buttonHost.onClick.AddListener(SelectHost);
             buttonClient.onClick.AddListener(SelectClient);
             buttonServer.onClick.AddListener(SelectServer);
-        }
-
-        public void SetUIManager(UIManager uiManager)
-        {
-            this.uiManager = uiManager;
         }
 
         private void SelectHost()

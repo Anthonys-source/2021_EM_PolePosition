@@ -10,25 +10,41 @@ public class UIManager : MonoBehaviour
 {
     public GameSetupManager gameSetupManager;
     public MainMenuUI mainMenuUI;
+    public ConnectingToServerUI connectingToServerUI;
     public PreGameUI preGameUI;
     public InGameUI inGameUI;
     public ServerUI serverUI;
     public LobbyUI lobbyUI;
 
+    private List<UIObject> uiElements = new List<UIObject>();
+
+    // Singleton Instance
+    public static UIManager instance;
+
     // Current selected game "Type" (Host,Client,Server) that the game
     // instance will try to start
     [HideInInspector] public GameTypes selectedGameType = GameTypes.Host;
 
-    // The UI has the configuration of the player that will be passed
-    // on connection with the server, This is horrible
-    public string EnteredPlayerName { get => preGameUI.SelectedName; }
-    public int EnteredCarColorID { get => preGameUI.SelectedCarColorID; }
-
     private void Awake()
     {
-        mainMenuUI.SetUIManager(this);
-        preGameUI.SetUIManager(this);
-        lobbyUI.SetUIManager(this);
+        // Initialize Singleton
+        if (instance == null)
+            instance = this;
+        else
+            Debug.LogWarning("There is more than one UIManager object");
+
+        // Initialize all UIObjects
+        uiElements.Add(mainMenuUI);
+        uiElements.Add(connectingToServerUI);
+        uiElements.Add(preGameUI);
+        uiElements.Add(inGameUI);
+        uiElements.Add(serverUI);
+        uiElements.Add(lobbyUI);
+
+        foreach (UIObject uIObject in uiElements)
+        {
+            uIObject.SetUIManager(this);
+        }
     }
 
     private void Start()
@@ -57,45 +73,48 @@ public class UIManager : MonoBehaviour
 
     #region Activate menu sections methods
 
+    public void HideAll()
+    {
+        foreach (UIObject ui in uiElements)
+        {
+            ui.Hide();
+        }
+    }
+
     public void ActivateMainMenu()
     {
+        HideAll();
         mainMenuUI.Show();
-        preGameUI.Hide();
-        lobbyUI.Hide();
-        inGameUI.Hide();
     }
 
     public void ActivatePreGameUI()
     {
-        mainMenuUI.Hide();
+        HideAll();
         preGameUI.Show();
-        lobbyUI.Hide();
-        inGameUI.Hide();
     }
 
     public void ActivateLobbyUI()
     {
-        mainMenuUI.Hide();
-        preGameUI.Hide();
+        HideAll();
         lobbyUI.Show();
-        inGameUI.Hide();
     }
 
     public void ActivateInGameHUD()
     {
-        mainMenuUI.Hide();
-        preGameUI.Hide();
-        lobbyUI.Hide();
+        HideAll();
         inGameUI.Show();
     }
 
     public void ActivateServerUI()
     {
-        mainMenuUI.Hide();
-        preGameUI.Hide();
-        lobbyUI.Hide();
-        inGameUI.Hide();
+        HideAll();
         serverUI.Show();
+    }
+
+    public void ActivateConnectingToServerUI()
+    {
+        HideAll();
+        connectingToServerUI.Show();
     }
 
     #endregion
