@@ -6,4 +6,5 @@ public class ClientData : MonoBehaviour
 {
     public string playerName;
     public int carColorID;
+    public bool carReady = false;
 }

@@ -16,4 +16,5 @@ public class PlayerInfo : MonoBehaviour
     //Saber la posicion y rotación que debe tener el jugador cuando vuelque o se salte un checkpoint o vaya en direccion contraria y spawnee
     public Vector3 spawnPos;
     public Quaternion spawnRot;
+    //public bool PlayerReady = false;
 }

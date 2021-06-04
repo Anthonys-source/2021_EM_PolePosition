@@ -43,21 +43,21 @@ namespace Game.UI
 
         public void StartGame()
         {
-            //switch (uiManager.selectedGameType)
-            //{
-            //    case GameTypes.Client:
-            //
-            //        uiManager.gameSetupManager.StartClient(uiManager.mainMenuUI.SelectedIP);
-            //
-            //        break;
-            //    case GameTypes.Host:
-            //
-            //        uiManager.gameSetupManager.StartHost();
-            //
-            //        break;
-            //    default:
-            //        break;
-            //}
+            switch (uiManager.selectedGameType)
+            {
+                case GameTypes.Client:
+            
+                    uiManager.gameSetupManager.StartClient(uiManager.mainMenuUI.SelectedIP);
+            
+                    break;
+                case GameTypes.Host:
+            
+                    uiManager.gameSetupManager.StartHost();
+            
+                    break;
+                default:
+                    break;
+            }
 
             uiManager.ActivateLobbyUI();
         }

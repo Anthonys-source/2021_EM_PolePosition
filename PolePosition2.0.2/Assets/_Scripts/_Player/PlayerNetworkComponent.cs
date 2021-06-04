@@ -17,6 +17,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
     [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
     [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
+    [SyncVar] private bool _carReady;
     public object _nameLock = new object();
 
     private void Awake()
@@ -142,6 +143,9 @@ public class PlayerNetworkComponent : NetworkBehaviour
     {
         SetCarColor(carColorID);
     }
+
+    //[Command]
+    //public void CmdSetPlayerReady()
     #endregion
 
     [Client]
