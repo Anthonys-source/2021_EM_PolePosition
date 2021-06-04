@@ -84,6 +84,9 @@ public class LapTimer : NetworkBehaviour
     [ClientRpc]
     private void UpdateGUI(int currentLap, int maxLaps)
     {
-        UIManager.instance.UpdateLaps(currentLap, maxLaps);
+        if (isLocalPlayer)
+        {
+            UIManager.instance.UpdateLaps(currentLap, maxLaps);
+        }
     }
 }
