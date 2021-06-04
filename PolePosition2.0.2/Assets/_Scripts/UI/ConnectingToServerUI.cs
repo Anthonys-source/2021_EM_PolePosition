@@ -10,6 +10,10 @@ public class ConnectingToServerUI : UIObject
 
     private void Awake()
     {
-        buttonGoBack.onClick.AddListener(() => uiManager.ActivateMainMenu());
+        buttonGoBack.onClick.AddListener(() =>
+        {
+            uiManager.ActivateMainMenu();
+            MyNetworkManager.singleton.StopClient();
+        });
     }
 }

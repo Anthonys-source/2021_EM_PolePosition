@@ -26,6 +26,11 @@ public class LapTimer : NetworkBehaviour
         }
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -40,7 +45,8 @@ public class LapTimer : NetworkBehaviour
     {
         if (!isServer)
             return;
-        if(other.gameObject.tag == "FinishLine")
+
+        if (other.gameObject.tag == "FinishLine")
         {
             saveCurrentTime();
         }
@@ -55,8 +61,13 @@ public class LapTimer : NetworkBehaviour
         {
             Debug.Log("CARRERA TERMINADA");
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+
+            // Reset laps for next connection
+            UpdateGUI(0, scriptManager.maxLaps);
+
             aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
-            aux.GetComponent<FinishRace>().ErasePlayers(scriptManager);
+            aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
+
             //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;

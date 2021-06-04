@@ -7,12 +7,10 @@ using Mirror;
 public class FinishRace : NetworkBehaviour
 {
     private Camera cam;
-    private UIManager uiMan;
 
     private void Start()
     {
         cam = Camera.main;
-        uiMan = UIManager.instance;
     }
 
     //Cuando termina la carrera un jugador, vuelve al menu de inicio
@@ -21,8 +19,10 @@ public class FinishRace : NetworkBehaviour
     {
         cam.transform.position = scriptManager.originalCameraPos;
         cam.transform.rotation = scriptManager.originalCameraRot;
+
         cam.GetComponent<CameraController>().m_Focus = null;
-        uiMan.GetComponent<UIManager>().ActivateMainMenu();
+
+        UIManager.instance.GetComponent<UIManager>().ActivateMainMenu();
         NetworkManager.singleton.StopClient();
         /*for (int i = 0; i < scriptManager.playersList.Count; i++)
         {
@@ -32,13 +32,16 @@ public class FinishRace : NetworkBehaviour
     }
 
     [Server]
-    public void ErasePlayers(PolePositionManager scriptManager)
+    public void DisconnectAllPlayers(PolePositionManager poleManager)
     {
-        for (int i = 0; i < scriptManager.playersList.Count; i++)
-        {
-            Destroy(scriptManager.playersList[i].gameObject);
-            //scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
-        }
-        scriptManager.playersList.Clear();
+        //lock (poleManager.playersListLock)
+        //{
+        //    for (int i = 0; i < poleManager.playersList.Count; i--)
+        //    {
+        //        //Destroy(scriptManager.playersList[i].gameObject);
+        //        //scriptManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().OnStopClient();
+        //        poleManager.playersList[i].gameObject.GetComponent<PlayerNetworkComponent>().connectionToClient.Disconnect();
+        //    }
+        //}
     }
 }
