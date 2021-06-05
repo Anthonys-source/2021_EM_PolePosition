@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,12 +29,16 @@ namespace Game.UI
 
         public void UpdateLapTime(float lapTime)
         {
-            textTime.text = "Lap Time: " + ((int)lapTime).ToString() +  "  ";
+            TimeSpan time = TimeSpan.FromSeconds(lapTime);
+            textTime.text = $"Lap Time:\n {(int)time.TotalMinutes}:{time.Seconds:00}";
+            //textTime.text = "Lap Time: " + ((int)lapTime).ToString() +  "  ";
         }
 
         public void UpdateRaceTime(float raceTime)
         {
-            textRaceTime.text = "Race Time: " + ((int)raceTime).ToString();
+            TimeSpan time = TimeSpan.FromSeconds(raceTime);
+            textRaceTime.text = $"Race Time:\n {(int)time.TotalMinutes}:{time.Seconds:00}";
+            //textRaceTime.text = "Race Time: " + ((int)raceTime).ToString();
         }
 
         /// <summary>
