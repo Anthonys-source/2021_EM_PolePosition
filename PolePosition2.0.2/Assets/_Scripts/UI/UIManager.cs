@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public InGameUI inGameUI;
     public ServerUI serverUI;
     public LobbyUI lobbyUI;
+    public FinalLeaderboardUI finalLeaderboardUI;
 
     private List<UIObject> uiElements = new List<UIObject>();
 
@@ -126,6 +127,12 @@ public class UIManager : MonoBehaviour
     {
         HideAll();
         connectingToServerUI.Show();
+    }
+
+    public void ActivateFinalLeaderboard()
+    {
+        HideAll();
+        finalLeaderboardUI.Show();
     }
 
     #endregion
