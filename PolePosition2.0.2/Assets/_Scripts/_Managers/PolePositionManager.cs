@@ -9,7 +9,10 @@ using System.Linq;
 
 public class PolePositionManager : NetworkBehaviour
 {
+    // Singleton Instance
     public static PolePositionManager instance;
+
+    // Race State
     public bool raceStarted = false;
     public int minPlayersReady = 1;
 
@@ -25,7 +28,7 @@ public class PolePositionManager : NetworkBehaviour
     public int maxLaps;
     public List<float[]> playerTimes = new List<float[]>(4);
 
-    // Leaderboard Update
+    // Leaderboard Update Period
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
     private float timeSinceLeaderboardUpdate = 0.0f;
 
@@ -117,7 +120,7 @@ public class PolePositionManager : NetworkBehaviour
         if (playersReady >= minPlayersReady)
         {
             raceStarted = true;
-            RpcActivateInGameUI();
+            RpcActivateRaceCountdown();
         }
     }
 
@@ -140,7 +143,7 @@ public class PolePositionManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcActivateInGameUI()
+    public void RpcActivateRaceCountdown()
     {
         UIManager.instance.ActivateInGameHUD();
     }
