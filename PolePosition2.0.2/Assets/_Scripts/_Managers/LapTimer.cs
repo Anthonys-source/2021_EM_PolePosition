@@ -35,9 +35,13 @@ public class LapTimer : NetworkBehaviour
     void Update()
     {
         //Cuando inicia la vuelta, se inicia el temporizador
+        if (!isServer)
+            return;
         if (start)
         {
             playerData.CurrentLapTime += Time.deltaTime;
+            playerData.CurrentRaceTime += Time.deltaTime;
+            UpdateTimeGUI(playerData.CurrentLapTime,playerData.CurrentRaceTime);
         }
     }
 
@@ -63,10 +67,10 @@ public class LapTimer : NetworkBehaviour
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
 
             // Reset laps for next connection
-            UpdateGUI(0, scriptManager.maxLaps);
+            UpdateLapGUI(0, scriptManager.maxLaps);
 
             aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
-            aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
+            //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
 
             //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
@@ -78,7 +82,7 @@ public class LapTimer : NetworkBehaviour
         {
             start = true;
             playerData.CurrentLap++;
-            UpdateGUI(playerData.CurrentLap, scriptManager.maxLaps);
+            UpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             return;
         }
         //Al finalizar una vuelta intermedia
@@ -86,18 +90,28 @@ public class LapTimer : NetworkBehaviour
         {
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
             Debug.Log("Tiempo de vuelta " + (playerData.CurrentLap - 1) + " : " + playerData.CurrentLapTime);
-            UpdateGUI(playerData.CurrentLap, scriptManager.maxLaps);
+            UpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             playerData.CurrentLapTime = 0;
             start = true;
         }
     }
 
     [ClientRpc]
-    private void UpdateGUI(int currentLap, int maxLaps)
+    private void UpdateLapGUI(int currentLap, int maxLaps)
     {
         if (isLocalPlayer)
         {
             UIManager.instance.UpdateLaps(currentLap, maxLaps);
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateTimeGUI(float time, float raceTime)
+    {
+        if (isLocalPlayer)
+        {
+            UIManager.instance.UpdateLapTime(time);
+            UIManager.instance.UpdateRaceTime(raceTime);
         }
     }
 }

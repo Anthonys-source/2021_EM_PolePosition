@@ -64,6 +64,16 @@ public class UIManager : MonoBehaviour
         inGameUI.UpdateLaps(newLap, maxLaps);
     }
 
+    public void UpdateLapTime(float lapTime)
+    {
+        inGameUI.UpdateLapTime(lapTime);
+    }
+
+    public void UpdateRaceTime(float raceTime)
+    {
+        inGameUI.UpdateRaceTime(raceTime);
+    }
+
     public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
         inGameUI.UpdateLeaderboardNames(playerLeaderboard);

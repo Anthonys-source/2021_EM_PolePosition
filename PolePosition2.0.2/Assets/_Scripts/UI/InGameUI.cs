@@ -11,6 +11,8 @@ namespace Game.UI
         [SerializeField] private Text textSpeed;
         [SerializeField] private Text textLaps;
         [SerializeField] private Text textPosition;
+        [SerializeField] private Text textTime;
+        [SerializeField] private Text textRaceTime;
         [SerializeField] private GameObject panelRaceCountdown;
         [SerializeField] private Text textRaceCountdown;
 
@@ -22,6 +24,16 @@ namespace Game.UI
         public void UpdateLaps(int currentLap, int maxLaps)
         {
             textLaps.text = "Laps: " + currentLap.ToString() + "/" + maxLaps;
+        }
+
+        public void UpdateLapTime(float lapTime)
+        {
+            textTime.text = "Lap Time: " + ((int)lapTime).ToString() +  "  ";
+        }
+
+        public void UpdateRaceTime(float raceTime)
+        {
+            textRaceTime.text = "Race Time: " + ((int)raceTime).ToString();
         }
 
         /// <summary>

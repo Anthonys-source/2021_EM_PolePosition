@@ -47,6 +47,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
         _playerInfo.CurrentLap = 0;
         _playerInfo.ID = _id;
         _playerInfo.CurrentLap = _currentLap;
+        _playerInfo.CurrentLapTime = 0f;
         _playerInfo.LastCheckpoint = -1;
         _polePositionManager.AddPlayer(_playerInfo);
 
