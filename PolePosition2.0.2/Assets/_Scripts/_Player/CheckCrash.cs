@@ -57,7 +57,10 @@ public class CheckCrash : NetworkBehaviour
     {
         /*this.transform.position = spawnPos;
         this.transform.rotation = spawnRot;*/
-        this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
-        this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+        lock (scriptManager.playersListLock)
+        {
+            this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+            this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+        }
     }
 }

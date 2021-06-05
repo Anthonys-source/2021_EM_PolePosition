@@ -20,7 +20,10 @@ public class LapTimer : NetworkBehaviour
             manager = GameObject.FindGameObjectWithTag("MainManager");
             scriptManager = manager.GetComponent<PolePositionManager>();
             aux = GameObject.FindGameObjectWithTag("FinishRace");
-            playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
+            lock (scriptManager.playersListLock)
+            {
+                playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
+            }
             //uiMan = GameObject.FindGameObjectWithTag("UIManager");
             start = false;
         }

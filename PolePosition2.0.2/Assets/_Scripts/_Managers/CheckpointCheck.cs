@@ -58,7 +58,10 @@ public class CheckpointCheck : NetworkBehaviour
     [Server]
     private void Check(int idCar)
     {
-        player = scriptManager.playersList[idCar];
+        lock (scriptManager.playersListLock)
+        {
+            player = scriptManager.playersList[idCar];
+        }
         if (id == player.LastCheckpoint+1)
         {
             Debug.Log("Vas bien");
