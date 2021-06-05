@@ -65,14 +65,14 @@ public class PolePositionManager : NetworkBehaviour
         //Para saber cual es el ultimo checkpoint y usarlo cuando se cuenten las vueltas
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
 
-        //Instanciar los arrays para los tiempos por vuelta de cada jugador
-        lock (playersListLock)
-        {
-            for (int i = 0; i < playersList.Count; i++)
-            {
-                playerTimes.Add(new float[maxLaps + 1]);
-            }
-        }
+        ////Instanciar los arrays para los tiempos por vuelta de cada jugador
+        //lock (playersListLock)
+        //{
+        //    for (int i = 0; i < playersList.Count; i++)
+        //    {
+        //        playerTimes.Add(new float[maxLaps + 1]);
+        //    }
+        //}
 
         //Guardar los valores de la camara en el menu del inicio
         Camera camera = Camera.main;
@@ -144,6 +144,7 @@ public class PolePositionManager : NetworkBehaviour
         lock (playersListLock)
         {
             playersList.Add(player);
+            playerTimes.Add(new float[maxLaps + 1]);
         }
     }
 

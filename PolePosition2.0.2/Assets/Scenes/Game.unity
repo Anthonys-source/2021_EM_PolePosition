@@ -1072,11 +1072,11 @@ MonoBehaviour:
   syncInterval: 0.1
   raceStarted: 0
   minPlayersReady: 1
-  maxPlayers: 1
+  maxPlayers: 2
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
-  maxLaps: 2
+  maxLaps: 1
   leaderboardUpdateTime: 0.125
   originalCameraPos: {x: 0, y: 0, z: 0}
   originalCameraRot: {x: 0, y: 0, z: 0, w: 0}

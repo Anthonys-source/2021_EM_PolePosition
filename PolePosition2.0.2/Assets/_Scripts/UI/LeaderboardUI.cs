@@ -31,6 +31,7 @@ namespace Game.UI{
             buttonReturn.onClick.AddListener(() => UIManager.instance.ActivateMainMenu());
         }
 
+        
         public void FillFinalLeaderboard()
         {
             List<PlayerInfo> players = PolePositionManager.instance.playersList;
@@ -40,7 +41,7 @@ namespace Game.UI{
                 textsNm[i].text = players[i].PlayerName;
                 textsPos[i].text = players[i].CurrentPosition.ToString();
                 float finalTime = 0;
-                for(int j = 0; j<playerTimes.Count; j++)
+                for(int j = 0; j<PolePositionManager.instance.maxLaps+1; j++)
                 {
                     finalTime += playerTimes[i][j];
                 }
