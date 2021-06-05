@@ -15,6 +15,7 @@ public class PolePositionManager : NetworkBehaviour
     // Race State
     public bool raceStarted = false;
     public int minPlayersReady = 1;
+    public int maxPlayers = 4;
 
     // Player List
     [SerializeField] public List<PlayerInfo> playersList = new List<PlayerInfo>(4);
@@ -158,7 +159,6 @@ public class PolePositionManager : NetworkBehaviour
         UIManager.instance.ActivateInGameHUD();
         UIManager.instance.inGameUI.StartRaceCountdown();
     }
-
     #region Update Leaderboard
 
     [Server]
