@@ -69,6 +69,9 @@ public class LapTimer : NetworkBehaviour
             // Reset laps for next connection
             RpcUpdateLapGUI(0, scriptManager.maxLaps);
 
+            // Reset Race
+            PolePositionManager.instance.raceStarted = false;
+
             aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
             //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
 
