@@ -79,8 +79,8 @@ public class LapTimer : NetworkBehaviour
             PolePositionManager.instance.raceStarted = false;
 
             string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
-            UpdateFinalLeaderboard(aux2);
-            aux.GetComponent<FinishRace>().BackToMenu();
+            RpcUpdateFinalLeaderboard(aux2);
+            aux.GetComponent<FinishRace>().ShowFinalLeaderboard();
             //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
 
             //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
@@ -128,7 +128,7 @@ public class LapTimer : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateFinalLeaderboard(string[] data)
+    private void RpcUpdateFinalLeaderboard(string[] data)
     {
         for (int i = 0; i < 4; i++)
         {

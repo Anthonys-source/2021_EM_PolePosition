@@ -62,6 +62,7 @@ public class CheckpointCheck : NetworkBehaviour
         {
             player = scriptManager.playersList[idCar];
         }
+        //Vas pasando correctamente los checkpoints
         if (id == player.LastCheckpoint+1)
         {
             Debug.Log("Vas bien");
@@ -69,6 +70,7 @@ public class CheckpointCheck : NetworkBehaviour
             player.spawnPos = scriptManager.checkpointList[player.LastCheckpoint].transform.position;
             player.spawnRot = scriptManager.checkpointList[player.LastCheckpoint].transform.rotation;
         }
+        //Ya has llegado a la linea de meta
         else if (id == 0 && (player.LastCheckpoint == scriptManager.checkpointList[lastIndex].GetComponent<CheckpointCheck>().id))
         {
             Debug.Log("VUELTA COMPLETADA");
@@ -76,11 +78,13 @@ public class CheckpointCheck : NetworkBehaviour
             player.LastCheckpoint = id;
             Debug.Log("Vuelta " + player.CurrentLap);
         }
-        else if(id < player.LastCheckpoint /*|| id == player.LastCheckpoint*/)
+        //Estas yendo en direccion contraria
+        else if(id < player.LastCheckpoint)
         {
             Debug.Log("Estás yendo al revés");
             respawn = true;
         }
+        //Te has saltado un checkpoint
         else if(id != player.LastCheckpoint)
         {
             Debug.Log("Te has saltado un checkpoint");

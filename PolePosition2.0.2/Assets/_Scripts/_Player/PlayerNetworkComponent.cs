@@ -44,7 +44,6 @@ public class PlayerNetworkComponent : NetworkBehaviour
         base.OnStartServer();
         _id = NetworkServer.connections.Count - 1;
         _currentLap = 0;
-        _playerInfo.CurrentLap = 0;
         _playerInfo.ID = _id;
         _playerInfo.CurrentLap = _currentLap;
         _playerInfo.CurrentLapTime = 0f;

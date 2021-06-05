@@ -13,9 +13,9 @@ public class FinishRace : NetworkBehaviour
         cam = Camera.main;
     }
 
-    //Cuando termina la carrera un jugador, vuelve al menu de inicio
+    //Cuando un jugador termina la carrera, se muestra tanto en este como en el resto de jugadores la tabla de resultados final
     [ClientRpc]
-    public void BackToMenu()
+    public void ShowFinalLeaderboard()
     {
         cam.transform.position = PolePositionManager.instance.originalCameraPos;
         cam.transform.rotation = PolePositionManager.instance.originalCameraRot;
