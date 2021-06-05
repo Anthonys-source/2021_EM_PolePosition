@@ -41,7 +41,7 @@ public class LapTimer : NetworkBehaviour
         {
             playerData.CurrentLapTime += Time.deltaTime;
             playerData.CurrentRaceTime += Time.deltaTime;
-            UpdateTimeGUI(playerData.CurrentLapTime,playerData.CurrentRaceTime);
+            RpcUpdateTimeGUI(playerData.CurrentLapTime,playerData.CurrentRaceTime);
         }
     }
 
@@ -67,7 +67,7 @@ public class LapTimer : NetworkBehaviour
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
 
             // Reset laps for next connection
-            UpdateLapGUI(0, scriptManager.maxLaps);
+            RpcUpdateLapGUI(0, scriptManager.maxLaps);
 
             aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
             //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
@@ -82,7 +82,7 @@ public class LapTimer : NetworkBehaviour
         {
             start = true;
             playerData.CurrentLap++;
-            UpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
+            RpcUpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             return;
         }
         //Al finalizar una vuelta intermedia
@@ -90,14 +90,14 @@ public class LapTimer : NetworkBehaviour
         {
             scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
             Debug.Log("Tiempo de vuelta " + (playerData.CurrentLap - 1) + " : " + playerData.CurrentLapTime);
-            UpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
+            RpcUpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             playerData.CurrentLapTime = 0;
             start = true;
         }
     }
 
     [ClientRpc]
-    private void UpdateLapGUI(int currentLap, int maxLaps)
+    private void RpcUpdateLapGUI(int currentLap, int maxLaps)
     {
         if (isLocalPlayer)
         {
@@ -106,7 +106,7 @@ public class LapTimer : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateTimeGUI(float time, float raceTime)
+    private void RpcUpdateTimeGUI(float time, float raceTime)
     {
         if (isLocalPlayer)
         {
