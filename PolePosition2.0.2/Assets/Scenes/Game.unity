@@ -2086,6 +2086,7 @@ MonoBehaviour:
   syncInterval: 0.1
   raceStarted: 0
   minPlayersReady: 1
+  maxPlayers: 1
   playersList: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
