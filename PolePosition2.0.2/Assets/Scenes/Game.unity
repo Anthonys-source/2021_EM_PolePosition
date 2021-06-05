@@ -927,8 +927,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIContainer: {fileID: 174571085}
   textTimes: {fileID: 1008153807}
+  textsTm: []
   textPosition: {fileID: 193377678}
+  textsPos: []
   textName: {fileID: 685541351}
+  textsNm: []
   buttonReturn: {fileID: 537644910}
 --- !u!1 &1610169518
 GameObject:
@@ -1072,8 +1075,9 @@ MonoBehaviour:
   syncInterval: 0.1
   raceStarted: 0
   minPlayersReady: 1
-  maxPlayers: 2
+  maxPlayers: 4
   playersList: []
+  playerLeaderboard: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
   maxLaps: 1
@@ -2440,6 +2444,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 174571085, guid: 5c339809502a33749b546f6663bcfb75, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521805982, guid: 5c339809502a33749b546f6663bcfb75, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1856290169, guid: 5c339809502a33749b546f6663bcfb75, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

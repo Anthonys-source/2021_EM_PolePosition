@@ -17,4 +17,6 @@ public class PlayerInfo : MonoBehaviour
     public Vector3 spawnPos;
     public Quaternion spawnRot;
     public bool playerReady = false;
+
+    public List<float> times;
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-namespace Game.UI{
+namespace Game.UI
+{
     public class LeaderboardUI : UIObject
     {
         [Header("FinalLeaderboard")]
@@ -22,7 +23,7 @@ namespace Game.UI{
             textsTm = new Text[textTimes.transform.childCount];
             textsPos = new Text[textPosition.transform.childCount];
             textsNm = new Text[textName.transform.childCount];
-            for (int i = 0; i<textName.transform.childCount; i++)
+            for (int i = 0; i < textName.transform.childCount; i++)
             {
                 textsTm[i] = textTimes.transform.GetChild(i).gameObject.GetComponent<Text>();
                 textsPos[i] = textPosition.transform.GetChild(i).gameObject.GetComponent<Text>();
@@ -31,25 +32,29 @@ namespace Game.UI{
             buttonReturn.onClick.AddListener(() => UIManager.instance.ActivateMainMenu());
         }
 
-        
+
         public string[] FillFinalLeaderboard()
         {
-            List<PlayerInfo> players = PolePositionManager.instance.playersList;
-            List<float[]> playerTimes = PolePositionManager.instance.playerTimes;
+            List<PlayerInfo> players = PolePositionManager.instance.playerLeaderboard;
+            //List<float[]> playerTimes = PolePositionManager.instance.playerTimes;
+
             string[] salida = new string[players.Count];
-            for (int i = 0; i<players.Count; i++)
+
+            for (int i = 0; i < players.Count; i++)
             {
                 string aux = "";
                 aux += players[i].PlayerName;
                 aux += "/";
-                aux += (players[i].CurrentPosition+1).ToString();
+                aux += (players[i].CurrentPosition + 1).ToString();
                 aux += "/";
-                float finalTime = 0;
-                for(int j = 0; j<PolePositionManager.instance.maxLaps+1; j++)
-                {
-                    finalTime += playerTimes[i][j];
-                }
-                aux += finalTime.ToString();
+
+                //float finalTime = 0;
+                //for (int j = 0; j < players[i].times.Count; j++)
+                //{
+                //    finalTime += players[i].times[j];
+                //}
+
+                aux += players[i].CurrentRaceTime.ToString();
                 salida[i] = aux;
             }
             return salida;

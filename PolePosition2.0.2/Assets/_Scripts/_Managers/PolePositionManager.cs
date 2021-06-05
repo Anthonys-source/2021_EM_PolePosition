@@ -19,6 +19,7 @@ public class PolePositionManager : NetworkBehaviour
 
     // Player List
     [SerializeField] public List<PlayerInfo> playersList = new List<PlayerInfo>(4);
+    public List<PlayerInfo> playerLeaderboard = new List<PlayerInfo>(4);
     public object playersListLock = new object();
 
     // Checkpoints
@@ -27,7 +28,7 @@ public class PolePositionManager : NetworkBehaviour
 
     // Laps and LapTime
     public int maxLaps;
-    public List<float[]> playerTimes = new List<float[]>(4);
+    //public List<float[]> playerTimes = new List<float[]>(4);
 
     // Leaderboard Update Period
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
@@ -144,7 +145,6 @@ public class PolePositionManager : NetworkBehaviour
         lock (playersListLock)
         {
             playersList.Add(player);
-            playerTimes.Add(new float[maxLaps + 1]);
         }
     }
 
@@ -168,7 +168,7 @@ public class PolePositionManager : NetworkBehaviour
     [Server]
     public void UpdateRaceProgress()
     {
-        List<PlayerInfo> playerLeaderboard;
+        //List<PlayerInfo> playerLeaderboard;
         float[] arcLengths;
 
         lock (playersListLock)

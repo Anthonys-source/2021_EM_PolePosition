@@ -45,7 +45,7 @@ public class LapTimer : NetworkBehaviour
         {
             playerData.CurrentLapTime += Time.deltaTime;
             playerData.CurrentRaceTime += Time.deltaTime;
-            RpcUpdateTimeGUI(playerData.CurrentLapTime,playerData.CurrentRaceTime);
+            RpcUpdateTimeGUI(playerData.CurrentLapTime, playerData.CurrentRaceTime);
         }
     }
 
@@ -68,7 +68,8 @@ public class LapTimer : NetworkBehaviour
         if (scriptManager.maxLaps + 1 == playerData.CurrentLap)
         {
             Debug.Log("CARRERA TERMINADA");
-            scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+            //scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+            playerData.times.Add(playerData.CurrentLapTime);
 
             // Reset laps for next connection
             RpcUpdateLapGUI(0, scriptManager.maxLaps);
@@ -98,7 +99,8 @@ public class LapTimer : NetworkBehaviour
         //Al finalizar una vuelta intermedia
         else
         {
-            scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+            //scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
+            playerData.times.Add(playerData.CurrentLapTime);
             Debug.Log("Tiempo de vuelta " + (playerData.CurrentLap - 1) + " : " + playerData.CurrentLapTime);
             RpcUpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             playerData.CurrentLapTime = 0;
@@ -128,13 +130,22 @@ public class LapTimer : NetworkBehaviour
     [ClientRpc]
     private void UpdateFinalLeaderboard(string[] data)
     {
-        for (int i = 0; i < data.Length; i++)
+        for (int i = 0; i < 4; i++)
         {
-            string[] aux = data[i].Split('/');
             LeaderboardUI l = UIManager.instance.finalLeaderboardUI;
-            l.textsNm[i].text = aux[0];
-            l.textsPos[i].text = aux[1];
-            l.textsTm[i].text = aux[2];
+            if (i < data.Length)
+            {
+                string[] aux = data[i].Split('/');
+                l.textsNm[i].text = aux[0];
+                l.textsPos[i].text = aux[1];
+                l.textsTm[i].text = aux[2];
+            }
+            else
+            {
+                l.textsNm[i].text = "";
+                l.textsPos[i].text = "";
+                l.textsTm[i].text = "";
+            }
         }
     }
 }
