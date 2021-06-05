@@ -95,18 +95,4 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
             HandbrakeValue = 0.0f;
         }
     }
-
-    //private void GenericFloatActionLogic(ref float value, Action<float> onChangeEvent, InputAction.CallbackContext context)
-    //{
-    //    if (context.phase == InputActionPhase.Performed)
-    //    {
-    //        value = context.ReadValue<float>();
-    //        onChangeEvent.Invoke(value);
-    //    }
-    //    else if (context.phase == InputActionPhase.Canceled)
-    //    {
-    //        value = 0.0f;
-    //        onChangeEvent.Invoke(value);
-    //    }
-    //}
 }
