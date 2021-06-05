@@ -15,10 +15,10 @@ public class FinishRace : NetworkBehaviour
 
     //Cuando termina la carrera un jugador, vuelve al menu de inicio
     [ClientRpc]
-    public void BackToMenu(PolePositionManager scriptManager)
+    public void BackToMenu()
     {
-        cam.transform.position = scriptManager.originalCameraPos;
-        cam.transform.rotation = scriptManager.originalCameraRot;
+        cam.transform.position = PolePositionManager.instance.originalCameraPos;
+        cam.transform.rotation = PolePositionManager.instance.originalCameraRot;
 
         cam.GetComponent<CameraController>().m_Focus = null;
 

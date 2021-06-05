@@ -75,7 +75,7 @@ public class LapTimer : NetworkBehaviour
             // Reset Race
             PolePositionManager.instance.raceStarted = false;
 
-            aux.GetComponent<FinishRace>().BackToMenu(scriptManager);
+            aux.GetComponent<FinishRace>().BackToMenu();
             //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
 
             //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);

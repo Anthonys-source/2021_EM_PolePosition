@@ -5,30 +5,11 @@ using UnityEngine;
 
 public class PlayerInfo : MonoBehaviour
 {
-    public object playerInfoLock;
     public string PlayerName;
     public int ID;
     public int CarColorID;
     public int CurrentPosition;
     public int CurrentLap;
-    
-    /*public int CurrentLap
-    {
-        get {
-            lock (playerInfoLock)
-            {
-                return this.CurrentLap;
-            }
-            
-        }
-        set {
-            lock (playerInfoLock)
-            {
-                this.CurrentLap = currentLap;
-            }
-        }
-    }*/
-
     public float CurrentLapTime;
     public float CurrentRaceTime;
     public int LastCheckpoint;
@@ -36,6 +17,4 @@ public class PlayerInfo : MonoBehaviour
     public Vector3 spawnPos;
     public Quaternion spawnRot;
     public bool playerReady = false;
-
-    
 }
