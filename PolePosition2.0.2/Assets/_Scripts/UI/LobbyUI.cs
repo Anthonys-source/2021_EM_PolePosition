@@ -9,36 +9,37 @@ namespace Game.UI
     public class LobbyUI : UIObject
     {
         [Header("Lobby")]
-        [SerializeField] private Button buttonGo;
+        [SerializeField] private Text readyText;
+        [SerializeField] private Button buttonReady;
         public event Action<bool> onReadyStateChange = delegate { };
 
-        //public string SelectedName { get => inputFieldPlayerName.text; }
-        //public int SelectedCarColorID { get => dropdownCarColorID.value; }
+        private bool ready = false;
 
         private void Awake()
         {
-            buttonGo.onClick.AddListener(ReadyUp);
+            buttonReady.onClick.AddListener(ReadyUp);
+            UpdateReadyUI();
         }
 
         public void ReadyUp()
         {
-            //switch (uiManager.selectedGameType)
-            //{
-            //    case GameTypes.Client:
+            ready = !ready;
+            onReadyStateChange.Invoke(ready);
+            UpdateReadyUI();
+        }
 
-            //        uiManager.gameSetupManager.StartClient(uiManager.mainMenuUI.SelectedIP);
-
-            //        break;
-            //    case GameTypes.Host:
-
-            //        uiManager.gameSetupManager.StartHost();
-
-            //        break;
-            //    default:
-            //        break;
-            //}
-            onReadyStateChange.Invoke(true);
-            //uiManager.ActivateInGameHUD();
+        private void UpdateReadyUI()
+        {
+            if (!ready)
+            {
+                readyText.text = "Not Ready";
+                buttonReady.GetComponentInChildren<Text>().text = "Ready Up";
+            }
+            else
+            {
+                readyText.text = "Ready to Race";
+                buttonReady.GetComponentInChildren<Text>().text = "Unready";
+            }
         }
     }
 }
