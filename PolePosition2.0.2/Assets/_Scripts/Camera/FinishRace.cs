@@ -22,7 +22,8 @@ public class FinishRace : NetworkBehaviour
 
         cam.GetComponent<CameraController>().m_Focus = null;
 
-        UIManager.instance.GetComponent<UIManager>().ActivateMainMenu();
+        //UIManager.instance.GetComponent<UIManager>().ActivateMainMenu();
+        UIManager.instance.GetComponent<UIManager>().ActivateFinalLeaderboard();
         NetworkManager.singleton.StopClient();
         /*for (int i = 0; i < scriptManager.playersList.Count; i++)
         {

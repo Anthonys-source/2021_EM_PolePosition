@@ -179,6 +179,14 @@ public class PolePositionManager : NetworkBehaviour
 
         playerLeaderboard.Sort(new PlayerInfoComparer(arcLengths));
 
+        lock (playersListLock)
+        {
+            for (int i = 0; i < playerLeaderboard.Count; i++)
+            {
+                playerLeaderboard[i].CurrentPosition = i;
+            }
+        }
+
         string[] newLeaderboardNames = new string[playerLeaderboard.Count];
         for (int i = 0; i < playerLeaderboard.Count; i++)
         {
