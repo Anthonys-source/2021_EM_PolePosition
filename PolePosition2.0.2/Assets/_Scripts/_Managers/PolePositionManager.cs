@@ -38,7 +38,9 @@ public class PolePositionManager : NetworkBehaviour
     private CircuitController circuitController;
 
     // Debug
+#if UNITY_EDITOR
     private GameObject[] debuggingSpheres;
+#endif
 
     // Original Camera
     public Vector3 originalCameraPos;
@@ -82,6 +84,7 @@ public class PolePositionManager : NetworkBehaviour
         //so the first update in the client happens immediatly
         timeSinceLeaderboardUpdate = leaderboardUpdateTime;
 
+#if UNITY_EDITOR
         //Debugging positions in race
         debuggingSpheres = new GameObject[networkManager.maxConnections];
         for (int i = 0; i < networkManager.maxConnections; ++i)
@@ -89,6 +92,7 @@ public class PolePositionManager : NetworkBehaviour
             debuggingSpheres[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             debuggingSpheres[i].GetComponent<SphereCollider>().enabled = false;
         }
+#endif
     }
 
     private void Update()
@@ -208,7 +212,9 @@ public class PolePositionManager : NetworkBehaviour
         float minArcL =
             this.circuitController.ComputeClosestPointArcLength(carPos, out segIdx, out carProj, out carDist);
 
+#if UNITY_EDITOR
         this.debuggingSpheres[id].transform.position = carProj;
+#endif
 
         if (this.playersList[id].CurrentLap == 0)
         {
