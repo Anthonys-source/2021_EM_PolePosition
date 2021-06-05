@@ -9,11 +9,11 @@ namespace Game.UI{
     {
         [Header("FinalLeaderboard")]
         [SerializeField] private GameObject textTimes;
-        private Text[] textsTm;
+        public Text[] textsTm;
         [SerializeField] private GameObject textPosition;
-        private Text[] textsPos;
+        public Text[] textsPos;
         [SerializeField] private GameObject textName;
-        private Text[] textsNm;
+        public Text[] textsNm;
         [SerializeField] private Button buttonReturn;
 
         // Start is called before the first frame update
@@ -32,22 +32,27 @@ namespace Game.UI{
         }
 
         
-        public void FillFinalLeaderboard()
+        public string[] FillFinalLeaderboard()
         {
             List<PlayerInfo> players = PolePositionManager.instance.playersList;
             List<float[]> playerTimes = PolePositionManager.instance.playerTimes;
+            string[] salida = new string[players.Count];
             for (int i = 0; i<players.Count; i++)
             {
-                textsNm[i].text = players[i].PlayerName;
-                textsPos[i].text = players[i].CurrentPosition.ToString();
+                string aux = "";
+                aux += players[i].PlayerName;
+                aux += "/";
+                aux += (players[i].CurrentPosition+1).ToString();
+                aux += "/";
                 float finalTime = 0;
                 for(int j = 0; j<PolePositionManager.instance.maxLaps+1; j++)
                 {
                     finalTime += playerTimes[i][j];
                 }
-                textsTm[i].text = finalTime.ToString();
+                aux += finalTime.ToString();
+                salida[i] = aux;
             }
-            
+            return salida;
         }
 
     }

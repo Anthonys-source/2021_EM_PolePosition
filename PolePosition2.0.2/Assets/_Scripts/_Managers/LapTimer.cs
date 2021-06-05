@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Game.UI;
 
 public class LapTimer : NetworkBehaviour
 {
@@ -76,7 +77,8 @@ public class LapTimer : NetworkBehaviour
             // Reset Race
             PolePositionManager.instance.raceStarted = false;
 
-            UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
+            string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
+            UpdateFinalLeaderboard(aux2);
             aux.GetComponent<FinishRace>().BackToMenu();
             //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
 
@@ -120,6 +122,19 @@ public class LapTimer : NetworkBehaviour
         {
             UIManager.instance.UpdateLapTime(time);
             UIManager.instance.UpdateRaceTime(raceTime);
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateFinalLeaderboard(string[] data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            string[] aux = data[i].Split('/');
+            LeaderboardUI l = UIManager.instance.finalLeaderboardUI;
+            l.textsNm[i].text = aux[0];
+            l.textsPos[i].text = aux[1];
+            l.textsTm[i].text = aux[2];
         }
     }
 }

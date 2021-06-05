@@ -81,9 +81,9 @@ public class UIManager : MonoBehaviour
         inGameUI.UpdateLeaderboardNames(playerLeaderboard);
     }
 
-    public void FillFinalLeaderboard()
+    public string[] FillFinalLeaderboard()
     {
-        finalLeaderboardUI.FillFinalLeaderboard();
+        return finalLeaderboardUI.FillFinalLeaderboard();
     }
 
     #endregion
