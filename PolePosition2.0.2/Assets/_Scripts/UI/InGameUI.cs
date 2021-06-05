@@ -11,6 +11,8 @@ namespace Game.UI
         [SerializeField] private Text textSpeed;
         [SerializeField] private Text textLaps;
         [SerializeField] private Text textPosition;
+        [SerializeField] private GameObject panelRaceCountdown;
+        [SerializeField] private Text textRaceCountdown;
 
         public void UpdateSpeed(int speed)
         {
@@ -37,6 +39,26 @@ namespace Game.UI
 
             //Remove the last \n character
             textPosition.text = textPosition.text.Remove(textPosition.text.Length - 1);
+        }
+
+        public void StartRaceCountdown()
+        {
+            StartCoroutine(RaceCountdown());
+        }
+
+        private IEnumerator RaceCountdown()
+        {
+            panelRaceCountdown.SetActive(true);
+            WaitForSeconds s = new WaitForSeconds(1.0f);
+            for (int i = 3; i > 0; i--)
+            {
+                textRaceCountdown.text = i.ToString();
+                yield return s;
+            }
+            textRaceCountdown.text = "GO!!";
+            yield return s;
+            textRaceCountdown.text = "";
+            panelRaceCountdown.SetActive(false);
         }
     }
 }

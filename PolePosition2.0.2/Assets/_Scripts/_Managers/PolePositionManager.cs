@@ -119,9 +119,15 @@ public class PolePositionManager : NetworkBehaviour
 
         if (playersReady >= minPlayersReady)
         {
-            raceStarted = true;
+            StartCoroutine(RaceStartTimer());
             RpcActivateRaceCountdown();
         }
+    }
+
+    private IEnumerator RaceStartTimer()
+    {
+        yield return new WaitForSeconds(3.0f);
+        raceStarted = true;
     }
 
     [Server]
@@ -146,6 +152,7 @@ public class PolePositionManager : NetworkBehaviour
     public void RpcActivateRaceCountdown()
     {
         UIManager.instance.ActivateInGameHUD();
+        UIManager.instance.inGameUI.StartRaceCountdown();
     }
 
     #region Update Leaderboard
