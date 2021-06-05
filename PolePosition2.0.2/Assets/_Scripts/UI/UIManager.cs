@@ -107,6 +107,7 @@ public class UIManager : MonoBehaviour
     {
         HideAll();
         lobbyUI.Show();
+        lobbyUI.OnActivate();
     }
 
     public void ActivateInGameHUD()

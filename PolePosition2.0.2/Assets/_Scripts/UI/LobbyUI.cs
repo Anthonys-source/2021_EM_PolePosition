@@ -21,6 +21,12 @@ namespace Game.UI
             UpdateReadyUI();
         }
 
+        public void OnActivate()
+        {
+            ready = false;
+            UpdateReadyUI();
+        }
+
         public void ReadyUp()
         {
             ready = !ready;

@@ -85,6 +85,16 @@ public class PlayerNetworkComponent : NetworkBehaviour
         ConfigureCamera();
     }
 
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (isLocalPlayer)
+        {
+            UIManager.instance.lobbyUI.onReadyStateChange -= CmdSetPlayerReady;
+        }
+    }
+
     #endregion
 
     #region Set Name Methods
