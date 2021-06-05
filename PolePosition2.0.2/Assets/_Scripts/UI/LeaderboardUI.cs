@@ -48,13 +48,24 @@ namespace Game.UI
                 aux += (players[i].CurrentPosition + 1).ToString();
                 aux += "/";
 
-                //float finalTime = 0;
-                //for (int j = 0; j < players[i].times.Count; j++)
-                //{
-                //    finalTime += players[i].times[j];
-                //}
+                // Get the best time
+                // If there is no lap time then set best time to -1
+                if (players[i].times.Count > 0)
+                {
+                    float bestTime = 999999999;
+                    for (int j = 0; j < players[i].times.Count; j++)
+                    {
+                        if (bestTime > players[i].times[j])
+                            bestTime = players[i].times[j];
+                    }
+                    TimeSpan time = TimeSpan.FromSeconds(bestTime);
+                    aux += $"{(int)time.TotalMinutes}:{time.Seconds:00}";
+                }
+                else
+                {
+                    aux += "-1";
+                }
 
-                aux += players[i].CurrentRaceTime.ToString();
                 salida[i] = aux;
             }
             return salida;

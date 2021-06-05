@@ -138,7 +138,11 @@ public class LapTimer : NetworkBehaviour
                 string[] aux = data[i].Split('/');
                 l.textsNm[i].text = aux[0];
                 l.textsPos[i].text = aux[1];
-                l.textsTm[i].text = aux[2];
+
+                if (aux[2] != "-1")
+                    l.textsTm[i].text = aux[2];
+                else
+                    l.textsTm[i].text = "N/A";
             }
             else
             {
