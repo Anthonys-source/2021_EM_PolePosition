@@ -66,9 +66,12 @@ public class PolePositionManager : NetworkBehaviour
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
 
         //Instanciar los arrays para los tiempos por vuelta de cada jugador
-        for (int i = 0; i < 4; i++)
+        lock (playersListLock)
         {
-            playerTimes.Add(new float[maxLaps + 1]);
+            for (int i = 0; i < playersList.Count; i++)
+            {
+                playerTimes.Add(new float[maxLaps + 1]);
+            }
         }
 
         //Guardar los valores de la camara en el menu del inicio

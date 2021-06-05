@@ -14,6 +14,7 @@ namespace Game.UI{
         private Text[] textsPos;
         [SerializeField] private GameObject textName;
         private Text[] textsNm;
+        [SerializeField] private Button buttonReturn;
 
         // Start is called before the first frame update
         void Start()
@@ -27,6 +28,7 @@ namespace Game.UI{
                 textsPos[i] = textPosition.transform.GetChild(i).gameObject.GetComponent<Text>();
                 textsNm[i] = textName.transform.GetChild(i).gameObject.GetComponent<Text>();
             }
+            buttonReturn.onClick.AddListener(() => UIManager.instance.ActivateMainMenu());
         }
 
         public void FillFinalLeaderboard()
@@ -46,5 +48,6 @@ namespace Game.UI{
             }
             
         }
+
     }
 }

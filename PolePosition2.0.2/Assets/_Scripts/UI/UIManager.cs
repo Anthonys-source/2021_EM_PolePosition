@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     public InGameUI inGameUI;
     public ServerUI serverUI;
     public LobbyUI lobbyUI;
-    public FinalLeaderboardUI finalLeaderboardUI;
+    public LeaderboardUI finalLeaderboardUI;
 
     private List<UIObject> uiElements = new List<UIObject>();
 
@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
         uiElements.Add(inGameUI);
         uiElements.Add(serverUI);
         uiElements.Add(lobbyUI);
+        uiElements.Add(finalLeaderboardUI);
 
         foreach (UIObject uIObject in uiElements)
         {
@@ -78,6 +79,11 @@ public class UIManager : MonoBehaviour
     public void UpdateLeaderboardNames(string[] playerLeaderboard)
     {
         inGameUI.UpdateLeaderboardNames(playerLeaderboard);
+    }
+
+    public void FillFinalLeaderboard()
+    {
+        finalLeaderboardUI.FillFinalLeaderboard();
     }
 
     #endregion
