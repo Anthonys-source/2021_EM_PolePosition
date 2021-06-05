@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CheckCrash : NetworkBehaviour
 {
-    /*public Vector3 spawnPos;
-    public Quaternion spawnRot;*/
     private GameObject manager;
     private PolePositionManager scriptManager;
     private float maxTime = 2;
@@ -17,8 +15,6 @@ public class CheckCrash : NetworkBehaviour
     {
         if (isServer)
         {
-            /*spawnPos = this.transform.position;
-            spawnRot = this.transform.rotation;*/
             manager = GameObject.FindGameObjectWithTag("MainManager");
             scriptManager = manager.GetComponent<PolePositionManager>();
         }
@@ -33,6 +29,10 @@ public class CheckCrash : NetworkBehaviour
         {
             actTime += Time.deltaTime;
         }
+        else
+        {
+            actTime = 0;
+        }
         if(actTime > maxTime)
         {
             Respawn();
@@ -43,8 +43,13 @@ public class CheckCrash : NetworkBehaviour
     [Server]
     private bool checkUp()
     {
-        Vector3 dir = this.transform.up;
-        if(Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 40)
+        //Vector3 dir = this.transform.up;
+        Vector3 dir;
+        lock (scriptManager.playersListLock)
+        {
+            dir = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.up;
+        }
+        if (Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 40)
         {
             Debug.Log($"Has volcado {dir}");
             return true;
@@ -55,12 +60,12 @@ public class CheckCrash : NetworkBehaviour
     [Server]
     public void Respawn()
     {
-        /*this.transform.position = spawnPos;
-        this.transform.rotation = spawnRot;*/
         lock (scriptManager.playersListLock)
         {
-            this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
-            this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+            scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+            scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+            //this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+            //this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
         }
     }
 }
