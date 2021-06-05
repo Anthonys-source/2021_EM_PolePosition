@@ -18,9 +18,70 @@ public class PlayerController : NetworkBehaviour
     public float slipLimit = 0.2f;
 
     private float currentRotation = 0.0f;
-    private float inputAcceleration = 0.0f;
-    private float inputSteering = 0.0f;
-    private float inputBrake = 0.0f;
+
+    #region Input Variables
+
+    private float accel = 0.0f;
+    private float inputAcceleration
+    {
+        get
+        {
+            lock (inputAccelerationLock)
+            {
+                return accel;
+            }
+        }
+        set
+        {
+            lock (inputAccelerationLock)
+            {
+                accel = value;
+            }
+        }
+    }
+    private object inputAccelerationLock = new object();
+
+    private float steer = 0.0f;
+    private float inputSteering
+    {
+        get
+        {
+            lock (inputSteeringLock)
+            {
+                return steer;
+            }
+        }
+        set
+        {
+            lock (inputSteeringLock)
+            {
+                steer = value;
+            }
+        }
+    }
+    private object inputSteeringLock = new object();
+
+    private float brake = 0.0f;
+    private float inputBrake
+    {
+        get
+        {
+            lock (inputBrakeLock)
+            {
+                return brake;
+            }
+        }
+        set
+        {
+            lock (inputBrakeLock)
+            {
+                brake = value;
+            }
+        }
+    }
+    private object inputBrakeLock = new object();
+
+    #endregion
 
     private float m_SteerHelper = 0.8f;
 
