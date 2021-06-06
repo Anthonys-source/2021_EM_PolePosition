@@ -821,13 +821,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   raceStarted: 0
-  minPlayersReady: 1
+  minPlayersReady: 2
   maxPlayers: 4
   playersList: []
   playerLeaderboard: []
   checkpointManager: {fileID: 1330042475}
   checkpointList: []
-  maxLaps: 1
+  maxLaps: 3
   leaderboardUpdateTime: 0.125
   originalCameraPos: {x: 0, y: 0, z: 0}
   originalCameraRot: {x: 0, y: 0, z: 0, w: 0}
@@ -2258,6 +2258,11 @@ PrefabInstance:
     - target: {fileID: 6415909394017212771, guid: 5c339809502a33749b546f6663bcfb75,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415909394493063714, guid: 5c339809502a33749b546f6663bcfb75,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
