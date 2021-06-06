@@ -26,8 +26,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
         _carColorComponent = GetComponent<CarColorComponent>();
         _playerController = GetComponent<PlayerController>();
 
-        _polePositionManager = PolePositionManager.instance;
-        _uiManager = UIManager.instance;
+        _polePositionManager = FindObjectOfType<PolePositionManager>();
+        _uiManager = FindObjectOfType<UIManager>();
         clientData = FindObjectOfType<ClientData>();
     }
 
