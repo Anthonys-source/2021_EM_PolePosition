@@ -76,14 +76,8 @@ public class LapTimer : NetworkBehaviour
             RpcUpdateTimeGUI(0, 0);
 
             // Reset Race
-            PolePositionManager.instance.raceStarted = false;
+            PolePositionManager.instance.FinishRace();
 
-            string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
-            RpcUpdateFinalLeaderboard(aux2);
-            aux.GetComponent<FinishRace>().ShowFinalLeaderboard();
-            //aux.GetComponent<FinishRace>().DisconnectAllPlayers(scriptManager);
-
-            //scriptManager.camera.GetComponent<FinishRace>().BackToMenuClient(scriptManager);
             Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;
             return;
@@ -108,6 +102,8 @@ public class LapTimer : NetworkBehaviour
         }
     }
 
+
+
     [ClientRpc]
     private void RpcUpdateLapGUI(int currentLap, int maxLaps)
     {
@@ -124,32 +120,6 @@ public class LapTimer : NetworkBehaviour
         {
             UIManager.instance.UpdateLapTime(time);
             UIManager.instance.UpdateRaceTime(raceTime);
-        }
-    }
-
-    [ClientRpc]
-    private void RpcUpdateFinalLeaderboard(string[] data)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            LeaderboardUI l = UIManager.instance.finalLeaderboardUI;
-            if (i < data.Length)
-            {
-                string[] aux = data[i].Split('/');
-                l.textsNm[i].text = aux[0];
-                l.textsPos[i].text = aux[1];
-
-                if (aux[2] != "-1")
-                    l.textsTm[i].text = aux[2];
-                else
-                    l.textsTm[i].text = "N/A";
-            }
-            else
-            {
-                l.textsNm[i].text = "";
-                l.textsPos[i].text = "";
-                l.textsTm[i].text = "";
-            }
         }
     }
 }

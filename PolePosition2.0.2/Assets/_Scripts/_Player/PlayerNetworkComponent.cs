@@ -55,8 +55,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
 
     public override void OnStopServer()
     {
-        base.OnStopServer();
         _polePositionManager.RemovePlayer(_playerInfo);
+        base.OnStopServer();
     }
 
     /// <summary>

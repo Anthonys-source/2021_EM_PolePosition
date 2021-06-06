@@ -6,6 +6,7 @@ using System.Threading;
 using Mirror;
 using UnityEngine;
 using System.Linq;
+using Game.UI;
 
 public class PolePositionManager : NetworkBehaviour
 {
@@ -140,6 +141,54 @@ public class PolePositionManager : NetworkBehaviour
     }
 
     [Server]
+    public void FinishRace()
+    {
+        raceStarted = false;
+
+        string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
+        RpcUpdateFinalLeaderboard(aux2);
+        ShowFinalLeaderboard();
+    }
+
+    [ClientRpc]
+    private void RpcUpdateFinalLeaderboard(string[] data)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            LeaderboardUI l = UIManager.instance.finalLeaderboardUI;
+            if (i < data.Length)
+            {
+                string[] aux = data[i].Split('/');
+                l.textsNm[i].text = aux[0];
+                l.textsPos[i].text = aux[1];
+
+                if (aux[2] != "-1")
+                    l.textsTm[i].text = aux[2];
+                else
+                    l.textsTm[i].text = "N/A";
+            }
+            else
+            {
+                l.textsNm[i].text = "";
+                l.textsPos[i].text = "";
+                l.textsTm[i].text = "";
+            }
+        }
+    }
+
+    [ClientRpc]
+    public void ShowFinalLeaderboard()
+    {
+        Camera.main.transform.position = originalCameraPos;
+        Camera.main.transform.rotation = originalCameraRot;
+
+        Camera.main.GetComponent<CameraController>().m_Focus = null;
+
+        UIManager.instance.GetComponent<UIManager>().ActivateFinalLeaderboard();
+        NetworkManager.singleton.StopClient();
+    }
+
+    [Server]
     public void AddPlayer(PlayerInfo player)
     {
         lock (playersListLock)
@@ -154,6 +203,10 @@ public class PolePositionManager : NetworkBehaviour
         lock (playersListLock)
         {
             playersList.Remove(player);
+            if (playersList.Count <= 1 && raceStarted)
+            {
+                FinishRace();
+            }
         }
     }
 
