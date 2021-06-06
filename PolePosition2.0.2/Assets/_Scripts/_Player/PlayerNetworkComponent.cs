@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class PlayerNetworkComponent : NetworkBehaviour
 {
+    // Player Object Dependencies
     private PlayerInfo _playerInfo;
     private CarColorComponent _carColorComponent;
     private PlayerController _playerController;
 
+    // Game Dependencies
     private PolePositionManager _polePositionManager;
     private UIManager _uiManager;
-    private ClientData clientData;
+    private ClientData _clientData;
 
+    // Synchronized Variables
     [SyncVar] private int _id;
     [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
@@ -28,7 +31,7 @@ public class PlayerNetworkComponent : NetworkBehaviour
 
         _polePositionManager = FindObjectOfType<PolePositionManager>();
         _uiManager = FindObjectOfType<UIManager>();
-        clientData = FindObjectOfType<ClientData>();
+        _clientData = FindObjectOfType<ClientData>();
     }
 
     #region Start & Stop Mirror Callbacks
@@ -75,8 +78,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         //In each client this only executes in its own player car (Local Player)
-        CmdSetPlayerName(clientData.playerName);
-        CmdSetCarColor(clientData.carColorID);
+        CmdSetPlayerName(_clientData.playerName);
+        CmdSetCarColor(_clientData.carColorID);
         UIManager.instance.lobbyUI.onReadyStateChange += CmdSetPlayerReady;
 
         _playerController.enabled = true;
@@ -128,6 +131,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
     }
     #endregion
 
+    #region Set Player Ready Methods
+
     [Server]
     public void SetPlayerReady(bool ready)
     {
@@ -141,6 +146,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
     {
         SetPlayerReady(ready);
     }
+
+    #endregion
 
     #region Set Car Color Methods
     [Server]

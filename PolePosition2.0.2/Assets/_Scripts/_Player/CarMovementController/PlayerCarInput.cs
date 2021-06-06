@@ -11,43 +11,9 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
 {
     private GameMainControls _gameMainControls;
 
-    public float SteerValue
-    {
-        get { return steerValue; }
-        private set
-        {
-            steerValue = value;
-            SteerEvent.Invoke(steerValue);
-        }
-    }
-    public float AccelerateValue
-    {
-        get { return accelerateValue; }
-        private set
-        {
-            accelerateValue = value;
-            AccelerateEvent.Invoke(accelerateValue);
-        }
-    }
-    public float HandbrakeValue
-    {
-        get { return handbrakeValue; }
-        private set
-        {
-            handbrakeValue = value;
-            HandbrakeEvent.Invoke(handbrakeValue);
-        }
-    }
-
-    private float steerValue = 0.0f;
-    private float accelerateValue = 0.0f;
-    private float handbrakeValue = 0.0f;
-
-    // This events are not used in the current proyect
-    // They could be removed
-    public event Action<float> SteerEvent = delegate { };
-    public event Action<float> AccelerateEvent = delegate { };
-    public event Action<float> HandbrakeEvent = delegate { };
+    public float SteerValue { get; private set; } = 0.0f;
+    public float AccelerateValue { get; private set; } = 0.0f;
+    public float HandbrakeValue { get; private set; } = 0.0f;
 
     private void OnEnable()
     {
