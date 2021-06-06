@@ -9,13 +9,15 @@ public class CarColorComponent : MonoBehaviour
 {
     [SerializeField] private MeshRenderer _carBodyMeshRenderer;
 
-    //All the possible materials (Colors)
+    // All the possible materials (Colors)
     [SerializeField] private List<Material> _carMaterials = new List<Material>();
 
     public void SetCarColor(int colorID)
     {
         Material[] materials;
-        //If the car color isnt the second material this will break
+
+        // This assumes that the car body color is in the index 1
+        // If the car color isnt the second material this will break
         if (colorID >= 0 && colorID < _carMaterials.Count)
         {
             materials = _carBodyMeshRenderer.materials;

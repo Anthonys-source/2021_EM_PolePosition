@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Translates the Player input into Car Input
+/// </summary>
 public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls.IGameplayActions
 {
     private GameMainControls _gameMainControls;
@@ -40,6 +43,8 @@ public class PlayerCarInput : MonoBehaviour, ICarInputProvider, GameMainControls
     private float accelerateValue = 0.0f;
     private float handbrakeValue = 0.0f;
 
+    // This events are not used in the current proyect
+    // They could be removed
     public event Action<float> SteerEvent = delegate { };
     public event Action<float> AccelerateEvent = delegate { };
     public event Action<float> HandbrakeEvent = delegate { };

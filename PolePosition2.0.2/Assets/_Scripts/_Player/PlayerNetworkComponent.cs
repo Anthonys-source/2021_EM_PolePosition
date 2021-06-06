@@ -16,9 +16,9 @@ public class PlayerNetworkComponent : NetworkBehaviour
     [SyncVar] private int _id;
     [SyncVar] private int _currentLap;
     [SyncVar(hook = nameof(HandleNameUpdate))] private string _name;
+    public object _nameLock = new object();
     [SyncVar(hook = nameof(HandleCarColorUpdate))] private int _carColorID;
     [SyncVar] private bool _carReady;
-    public object _nameLock = new object();
 
     private void Awake()
     {
@@ -26,8 +26,8 @@ public class PlayerNetworkComponent : NetworkBehaviour
         _carColorComponent = GetComponent<CarColorComponent>();
         _playerController = GetComponent<PlayerController>();
 
-        _polePositionManager = FindObjectOfType<PolePositionManager>();
-        _uiManager = FindObjectOfType<UIManager>();
+        _polePositionManager = PolePositionManager.instance;
+        _uiManager = UIManager.instance;
         clientData = FindObjectOfType<ClientData>();
     }
 
