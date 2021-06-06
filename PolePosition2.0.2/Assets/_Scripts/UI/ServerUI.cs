@@ -6,5 +6,6 @@ namespace Game.UI
 {
     public class ServerUI : UIObject
     {
+        //Placeholder
     }
 }
