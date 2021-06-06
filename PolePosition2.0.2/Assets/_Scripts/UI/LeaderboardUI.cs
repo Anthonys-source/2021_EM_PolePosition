@@ -36,17 +36,16 @@ namespace Game.UI
         public string[] FillFinalLeaderboard()
         {
             List<PlayerInfo> players = PolePositionManager.instance.playerLeaderboard;
-            //List<float[]> playerTimes = PolePositionManager.instance.playerTimes;
 
-            string[] salida = new string[players.Count];
+            string[] finalString = new string[players.Count];
 
             for (int i = 0; i < players.Count; i++)
             {
-                string aux = "";
-                aux += players[i].PlayerName;
-                aux += "/";
-                aux += (players[i].CurrentPosition + 1).ToString();
-                aux += "/";
+                string playerData = "";
+                playerData += players[i].PlayerName;
+                playerData += "/";
+                playerData += (players[i].CurrentPosition + 1).ToString();
+                playerData += "/";
 
                 // Get the best time
                 // If there is no lap time then set best time to -1
@@ -59,16 +58,16 @@ namespace Game.UI
                             bestTime = players[i].times[j];
                     }
                     TimeSpan time = TimeSpan.FromSeconds(bestTime);
-                    aux += $"{(int)time.TotalMinutes}:{time.Seconds:00}";
+                    playerData += $"{(int)time.TotalMinutes}:{time.Seconds:00}";
                 }
                 else
                 {
-                    aux += "-1";
+                    playerData += "-1";
                 }
 
-                salida[i] = aux;
+                finalString[i] = playerData;
             }
-            return salida;
+            return finalString;
         }
 
     }

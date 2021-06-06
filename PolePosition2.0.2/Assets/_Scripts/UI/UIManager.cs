@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
     public GameSetupManager gameSetupManager;
@@ -17,6 +18,7 @@ public class UIManager : MonoBehaviour
     public LobbyUI lobbyUI;
     public LeaderboardUI finalLeaderboardUI;
 
+    // List of all UIObjects in the Game
     private List<UIObject> uiElements = new List<UIObject>();
 
     // Singleton Instance
