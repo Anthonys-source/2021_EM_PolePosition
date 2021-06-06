@@ -72,8 +72,11 @@ public class LapTimer : NetworkBehaviour
             playerData.times.Add(playerData.CurrentLapTime);
 
             // Reset laps for next connection
-            RpcUpdateLapGUI(0, scriptManager.maxLaps);
-            RpcUpdateTimeGUI(0, 0);
+            //RpcUpdateLapGUI(0, scriptManager.maxLaps);
+            //RpcUpdateTimeGUI(0, 0);
+            scriptManager.RpcResetLapGUI();
+            scriptManager.RpcResetTimeGUI();
+            scriptManager.RpcResetSpeedGUI();
 
             // Reset Race
             PolePositionManager.instance.FinishRace();

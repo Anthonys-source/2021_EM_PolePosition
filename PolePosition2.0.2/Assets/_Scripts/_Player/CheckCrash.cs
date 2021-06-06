@@ -43,12 +43,12 @@ public class CheckCrash : NetworkBehaviour
     [Server]
     private bool checkUp()
     {
-        //Vector3 dir = this.transform.up;
-        Vector3 dir;
-        lock (scriptManager.playersListLock)
-        {
-            dir = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.up;
-        }
+        Vector3 dir = this.transform.up;
+        //Vector3 dir;
+        //lock (scriptManager.playersListLock)
+        //{
+        //    dir = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.up;
+        //}
         if (Mathf.Abs(Vector3.Angle(dir, Vector3.up)) > 40)
         {
             Debug.Log($"Has volcado {dir}");
@@ -62,10 +62,10 @@ public class CheckCrash : NetworkBehaviour
     {
         lock (scriptManager.playersListLock)
         {
-            scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
-            scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
-            //this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
-            //this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+            //scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+            //scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].gameObject.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
+            this.transform.position = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnPos;
+            this.transform.rotation = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID].spawnRot;
         }
     }
 }
