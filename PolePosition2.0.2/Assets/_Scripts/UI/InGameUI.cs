@@ -16,12 +16,24 @@ namespace Game.UI
         [SerializeField] private Text textRaceTime;
         [SerializeField] private GameObject panelRaceCountdown;
         [SerializeField] private Text textRaceCountdown;
+        [SerializeField] private Button buttonExit;
 
+        private void Awake()
+        {
+            buttonExit.onClick.AddListener(() => MyNetworkManager.singleton.StopClient());
+        }
+
+        /// <summary>
+        /// Update UI Speed
+        /// </summary>
         public void UpdateSpeed(int speed)
         {
             textSpeed.text = "Speed " + speed + " Km/h";
         }
 
+        /// <summary>
+        /// Update UI Laps
+        /// </summary>
         public void UpdateLaps(int currentLap, int maxLaps)
         {
             textLaps.text = "Laps: " + currentLap.ToString() + "/" + maxLaps;
