@@ -148,6 +148,29 @@ public class PolePositionManager : NetworkBehaviour
         string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
         RpcUpdateFinalLeaderboard(aux2);
         ShowFinalLeaderboard();
+
+        RpcResetLapGUI();
+        RpcResetTimeGUI();
+        RpcResetSpeedGUI();
+    }
+
+    [ClientRpc]
+    public void RpcResetLapGUI()
+    {
+        UIManager.instance.UpdateLaps(0, maxLaps);
+    }
+
+    [ClientRpc]
+    public void RpcResetTimeGUI()
+    {
+        UIManager.instance.UpdateLapTime(0);
+        UIManager.instance.UpdateRaceTime(0);
+    }
+
+    [ClientRpc]
+    public void RpcResetSpeedGUI()
+    {
+        UIManager.instance.UpdateSpeed(0);
     }
 
     [ClientRpc]

@@ -20,7 +20,19 @@ namespace Game.UI
 
         private void Awake()
         {
-            buttonExit.onClick.AddListener(() => MyNetworkManager.singleton.StopClient());
+            buttonExit.onClick.AddListener(Exit);
+        }
+
+        private void Exit()
+        {
+            UIManager.instance.ActivateMainMenu();
+            Camera.main.transform.position = PolePositionManager.instance.originalCameraPos;
+            Camera.main.transform.rotation = PolePositionManager.instance.originalCameraRot;
+            Camera.main.GetComponent<CameraController>().m_Focus = null;
+            UIManager.instance.inGameUI.UpdateRaceTime(0);
+            UIManager.instance.inGameUI.UpdateLapTime(0);
+            UIManager.instance.inGameUI.UpdateLaps(0, 0);
+            MyNetworkManager.singleton.StopClient();
         }
 
         /// <summary>
