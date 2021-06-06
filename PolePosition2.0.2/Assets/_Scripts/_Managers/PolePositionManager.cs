@@ -29,7 +29,6 @@ public class PolePositionManager : NetworkBehaviour
 
     // Laps and LapTime
     public int maxLaps;
-    //public List<float[]> playerTimes = new List<float[]>(4);
 
     // Leaderboard Update Period
     [SerializeField] private float leaderboardUpdateTime = 0.1f;
@@ -57,7 +56,7 @@ public class PolePositionManager : NetworkBehaviour
         else
             Debug.LogWarning("There is more than one " + nameof(PolePositionManager));
 
-        //Guardar todos los chekcpoints de la carrera
+        //Guardar todos los checkpoints de la carrera
         for (int i = 0; i < checkpointManager.transform.childCount; i++)
         {
             checkpointList.Add(checkpointManager.transform.GetChild(i).gameObject);
@@ -66,15 +65,6 @@ public class PolePositionManager : NetworkBehaviour
 
         //Para saber cual es el ultimo checkpoint y usarlo cuando se cuenten las vueltas
         checkpointList[0].GetComponent<CheckpointCheck>().lastIndex = checkpointManager.transform.childCount - 1;
-
-        ////Instanciar los arrays para los tiempos por vuelta de cada jugador
-        //lock (playersListLock)
-        //{
-        //    for (int i = 0; i < playersList.Count; i++)
-        //    {
-        //        playerTimes.Add(new float[maxLaps + 1]);
-        //    }
-        //}
 
         //Guardar los valores de la camara en el menu del inicio
         Camera camera = Camera.main;
@@ -140,15 +130,18 @@ public class PolePositionManager : NetworkBehaviour
         raceStarted = true;
     }
 
+    //Se ejecuta en el cliente que se queda solo en la carrera cuando el resto de jugadores se van
     [Server]
     public void FinishRace()
     {
         raceStarted = false;
 
+        //Rellena la tabla de clasificación con los resultados
         string[] aux2 = UIManager.instance.GetComponent<UIManager>().FillFinalLeaderboard();
         RpcUpdateFinalLeaderboard(aux2);
         ShowFinalLeaderboard();
 
+        //Resetea los valores de la interfaz para la siguiente carrera
         RpcResetLapGUI();
         RpcResetTimeGUI();
         RpcResetSpeedGUI();
@@ -178,6 +171,7 @@ public class PolePositionManager : NetworkBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
+            //Recibe la cadena con los resultados de los jugadores y va separando los datos y metiendolos en el texto correspondiente de la interfaz
             LeaderboardUI l = UIManager.instance.finalLeaderboardUI;
             if (i < data.Length)
             {
@@ -185,6 +179,7 @@ public class PolePositionManager : NetworkBehaviour
                 l.textsNm[i].text = aux[0];
                 l.textsPos[i].text = aux[1];
 
+                //Si no hay un valor de mejor vuelta para el jugador, muestra N/A
                 if (aux[2] != "-1")
                     l.textsTm[i].text = aux[2];
                 else
@@ -199,6 +194,7 @@ public class PolePositionManager : NetworkBehaviour
         }
     }
 
+    //Resetea la posicion de la camara para devolver al jugador al fondo del menú principal y muestra la tabla de clasificación
     [ClientRpc]
     public void ShowFinalLeaderboard()
     {
@@ -208,6 +204,7 @@ public class PolePositionManager : NetworkBehaviour
         Camera.main.GetComponent<CameraController>().m_Focus = null;
 
         UIManager.instance.GetComponent<UIManager>().ActivateFinalLeaderboard();
+        //Desconecta al cliente del servidor 
         NetworkManager.singleton.StopClient();
     }
 
@@ -226,6 +223,7 @@ public class PolePositionManager : NetworkBehaviour
         lock (playersListLock)
         {
             playersList.Remove(player);
+            //Si solo queda un jugador en partida, esta termina
             if (playersList.Count <= 1 && raceStarted)
             {
                 FinishRace();
@@ -233,6 +231,7 @@ public class PolePositionManager : NetworkBehaviour
         }
     }
 
+    //Activar la cuenta atras de inicio de carrera
     [ClientRpc]
     public void RpcActivateRaceCountdown()
     {
@@ -244,7 +243,6 @@ public class PolePositionManager : NetworkBehaviour
     [Server]
     public void UpdateRaceProgress()
     {
-        //List<PlayerInfo> playerLeaderboard;
         float[] arcLengths;
 
         lock (playersListLock)
@@ -301,6 +299,7 @@ public class PolePositionManager : NetworkBehaviour
             this.circuitController.ComputeClosestPointArcLength(carPos, out segIdx, out carProj, out carDist);
 
 #if UNITY_EDITOR
+        //Para borrar las esferas en las builds, hacemos que estas solo estén presentes en el editor
         this.debuggingSpheres[id].transform.position = carProj;
 #endif
 

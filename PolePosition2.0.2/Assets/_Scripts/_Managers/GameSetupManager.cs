@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameSetupManager : MonoBehaviour
 {
     [SerializeField] private MyNetworkManager networkManager;
-    private PolePositionManager ppm;
 
     public void StartHost()
     {

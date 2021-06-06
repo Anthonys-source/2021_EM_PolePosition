@@ -39,6 +39,7 @@ public class CheckpointCheck : NetworkBehaviour
         if(actTime > maxTime)
         {
             actTime = 0;
+            //Mover al jugador al ultimo checkpoint correcto por el que pasó
             player.gameObject.transform.position = player.spawnPos;
             player.gameObject.transform.rotation = player.spawnRot;
             respawn = false;
@@ -50,7 +51,6 @@ public class CheckpointCheck : NetworkBehaviour
     {
         if (!isServer)
             return;
-        //Debug.Log("CHECKPOINT!");
         int idCar = other.gameObject.GetComponent<PlayerInfo>().ID;
         Check(idCar);
     }
@@ -65,29 +65,26 @@ public class CheckpointCheck : NetworkBehaviour
         //Vas pasando correctamente los checkpoints
         if (id == player.LastCheckpoint+1)
         {
-            Debug.Log("Vas bien");
             player.LastCheckpoint = id;
+            //Guardar la posicion y rotacion del checkpoint para cuando haya que respawnear al jugador
             player.spawnPos = scriptManager.checkpointList[player.LastCheckpoint].transform.position;
             player.spawnRot = scriptManager.checkpointList[player.LastCheckpoint].transform.rotation;
         }
         //Ya has llegado a la linea de meta
         else if (id == 0 && (player.LastCheckpoint == scriptManager.checkpointList[lastIndex].GetComponent<CheckpointCheck>().id))
         {
-            Debug.Log("VUELTA COMPLETADA");
             player.CurrentLap++;
+            //El ultimo checkpoint por el que pasa el jugador vuelve a ser el inicio
             player.LastCheckpoint = id;
-            Debug.Log("Vuelta " + player.CurrentLap);
         }
-        //Estas yendo en direccion contraria
+        //Estas yendo en direccion contraria, hay que respawnear
         else if(id < player.LastCheckpoint)
         {
-            Debug.Log("Estás yendo al revés");
             respawn = true;
         }
-        //Te has saltado un checkpoint
+        //Te has saltado un checkpoint, hay que respawnear
         else if(id != player.LastCheckpoint)
         {
-            Debug.Log("Te has saltado un checkpoint");
             respawn = true;
         }
     }

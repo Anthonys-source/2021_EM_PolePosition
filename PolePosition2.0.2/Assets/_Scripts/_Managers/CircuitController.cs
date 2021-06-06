@@ -75,7 +75,7 @@ public class CircuitController : MonoBehaviour
         }
 
         // If there was no valid projection check nodes
-        if (float.IsPositiveInfinity(minDist)) //minDist == float.PositiveInfinity
+        if (float.IsPositiveInfinity(minDist)) 
         {
             for (int i = 0; i < _pathPos.Length - 1; ++i)
             {

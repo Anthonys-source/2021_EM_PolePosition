@@ -10,9 +10,7 @@ public class LapTimer : NetworkBehaviour
     private PolePositionManager scriptManager;
     private PlayerInfo playerData;
     private bool start;
-    private float counter;
-    private GameObject aux;
-    //private GameObject uiMan;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +18,10 @@ public class LapTimer : NetworkBehaviour
         {
             manager = GameObject.FindGameObjectWithTag("MainManager");
             scriptManager = manager.GetComponent<PolePositionManager>();
-            aux = GameObject.FindGameObjectWithTag("FinishRace");
             lock (scriptManager.playersListLock)
             {
                 playerData = scriptManager.playersList[this.GetComponent<PlayerInfo>().ID];
             }
-            //uiMan = GameObject.FindGameObjectWithTag("UIManager");
             start = false;
         }
     }
@@ -38,7 +34,7 @@ public class LapTimer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Cuando inicia la vuelta, se inicia el temporizador
+        //Cuando inicia la vuelta, se inicia el temporizador y se muestra el valor actualizado en la interfaz
         if (!isServer)
             return;
         if (start)
@@ -53,7 +49,7 @@ public class LapTimer : NetworkBehaviour
     {
         if (!isServer)
             return;
-
+        //Si el jugador llega a la linea de meta, se guarda el tiempo
         if (other.gameObject.tag == "FinishLine")
         {
             saveCurrentTime();
@@ -67,13 +63,9 @@ public class LapTimer : NetworkBehaviour
         //Si ya ha dado la ultima vuelta
         if (scriptManager.maxLaps + 1 == playerData.CurrentLap)
         {
-            Debug.Log("CARRERA TERMINADA");
-            //scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
             playerData.times.Add(playerData.CurrentLapTime);
 
             // Reset laps for next connection
-            //RpcUpdateLapGUI(0, scriptManager.maxLaps);
-            //RpcUpdateTimeGUI(0, 0);
             scriptManager.RpcResetLapGUI();
             scriptManager.RpcResetTimeGUI();
             scriptManager.RpcResetSpeedGUI();
@@ -81,11 +73,10 @@ public class LapTimer : NetworkBehaviour
             // Reset Race
             PolePositionManager.instance.FinishRace();
 
-            Debug.Log("Tiempo de vuelta: " + playerData.CurrentLapTime);
             start = false;
             return;
         }
-        //Si todavía está en la pole al inicio de la carrera
+        //Si todavía está en la pole al inicio de la carrera, pone el valor inicial de la carrera en interfaz y actualiza el conteo de vueltas
         if (playerData.CurrentLap == 0)
         {
             start = true;
@@ -93,12 +84,11 @@ public class LapTimer : NetworkBehaviour
             RpcUpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             return;
         }
-        //Al finalizar una vuelta intermedia
+        //Al finalizar una vuelta intermedia, añade el tiempo de la vuelta a la lista de tiempos del jugador y actualiza la interfaz de las vueltas
+        //reseteando el tiempo de la vuelta actual
         else
         {
-            //scriptManager.playerTimes[this.GetComponent<PlayerInfo>().ID][playerData.CurrentLap - 1] = playerData.CurrentLapTime;
             playerData.times.Add(playerData.CurrentLapTime);
-            Debug.Log("Tiempo de vuelta " + (playerData.CurrentLap - 1) + " : " + playerData.CurrentLapTime);
             RpcUpdateLapGUI(playerData.CurrentLap, scriptManager.maxLaps);
             playerData.CurrentLapTime = 0;
             start = true;
